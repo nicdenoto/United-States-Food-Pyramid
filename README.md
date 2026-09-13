@@ -15,9 +15,6 @@ contrary evidence — mechanistic or anthropological — that runs against the c
 as stated. The goal is to supplement with evidence the guidance omitted, not to
 propose new studies.
 
-Research position held at SUNY Poly, supervised by Dr. Schneider and Dr. Abeya.
-Target: submission-ready paper by **October 1, 2026**.
-
 ---
 
 ## Evaluative framework
