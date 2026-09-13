@@ -1,0 +1,12 @@
+Task 1B: Analyzing selected references
+
+2002 HRT study comes under criticism: 
+Many women currently taking or considering HRT are searching for direction from science and medical professionals on whether the intervention is helpful or harmful. There is a precedent for the evidence surrounding HRT to be muddied and ambiguous for application, with differing results and outcomes across studies and time. Research points to potential risks and benefits. An indepth understaning and assuredness in application for the general public is lacking.
+
+The EBM+ movement (self sourced):  The EBM is the use of "current best evidence" for medical approaches and establishing causality. The EBM is a result of an evidence hierarchy that favors mechanistic explanation over probabilistic results. A mechanistic approach has a history of harmful intervention; the failures of this reasoning can come from: A false assumption on the workings of a mechanism, a lack of a complete understanding of a mechanism, the lack of knowledge of a counter-mehcnaism that is parrelel or set in motion when the original mechanism operates, rendering the intervention useless or potentially harmful. The issue with mechanistic approaches is a lack of knowledge. The issue with causality resulting from clinical trials is the potential of the presence of an innumerable amount of confounding factors, even with double-blinded , randomized, placeebo controlled trials. The use of randomized trials can also fail when there is a greater magnitude of exclusion criteria, which can create an outcome or claim that is beneficial to the population of the study, but not applicable/beneficial to the general population. 
+
+RW: This paper is a defense and explanation of the RWT.  
+
+Correlation and Causation: There is a current ongoing debate and question of how we can, or to what extent we can, utilize the found correlations , specifically of the more statistically based sciences, and apply them. There exists methods to account for third variable problems, but it is impossible to guarentee an absolute account for them. Internal and External validity can be good markers for determining causal strength. 
+
+Current Trends: Lack of reliance on good evidence for decison-making, evidence is missing completeness and proper heirarchy. QBA can be used to test strength and counfounders.  There have been mass literature reviews using QBAs to discuss this issue of public health decision-making. Lack of proper reporting for how studies do QBA and report on their own bias

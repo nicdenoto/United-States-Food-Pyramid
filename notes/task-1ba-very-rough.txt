@@ -1,0 +1,11 @@
+Task 1Ba: Very Rough Pipeline, Ignoring "Meta" processes
+
+Selecting governments/organizations and their public health claims
+
+Analyzing the references for their health claims with LLMs to determine the underlying evidence heirarchy of the study, i.e: Relying on clinical trials, mechanisms, expert opinion, systematic reviews/meta analyses, etc
+
+Use existing systems through the LLM to address causality concerns, applying: RWT, E value, Internal and External Validity, Cochrane Collection, STROBE Statement, Bradford Hill Criteria
+
+Whenever a system is applied, find a gold standard study of that systems criteria, provide example/explanation for what makes a study pass/fail these systems
+
+Comment on the analyses by the LLM according to the systematic evaluation and the evidence hiearchy the study relies on, challenge the study or health claim depending on which area of the RWT or other causal systems it seems to be lacking in.

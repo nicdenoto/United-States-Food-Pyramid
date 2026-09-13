@@ -1,0 +1,35 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+**/api_key*
+**/*apikey*
+
+# --- Copyrighted reference library (published papers; keep local, do not track) ---
+# Remove this line only if the repo is PRIVATE and you want the PDFs tracked.
+corpus/reference-library/*.pdf
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# --- Pipeline run artifacts (uncomment/adjust as the pipeline solidifies) ---
+# outputs/
+# cache/
+# *.log
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

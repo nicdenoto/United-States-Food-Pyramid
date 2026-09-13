@@ -1,0 +1,7 @@
+Defining a 'Finding'
+
+General idea or construction of the papers evidence hierarchy and the types in which it relies upon
+How do the foundational papers of the claim perform against E value, Cochrane Collection, GRADE, evaluation LLM
+
+
+Unfinished

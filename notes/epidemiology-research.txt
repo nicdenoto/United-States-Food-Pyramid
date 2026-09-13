@@ -1,0 +1,25 @@
+Epidemiology Research
+
+Task: Read 5-10 papers on epidemiology research through google scholar
+
+Task: Read validation studies in epidemiology
+
+Task: Read 3-5 introductions on papers in epidemiology to see how they're structured
+
+Task: Write an introduction that references previous research or claims in epidemiology research
+
+Tasks: Create a rubric for finding which studies/claims are: have a widespread effect on the public, are seen as credible studies/claims, are well regarded scientifically.
+
+Task: Collect the claims of the rubric and develop a research plan for evaluating the biomechanistic approach to the question
+
+Tasks: Create a rubric/methodology to evaluate the credibility of the found studies. Rubric should be based off of methodology and research already present for evaluating research.
+
+Task: Create/use and document the use of an LLM tool to scrape PDFs and their references.
+
+Task: Create a corpus from the scraped PDFs and references.
+
+Task: Create a prompt to extract the claims and proposed application of the results of the study
+
+Task: Create a prompt to evaluate the PDF and its references using methodology that evaluates the strength of references in relation to a study.
+
+Task: Find and evaluate any reportable gaps or flaws found in the PDFs and its references, after being parsed by an LLM

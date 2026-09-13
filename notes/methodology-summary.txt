@@ -1,0 +1,29 @@
+Methodology Summa
+
+Select government or public organizations/agencies to identify public health claims, these can come from dietary recommendations, foods to implement or restrict, clinical recommendations, advisories, etc.. These claims should come from large and impactful organizations. 
+
+The claims will be extracted from the recommendations made in the paper, proposal, article, or diagram created and advocated by the agency. The references for the proposal and it's claim(s) will be collected using an automated system (it is to be determined whether this will rely on just code or in collaboration with an LLM), the collected data and MD files will be stored and organized in a corpus for documentation and later access. 
+
+The claim(s) collection will involve a human responsibility of identifying specific claims made by the proposal. The references of the original reference, which we will call sub-references, will be collected (by what is to be determined) and stored in a corpus. 
+
+The LLM will analyze the claim and its references (using a custom prompt) to determine the evidence hierarchy of the claim and the original proposal. The LLM will create the chain of authority and identify which types of evidence the proposal relies on and to what severity, for example: clinical trials, mechanistic explanation, meta-analyses, expert opinion, systematic reviews, etc.. 
+
+The sub-references will be analysed in relation to their contribution and application to the references, in order to determine the strength of the references used by the proposal. This analyses will be ran by an LLM using existing criteria such as the Cochrane Collection, GRADE, STROBE Statement, and Bradford Hill Criteria. Ensuring that the output of the LLM is accurate to the correct application of these criteria, the LLM will be trained on pre-existing papers on the application and will have been trained on mimic correct analyses and use of the criteria. 
+
+A statistical system of evaluation will be determined so it can be applied to the references, this evaluation will use the references and their sub-references which are already stored in the corpus. 
+
+The different analyses by the LLM will be used to determine the strength and validity of the chosen references for the health proposal.  The identification of the evidence hierarchy will be used to show gaps in complete explanation for the proposed causal claims/recommendations, and will be used as an avenue to provide other types of evidence that are contrary to the evidence type and claims made by the proposal. 
+
+unfinished
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+Task 1Ca: Outline methodology for selecting organizations for analyses. 
+
+1: Recommendation reasoning/evidence should be public and accessible, ie: references to mechanisms, clinical trials, expert opinion
+2: Impact of organization should be widespread and severe
+3: References must be documentable, organized, and efficent (DOIs, PMIDs, pdfs, downloadable tables) 
+4: Recommendations should be firm or confident claims made by the organization
+
+Unfinished

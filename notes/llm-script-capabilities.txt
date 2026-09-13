@@ -1,0 +1,6 @@
+LLM/Script Capabilities
+
+Analyze original claim and proposal through a custom prompt
+Convert proposal to a MD, collect all of the proposals references as MDs,   -------store all of the MDs in designated folders
+
+Unfinished

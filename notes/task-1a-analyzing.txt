@@ -1,0 +1,25 @@
+Task 1A: Analyzing the MD file from NotebookLM on Epidemiological Reversals and their anatomy, and selecting references to read
+
+Notes:  
+Observational study designs are vulnerable
+Methodoligcal replication is necessary to account for vulnerabilities
+There is a large precedent for the reversal of previous health/diet views and
+------	approaches
+Specifically for Beta-carotene, the biological mechanism points contrary to                -------the "positive results" (later reversed)
+There is a prescence for debate over causality and inferences in health ---------sciences
+There is an awareness within epidemiology that correlation does not equal --------causation, but this presents an issue when public health decisions ---------have to be made, or dietary/clincal recommendations are announced
+The Russo-Williamson Thesis calls for a mechanistic explanation along with --------RCTs and clinical opinions.
+Solely mechanistic evidence can be flawed through "masking", where other --------concurrent mechanisms can have opposite effects whena variable is --------manipulated/measured.
+The E value measures the effect of a confounding variable on the validity of ---------causal observation
+
+Chosen References: 2002 HRT study comes under criticism - UCLA Health, https://www.uclahealth.org/news/article/2002-hrt-study-comes-under-criticism
+
+Taking the Russo-Williamson thesis seriously in the social sciences - Kent Academic Repository, https://kar.kent.ac.uk/id/document/3283120
+
+Causation and Correlation in Medical Science: Theoretical Problems - UU Research Portal, https://research-portal.uu.nl/ws/files/278388530/978-94-024-2252-8_46.pdf
+
+Current Trends in Quantitative Bias Analysis for Unmeasured Confounders: A Targeted Literature Review - ISPOR, https://www.ispor.org/docs/default-source/euro2023/ispor-eu-2023poster-qba-tlrfinal131354-pdf.pdf?sfvrsn=ba5f1b2d_0
+
+The E-value | Pharmacoepi, https://pharmacoepi.unc.edu/wp-content/uploads/sites/6788/2020/12/unc-pe-methods-symposium-2020-e-value.pdf
+
+The EBM+ movement (self sourced) Wilde, Michael. "The EBM+ movement" The International Journal of Biostatistics, vol. 19, no. 2, 2023, pp. 283-293. https://doi.org/10.1515/ijb-2022-0126 :
