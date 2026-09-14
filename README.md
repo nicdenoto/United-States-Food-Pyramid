@@ -61,6 +61,8 @@ independently:
 
 ## Repository layout
 
+Claude generated visual-artifact for pipeline overview - https://claude.ai/code/artifact/4dbb15b8-9fc4-4be8-8635-f866c4499f15?open_in_browser=1&via=user_open&org=e0b7dc17-9822-40a7-9e33-4130a5013997 
+
 ```
 .
 ├── README.md                     ← you are here
