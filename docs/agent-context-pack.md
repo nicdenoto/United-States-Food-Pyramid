@@ -8,7 +8,7 @@
 
 ## 1. Who this is for and what the project is
 
-Nic is a high-school researcher (rising senior, upstate NY) holding a research position at SUNY Poly, supervised by **Dr. Schneider** and **Dr. Abeya**. The project is a semi-automated pipeline that audits causal claims in public-health nutrition guidance.
+Nic is a high-school researcher (rising senior, upstate NY) holding a research position at SUNY Poly, supervised by the SUNY Poly AIX team. The project is a semi-automated pipeline that audits causal claims in public-health nutrition guidance.
 
 **Core research question:** whether the certainty a guidance document *asserts* for a causal claim matches the *evidence structure* that actually supports it. The project does not try to determine whether a recommendation is correct — it asks whether the confidence behind it is earned.
 
