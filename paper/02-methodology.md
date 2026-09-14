@@ -1,6 +1,5 @@
 # Draft — Methodology
 
-*Status: rewrite of "Methodology Summa[ry].txt" and "Very Rough Pipeline" as a completed-pipeline description rather than a proposal, folding in the claim-selection criteria from "Task 1Ca" and the provenance-tier discipline from later work. Bracketed notes mark what is still genuinely open versus what memory shows has already been resolved — confirm or correct these before this is treated as final.*
 
 ---
 
