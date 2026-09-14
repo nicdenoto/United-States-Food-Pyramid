@@ -1,6 +1,6 @@
 # Source — Methodology Proposal: An Automated Pipeline for Evaluating Causal Claims in Public-Health Nutrition Guidance
 
-
+*Recovered from `Archive.zip` (`Documentation For Maker copy/Methodology and Introduction Proposal.pdf`), shared with GPT. This appears to be the "appraisal-apparatus"/methodology proposal for supervisors referenced elsewhere as already written but previously missing from this project's saved docs. Preserved verbatim below as primary source material; see claude/Draft - Methodology.md and the Agent Context Pack for how this reconciles with the Claude-side drafts.*
 
 ---
 

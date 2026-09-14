@@ -15,6 +15,9 @@ contrary evidence — mechanistic or anthropological — that runs against the c
 as stated. The goal is to supplement with evidence the guidance omitted, not to
 propose new studies.
 
+Research position held at SUNY Poly, supervised by Dr. Schneider and Dr. Abeya.
+Target: submission-ready paper by **October 1, 2026**.
+
 ---
 
 ## Evaluative framework
@@ -61,8 +64,6 @@ independently:
 
 ## Repository layout
 
-Claude generated visual-artifact for pipeline overview - https://claude.ai/code/artifact/4dbb15b8-9fc4-4be8-8635-f866c4499f15?open_in_browser=1&via=user_open&org=e0b7dc17-9822-40a7-9e33-4130a5013997 
-
 ```
 .
 ├── README.md                     ← you are here
@@ -70,8 +71,8 @@ Claude generated visual-artifact for pipeline overview - https://claude.ai/code/
 ├── paper/                        ← the manuscript
 │   ├── 01-introduction-and-background.md
 │   ├── 02-methodology.md         (RWT-as-operationalizing-lens; LLM calibration)
-│   ├── 03-theoretical-framework.md   (placeholder — reconciliation still to do)
-│   ├── outline-and-timeline.md
+│   ├── 03-theoretical-framework.md   (not yet written; gitignored until drafted)
+│   ├── outline-and-timeline.md       (gitignored — internal planning doc)
 │   └── sources/
 │       └── methodology-proposal-gpt-archive.md   (recovered supervisor proposal)
 ├── docs/                         ← project briefing / onboarding
@@ -90,8 +91,9 @@ Claude generated visual-artifact for pipeline overview - https://claude.ai/code/
 │   └── requirements.txt
 ├── corpus/
 │   ├── dga/appendices.md         (DGA appendices — US federal work, public domain)
-│   ├── claim-inventory.md        (placeholder — to be rebuilt from the appendices)
-│   └── reference-library/        (methodology PDFs — gitignored; see its README)
+│   ├── claim-inventory.md        (WG-01 entry complete; remaining food groups open)
+│   ├── reference-library/        (methodology PDFs — gitignored; see its README)
+│   └── primary_studies/          (primary-study PDFs backing claim effect estimates — gitignored; see its README)
 └── notes/                        ← raw working notes the drafts were built from
 ```
 

@@ -11,6 +11,12 @@ secrets.*
 # Remove this line only if the repo is PRIVATE and you want the PDFs tracked.
 corpus/reference-library/*.pdf
 
+# --- Copyrighted primary-study PDFs (same policy as the reference library) ---
+corpus/primary_studies/*.pdf
+# Supplementary appendices/data converted to text for extraction — same copyright
+# policy as the PDFs above; keep local, do not track.
+corpus/primary_studies/Reynolds2019_SupplementaryAppendix.md
+
 # --- Python ---
 __pycache__/
 *.py[cod]
@@ -26,6 +32,18 @@ env/
 # outputs/
 # cache/
 # *.log
+
+# --- Internal working/status docs: never meant to be public, kept local only ---
+# These track process (what's done, what's open, timelines) rather than the
+# paper's actual content. Remove a line here only if you want that specific
+# file tracked/public after all.
+STATUS.md
+docs/
+paper/outline-and-timeline.md
+# Unwritten section stub — currently just a "not yet written" note plus a
+# pointer to a gitignored internal doc (docs/agent-context-pack.md). Remove
+# this line once the section actually has drafted content.
+paper/03-theoretical-framework.md
 
 # --- OS / editor ---
 .DS_Store
