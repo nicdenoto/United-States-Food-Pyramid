@@ -227,10 +227,9 @@ companion doc `WG-01 Stage 3-4 Deepening — Verbatim Quotes for Cross-Check`]:
 text, all appendix-sourced fields, and all three primary studies (Hu 2023,
 Reynolds 2019, Schlesinger 2019) are now directly verified. Stage 2
 (reference acquirer) is complete for WG-01: no field in this entry rests on
-an unverified secondary source any longer. The one remaining local-archive
-gap is that the front-end report and the three primary-study PDFs are
-verified by direct fetch/upload but not yet filed as local corpus files (see
-log below) — a housekeeping step, not an evidentiary one.
+an unverified secondary source any longer. The front-end report and all
+three primary-study PDFs are now filed as local corpus files as well (see
+log below) — the local-archive housekeeping gap is closed.
 
 **Open gaps (all non-blocking, none affect evidence tier):** serving-to-gram
 conversion (confirmed absent across all five sources); per-study covariate
@@ -298,15 +297,10 @@ directly, per the update above:**
   precedent, closing these three items most likely requires Nic pulling
   them the same way he pulled the primary PDFs (institutional access or a
   logged-in browser session), not a different search strategy.
-- *Front-end report, local archival copy*: re-fetched
-  `cdn.realfood.gov/Scientific%20Report_508.pdf` this pass and re-confirmed
-  it is still live and matches exactly (page 21 content unchanged). Still
-  not filed as a local corpus file — this pass has no tool that can save
-  the raw PDF bytes into `corpus/dga/` (only enough access to read and
-  verify the content, not download it), so the housekeeping step from the
-  previous pass remains open. Needs Nic to save a local copy (it's a public,
-  unauthenticated government PDF — no login or paywall involved) and either
-  drop it in `corpus/dga/` himself or hand it back for filing.
+- *Front-end report, local archival copy*: **resolved.** Filed as
+  `corpus/dga/DGA2025-2030_FrontEndReport_Scientific-Report_508.pdf` (90
+  pages, matches the `cdn.realfood.gov`-hosted copy exactly). Public domain,
+  same status as `corpus/dga/appendices.md`, so it is tracked in the repo.
 
 **Reference acquisition log:**
 - Front-end report — fetched `cdn.realfood.gov/Scientific%20Report_508.pdf`
