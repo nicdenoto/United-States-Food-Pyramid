@@ -1,14 +1,59 @@
 # Stage 3 Schema Specification — EvidenceRecord (design case: WG-01)
 
-**Review status:** revision 3, incorporating GPT's second review (5
-targeted fixes: `pipeline_stage` semantics, `extraction_status` for
-qualitative records, tightened `SOURCE_DERIVED` definition, first-class
-`recommendation_citation`, and `study_design`/`synthesis_design` split).
-Still not retrofitted into the existing WG-01 corpus —
-`stage3_evidence_hierarchy.py` stays a stub until this revision is
-approved. Once approved, the next step is the actual retrofit/stress test
-against WG-01, and only after that holds up does this become the frozen
-Stage 3 schema for WG-02 onward.
+**Review status:** revision 4, in draft, revised a second time after
+reviewing rev-3's actual field lists directly rather than discussing the
+fix in the abstract. Revision 3 was retrofitted against the WG-01 corpus
+(28 records) and survived three independent reconciliation passes with zero
+unresolved source/value/location discrepancies — but that stress test
+surfaced a real schema gap: §3's two raw-count shapes (`raw_counts_two_arm`
+/ `raw_counts_pooled`) were selected by
+`study_classification.synthesis_design`, which broke on Reynolds' RCT
+meta-analyses (`synthesis_design: meta_analysis`, i.e. "pooled") that
+report arm-level totals rather than a single pooled N. "Was this pooled"
+and "how are the counts reported in this source" turned out to be
+independent facts. The first rev-4 draft replaced both shapes with one
+unified `raw_counts` block plus an explicit `reporting_shape` enum; that
+was revised again in favor of a smaller fix: keep two named objects,
+decouple the choice between them from `study_design`/`synthesis_design`,
+and let the object's presence — not a separate tag — declare the shape.
+`raw_counts_two_arm` is renamed `raw_counts_by_group` (removing the false
+"single two-arm study" implication that caused the original problem), and
+`contributing_study_count` now lives in both objects instead of only
+`raw_counts_pooled`, since the rename removes the reason it couldn't
+before. §3 changes, as do validation rules 10 and 11 in §11 (a new rule 11
+requires `structure_note` on `raw_counts_other` records, which renumbers
+the former rules 11/12 to 12/13); §2, §4–§10 are unchanged from revision 3.
+The four Reynolds RCT records that motivated this revision
+(WG01-EV-018/019/020/021) have been migrated to raw_counts_by_group, and
+WG01-EV-025/026 (Schlesinger) have been migrated to raw_counts_pooled -- a
+reclassification, not a rename, since those two report a single combined total
+rather than a group split; both correctly omit contributing_study_count, since
+synthesis_design: none on both. §12's worked examples are synced. Every
+remaining WG-01 record uses raw_counts_pooled; a further review pass (below)
+renamed that object's own fields, which now touches these records too. No
+live raw_counts_two_arm reference remains anywhere in the corpus; full audit
+trail in corpus/stage3_evidence_records/WG-01.md §6.
+
+**Third-pass refinements (2026-09-15, before freeze):** a further schema
+review surfaced four smaller gaps, all documentation/naming fixes, no
+further redesign. `raw_counts_pooled`'s field names
+(`pooled_n_participants`/`pooled_n_events`) still implied a pooled
+synthesis even after the object's own meaning was clarified in prose —
+renamed to `combined_n_participants`/`combined_n_events`, applied to all
+twelve WG-01 records using this object, not only the two reclassified
+Schlesinger records, since none of their reported values change, only
+the field names. `raw_counts_other` previously specified only its
+`structure_note` requirement with no other fields at all; it now also has
+`reported_values` (a verbatim transcription of the source's own labeled
+counts) and a conditional `contributing_study_count`, resolving the
+previously-unaddressed case of a `raw_counts_other` record that is
+itself a synthesis. The two-question escalation test's second question
+now explicitly reads "two named comparison groups *relevant to this
+record's specific estimate*," so a source table with more than two
+groups (e.g. four exposure quartiles) doesn't force `raw_counts_other`
+merely because groups beyond the two this estimate uses also appear in
+the table. Full detail in §3 and §11; corpus-wide field-rename audit
+trail in `corpus/stage3_evidence_records/WG-01.md` §6.
 
 **What this is:** a concrete answer to what `stage3_evidence_hierarchy.py`
 should actually produce. The existing pipeline README describes Stage 3 as
@@ -134,67 +179,241 @@ with four values, applied uniformly, says everything `value_status` +
 The rule governing all of it: **only populate a field when the immediate
 source explicitly reports it. Never reconstruct a raw count from other
 reported values, even when the arithmetic is trivial** (e.g. never
-back-computing `sample_size_comparator` from `sample_size_total −
-sample_size_intervention`). The corpus is an extraction layer, not a
-calculation layer — that reduction is Stage 5's job, once it exists, using
-inputs Stage 3 already made explicit.
+back-computing one group's size from `total −` the other group's). The
+corpus is an extraction layer, not a calculation layer — that reduction is
+Stage 5's job, once it exists, using inputs Stage 3 already made explicit.
 
-**Two shapes, not one — keyed off `synthesis_design` (§7), not
-`study_design`.** WG-01's actual evidence is overwhelmingly pooled
-meta-analyses of cohort studies (dose-response and high-vs-low-quantile
-estimates across many contributing studies), not two-arm trials. Forcing
-every record through an RCT-shaped field set (`sample_size_intervention` /
-`sample_size_comparator`) would mark those fields `NOT_REPORTED` on nearly
-every WG-01 record for a reason that has nothing to do with the source
-under-reporting — the two-arm shape is simply the wrong fit. Revision 2
-keyed shape selection off `study_design` directly (using a
-`cohort-meta-analysis` value), which conflated study design with synthesis
-method — see §7 for why that's now split. The shape is keyed off
-`synthesis_design` instead: **only the applicable shape's sub-object is
-present on the record; the other is omitted entirely, not present with
-`NOT_REPORTED` values.**
+**Revision 4 (revised a second time, after reviewing the actual rev-3 text
+directly rather than discussing the fix in the abstract): keep two named
+raw-count objects, but decouple the choice between them from
+`study_design`/`synthesis_design`, and fix the name that caused the
+Reynolds problem.** Revision 3 selected between `raw_counts_two_arm` and
+`raw_counts_pooled` using `study_classification.synthesis_design` as a
+proxy for "how are this record's counts reported" — treating "was this a
+synthesis" and "does this source table report one total or a split" as
+the same fact. They aren't: Reynolds' whole-grain RCT meta-analyses are
+pooled syntheses (`synthesis_design: meta_analysis`, 11+ contributing
+RCTs) whose source table reports arm-level totals, not a single pooled N.
+`study_design`, `synthesis_design`, and how *this record's* counts happen
+to be reported in *this* source table are three independent facts, and
+only the third determines raw-count shape.
+
+The name `raw_counts_two_arm` was itself part of the problem: it reads as
+"this record represents one two-arm study," which is false for an
+11-RCT pooled meta-analysis reported group-wise. Renamed to
+`raw_counts_by_group` — a name that describes the reporting shape (counts
+split by comparison group) without asserting anything about how many
+studies produced those counts.
+
+The exclusivity rule survives unchanged: **exactly one of
+`raw_counts_by_group` / `raw_counts_pooled` is present on a
+`QUANTITATIVE` record; the other is omitted entirely.** No separate shape
+tag is needed — the presence of the object *is* the declaration, and an
+explicit enum alongside it would just duplicate that information under a
+second name.
 
 ```
-study_classification.synthesis_design = none
-    → numerical_provenance.raw_counts_two_arm
-        ├── sample_size_total
-        ├── sample_size_intervention
-        ├── sample_size_comparator
-        ├── events_total
-        ├── events_intervention
-        ├── events_comparator
-        ├── person_time
-        └── follow_up_duration
+numerical_provenance.raw_counts_by_group          (source reports counts split by group)
+├── contributing_study_count
+├── group_1                    maps to study_classification.exposure
+├── group_2                    maps to study_classification.comparator
+├── events_group_1
+├── events_group_2
+├── person_time
+└── follow_up_duration
 
-study_classification.synthesis_design ∈ { meta_analysis,
-  systematic_review, umbrella_review }
-    → numerical_provenance.raw_counts_pooled
-        ├── contributing_study_count
-        ├── pooled_n_participants
-        ├── pooled_n_events
-        ├── person_time
-        └── follow_up_duration
+numerical_provenance.raw_counts_pooled            (source reports one combined figure)
+├── contributing_study_count
+├── combined_n_participants
+├── combined_n_events
+├── person_time
+└── follow_up_duration
+
+numerical_provenance.raw_counts_other             (neither of the above fits -- rare)
+├── structure_note             required; free text, see below
+├── reported_values            source's own labeled counts, verbatim
+├── contributing_study_count   present only when synthesis_design != none
+├── person_time
+└── follow_up_duration
 ```
+
+- **`raw_counts_by_group`** — Reynolds' RCT tables are the canonical case:
+  11 contributing RCTs, `group_1: 498`, `group_2: 421`, no single pooled N
+  reported anywhere in the table. `group_1` always corresponds to
+  `study_classification.exposure`, `group_2` always to `comparator` —
+  fixed by that field, never by which arm "sounds like" the intervention.
+  Using `group_1`/`group_2` rather than `sample_size_intervention`/
+  `comparator` is deliberate: a non-randomized cohort's exposure-quartile
+  split belongs in this same shape (its counts are still reported
+  group-wise), and calling a cohort's high/low-intake groups an
+  "intervention" and "comparator" would misdescribe a study that assigned
+  nothing.
+- **`raw_counts_pooled`** — the source reports one combined figure, not
+  a group split. Hu's and Schlesinger's cohort meta-analyses are the
+  synthesis case (a pooled participant/event count across contributing
+  studies); WG01-EV-025/026 (single-study Schlesinger cohorts,
+  `synthesis_design: none`) are the non-synthesis case — one study
+  reporting one combined total, with no group comparison in the table at
+  all. Both belong here for the same reason: the source table gives one
+  number, not two.
+- **`raw_counts_other`** — a strict, narrow escape hatch, not a place
+  for an extractor to put a record it merely isn't sure how to classify.
+  It means: *the source reports numerical count information, but the
+  reported structure genuinely cannot be represented as either a pooled
+  total or two named comparison groups* (e.g. three or more named groups
+  with no natural pairwise reduction, or a count structure with no group
+  concept at all). Its structure (tree above): `structure_note`
+  (required), `reported_values` (the source's own labeled counts,
+  transcribed verbatim as `{label: value}` pairs using the source's own
+  group or category names — never relabeled into `group_1`/`group_2` or
+  `combined_n_participants`/`combined_n_events` terminology, since forcing
+  that relabeling is exactly what this object exists to avoid),
+  `contributing_study_count` (present only when `synthesis_design !=
+  none`, same rule as the other two objects — rule 10), `person_time`,
+  and `follow_up_duration`. Apply this two-question test before reaching
+  for `raw_counts_other`: (1) *can the source's count structure be read as
+  one combined figure?* — if yes, `raw_counts_pooled`, regardless of
+  whether a synthesis occurred. (2) *can it be read as exactly two named
+  comparison groups relevant to this record's specific estimate?* — if
+  yes, `raw_counts_by_group`, regardless of what the source calls those
+  groups (arms, quantiles collapsed to high/low, exposed/unexposed), and
+  regardless of whether the source table also reports additional groups
+  that this particular estimate doesn't use (e.g. a table with four
+  exposure quartiles, where this record represents a high-vs-low
+  comparison built from only two of them — the other two quartiles being
+  present in the table doesn't push this record into `raw_counts_other`).
+  `raw_counts_other` is for a source that answers no to both — not for a
+  total or a two-way split that merely doesn't map onto an existing field
+  name. Two extractors reading the same source table for the same
+  record's estimate should reach the same answer to (1) and (2); if they
+  wouldn't, that is a sign the source needs re-reading, not a sign
+  `raw_counts_other` is the safe default. `structure_note` is mandatory;
+  a record without one fails validation the same way a `SOURCE_DERIVED`
+  record without `derivation_description` does (§11 rule 1). This is
+  deliberate friction: without a mandatory explanation,
+  `raw_counts_other` would quietly become the place where difficult
+  extraction decisions go to disappear instead of getting resolved. Not
+  observed in WG-01 to date.
+
+**A note on the name `raw_counts_pooled`: it means "the source table
+reports one combined, non-split figure," not "the estimate is a pooled
+synthesis."** These are different facts, and rev-4 exists precisely
+because revision 3 conflated them. `contributing_study_count`'s presence
+is gated on `synthesis_design != none` (below), never on which raw-count
+object is used — the two are independent axes. A meta-analysis whose
+source table reports arm-level totals uses `raw_counts_by_group` despite
+being a pooled synthesis (Reynolds' RCT records above); a single-study
+observational cohort whose source table reports one combined
+participant/event count uses `raw_counts_pooled` despite having no
+synthesis at all and `synthesis_design: none` (WG01-EV-025/026). The
+object name describes the reporting shape of the immediate source table
+— one figure vs. a figure split by group — never whether a meta-analytic
+pooling operation actually happened. Do not infer `synthesis_design !=
+none` from the presence of `raw_counts_pooled`, or infer `synthesis_design:
+none` from its absence; check `study_classification.synthesis_design`
+itself.
+
+**`contributing_study_count` lives in both objects**, rather than only in
+`raw_counts_pooled` as revision 3 had it — the rename to
+`raw_counts_by_group` removes the reason it couldn't live there before
+(nesting it inside a block literally named "two_arm" would have implied
+single-study identity; "by_group" carries no such implication). It means
+**the number of studies contributing to the specific estimate this record
+represents**, when the immediate source states it — not the number of
+studies in the source paper, the review, or an unrelated table in the
+same document. Reynolds' four affected records report 11, 3, 27, and 6
+respectively, for four different estimates in the same paper; that
+specificity is the reason to keep the field per-record rather than
+per-source. Populated (as `"NOT_REPORTED"` if a synthesis occurred but no
+count is stated) whenever `synthesis_design` is not `none`; the field is
+simply absent when `synthesis_design: none`, since there is nothing to
+count.
+
+**Not yet observed in WG-01, but anticipated: a source reporting both a
+pooled total and a per-group split for the same estimate** (e.g. a table
+stating total N = 919 alongside intervention N = 498 / comparator N =
+421). **The canonical representation in that case is
+`raw_counts_by_group`, not `raw_counts_pooled` — this is a deterministic
+rule, not a per-extractor judgment call.** Without it, two extractors
+could reasonably make opposite choices and both would technically satisfy
+the exactly-one-object rule (§11 rule 10), which would make the corpus
+inconsistent in exactly the way this revision is trying to eliminate. The
+group-specific counts preserve strictly more structural information than
+the grand total (a reader can always sum a split but can never un-sum a
+total), which is the principle behind the priority, not just a tie-break.
+The also-reported grand total is noted as a documented aside on the
+record (in `field` or a comparable free-text note, never as a schema
+field) — never add a total-style field to `raw_counts_by_group` to hold
+it, and never populate `raw_counts_pooled`'s fields alongside
+`raw_counts_by_group`'s as if the pooled figure were independently
+reported. Either would violate the exactly-one-object rule and the
+no-reconstruction rule respectively.
 
 `narrative`-design records don't carry raw counts at all, and typically
 pair with `record_type: QUALITATIVE`.
 
-Within whichever sub-object applies, an individual field is either
-populated with the value the source reports, or set to the literal string
-`"NOT_REPORTED"` — no separate per-field status enum. `extraction_status`
-(§2) still governs the record as a whole; these sentinel values are enough
-for sub-fields.
+Within either object, an individual field is either populated with the
+value the source reports, or set to the literal string `"NOT_REPORTED"`
+— no separate per-field status enum. `extraction_status` (§2) still
+governs the record as a whole; these sentinel values are enough for
+sub-fields.
 
-**Worked example, real WG-01 numbers:** Reynolds' CRC high-vs-low pooled
-estimate (7 studies, 6.8 million person-years, 9.5 y average follow-up) has
-`study_design: cohort`, `synthesis_design: meta_analysis`, so it gets
-`raw_counts_pooled`: `contributing_study_count: 7`, `person_time: "6.8
-million person-years"`, `follow_up_duration: "9.5 years (average)"`, and
-`pooled_n_participants` / `pooled_n_events`: `"NOT_REPORTED"` — Table C:1
-gives person-years and study count but not a pooled participant or event
-count, and that's a fact about the table, not a gap in this extraction.
+**Worked examples, real WG-01 numbers — same synthesis-design family, two
+different reporting shapes, which is exactly the point this revision
+fixes.** Reynolds' whole-grain RCT body-weight estimate — `study_design:
+RCT`, `synthesis_design: meta_analysis`, a pooled synthesis of RCTs whose
+source table reports arm-level totals, not a single N:
 
----
+```
+raw_counts_by_group: { contributing_study_count: 11, group_1: 498, group_2: 421,
+  events_group_1: "NOT_REPORTED", events_group_2: "NOT_REPORTED",
+  person_time: "NOT_REPORTED", follow_up_duration: "NOT_REPORTED" }
+```
+
+(Body weight is a continuous outcome, so the `events_*` fields have
+nothing to report; consistent with §2's elimination of `NOT_APPLICABLE`
+as a sentinel, that's recorded the same way an unreported value would
+be — no second sentinel is needed.)
+
+Reynolds' CRC high-vs-low pooled cohort estimate — also `synthesis_design:
+meta_analysis`, but the source reports one pooled figure, not a group
+split:
+
+```
+raw_counts_pooled: { contributing_study_count: 7, combined_n_participants: "NOT_REPORTED",
+  combined_n_events: "NOT_REPORTED", person_time: "6.8 million person-years",
+  follow_up_duration: "9.5 years (average)" }
+```
+
+Both are `synthesis_design: meta_analysis`; one uses `raw_counts_by_group`,
+the other `raw_counts_pooled` — shape is a fact about the source table,
+never about the study or synthesis design.
+
+**Migration note (executed 2026-09-15, two passes):** the first pass
+renamed `raw_counts_two_arm` to `raw_counts_by_group`; added
+`contributing_study_count` to that object (it already existed on
+`raw_counts_pooled`); and renamed `sample_size_intervention`/
+`sample_size_comparator` to `group_1`/`group_2` (mapped per each record's
+own `study_classification.exposure`/`comparator`, confirmed during
+migration, not assumed — never a blind field-name swap). That pass
+touched only the six records whose raw-count object changed —
+WG01-EV-018/019/020/021 (renamed to `raw_counts_by_group`) and
+WG01-EV-025/026 (reclassified to `raw_counts_pooled`, not merely
+renamed, since those two report a single total rather than a group
+split). A second pass, following further schema review, renamed
+`raw_counts_pooled`'s own fields — `pooled_n_participants`/
+`pooled_n_events` — to `combined_n_participants`/`combined_n_events`: the
+old names still implied a pooled synthesis even for `synthesis_design:
+none` records, undermining the object-level clarification made earlier in
+this same review round. This second rename touches all twelve WG-01
+records using `raw_counts_pooled`, not only the two from the first pass,
+since every one of them used the old field names; no reported value
+changes on any of them, only the field name, plus this document's own
+§12 worked examples. Both passes' full audit trail, including the
+two-record reclassification's reasoning, is in
+`corpus/stage3_evidence_records/WG-01.md` §6.
+
+
 
 ## 4. `provenance_tier`
 
@@ -483,16 +702,40 @@ different purposes.
 9. A raw-count field (§3) is populated only when the immediate source
    explicitly reports it; it is never reconstructed from other reported
    values, even when the arithmetic is trivial.
-10. Exactly one of `raw_counts_two_arm` / `raw_counts_pooled` is present on
-    a `QUANTITATIVE` record, selected by
-    `study_classification.synthesis_design` (§3); the other is omitted
-    entirely — never present with `"NOT_REPORTED"` values standing in for
-    a structurally inapplicable field set.
-11. `numerical_provenance` never contains an analytical instruction or
+10. Exactly one of `raw_counts_by_group` / `raw_counts_pooled` / rarely
+    `raw_counts_other` is present on a `QUANTITATIVE` record; the
+    others are omitted entirely — never present with `"NOT_REPORTED"`
+    values standing in for a structurally inapplicable object. Which
+    object is present is itself the shape declaration; no separate tag
+    duplicates it, and the choice is never made by `study_design` or
+    `synthesis_design` (§3). `contributing_study_count` is present only
+    when `synthesis_design != none`; when present (in any of
+    `raw_counts_by_group`, `raw_counts_pooled`, or `raw_counts_other`),
+    it records the number of studies contributing to this specific
+    estimate, and may
+    be `"NOT_REPORTED"` when the synthesis does not state the count. It
+    is absent — not populated as `1` or any other value — when
+    `synthesis_design: none`, since there is nothing to count. When a
+    source reports both a pooled total and a per-group split for the
+    same estimate, `raw_counts_by_group` is the canonical
+    representation — deterministically, not by extractor judgment —
+    with the also-reported total recorded only as a note on the record,
+    never as a field on either object — see §3.
+11. `raw_counts_other`'s fields (§3) are `structure_note` (required),
+    `reported_values`, `contributing_study_count` (present only when
+    `synthesis_design != none`, same rule as rule 10), `person_time`, and
+    `follow_up_duration`. `structure_note` is mandatory; a
+    `raw_counts_other` record without one fails validation, the same way
+    `SOURCE_DERIVED` without `derivation_description` does (rule 1).
+    `raw_counts_other` is reserved for a reporting structure that
+    genuinely fits neither `raw_counts_by_group` nor `raw_counts_pooled`
+    under the two-question test in §3 — not for a record an extractor is
+    merely unsure how to classify.
+12. `numerical_provenance` never contains an analytical instruction or
     downstream-model directive (e.g. `recommended_model`,
     `transform_to_log_rr`, `calculate_NNT`) — Stage 3 records what the
     evidence contains, never what a later stage should do with it.
-12. `pipeline_stage` is set once at record creation and never changed
+13. `pipeline_stage` is set once at record creation and never changed
     afterward (§5); a record's downstream appraisal is discovered by
     querying other records that reference its `evidence_id`, not by a
     field mutation on the record itself.
@@ -500,6 +743,8 @@ different purposes.
 ---
 
 ## 12. Miniature WG-01 examples
+
+> **Synced to revision 4.** Examples A and D use `raw_counts_pooled`, unchanged from revision 3 — that object's fields didn't change. Example E (new) demonstrates `raw_counts_by_group`, using the real, now-migrated WG01-EV-018 record (see §3's migration note and `corpus/stage3_evidence_records/WG-01.md` §1.5).
 
 **A — clean, `SOURCE_REPORTED`, pooled shape:**
 
@@ -516,7 +761,7 @@ numerical_provenance:
   estimate: 0.83
   CI: [0.78, 0.89]
   raw_counts_pooled: { contributing_study_count: "NOT_REPORTED",
-    pooled_n_participants: "NOT_REPORTED", pooled_n_events: "NOT_REPORTED",
+    combined_n_participants: "NOT_REPORTED", combined_n_events: "NOT_REPORTED",
     person_time: "NOT_REPORTED", follow_up_duration: "5.4-26 y (range across
     contributing studies)" }
 extraction_status: SOURCE_REPORTED
@@ -590,7 +835,7 @@ numerical_provenance:
   estimate: 0.87
   CI: [0.79, 0.96]
   raw_counts_pooled: { contributing_study_count: 7,
-    pooled_n_participants: "NOT_REPORTED", pooled_n_events: "NOT_REPORTED",
+    combined_n_participants: "NOT_REPORTED", combined_n_events: "NOT_REPORTED",
     person_time: "6.8 million person-years",
     follow_up_duration: "9.5 years (average)" }
 extraction_status: SOURCE_REPORTED
@@ -601,7 +846,42 @@ source_location: { document: Reynolds2019_SupplementaryAppendix.md,
   table_or_figure: "Table C:1", page: "35-50" }
 ```
 
-A fifth pattern is worth naming even without a full worked example:
+**E — `raw_counts_by_group` shape, a meta-analysis of RCTs reporting
+arm-level totals (the case that motivated revision 4):**
+
+```
+evidence_id: WG01-EV-018
+claim_id: WG-01a
+record_type: QUANTITATIVE
+source_id: SRC-REYNOLDS-2019
+field: "body weight, whole-grain-specific RCTs"
+study_classification: { study_design: RCT, synthesis_design: meta_analysis,
+  exposure: "whole grain intake (RCT arm)", comparator: control,
+  outcome: body weight, effect_measure: MD }
+numerical_provenance:
+  estimate: -0.62
+  CI: [-1.19, -0.05]
+  raw_counts_by_group: { contributing_study_count: 11, group_1: 498,
+    group_2: 421, events_group_1: "NOT_REPORTED",
+    events_group_2: "NOT_REPORTED", person_time: "NOT_REPORTED",
+    follow_up_duration: "NOT_REPORTED" }
+extraction_status: SOURCE_REPORTED
+provenance_tier: T1
+pipeline_stage: STAGE3_EXTRACTED
+evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: NOT_CITED }
+source_location: { document: Reynolds2019_CarbQuality_Lancet.pdf,
+  table_or_figure: "Table 2", page: 438 }
+```
+
+Note that `study_design: RCT` and `synthesis_design: meta_analysis` are
+identical to example A's `study_design: cohort` /
+`synthesis_design: meta_analysis` pattern in one respect — both are
+pooled syntheses — yet example A uses `raw_counts_pooled` and this uses
+`raw_counts_by_group`. That's the point: shape is a fact about how *this*
+source table reports its counts, never about `study_design` or
+`synthesis_design`.
+
+A sixth pattern is worth naming even without a full worked example:
 Reynolds' independent mortality dose-response estimate would be
 `evidence_id: WG01-EV-002`, same `claim_id`/outcome as example A, `role:
 ALTERNATIVE_ESTIMATE`, `recommendation_citation: NOT_CITED` — rule 7 forces
