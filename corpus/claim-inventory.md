@@ -72,37 +72,60 @@ paper's disclosures suggest industry influence on the whole-grain estimates.
 **RWT legs carried:**
 - *Difference-making* [T1]: cohort-only across all five GRADE-rated disease
   outcomes; no RCT component in how those five headline RRs were derived.
-  Appendix's own Strengths and Limitations (p. 178–179): "Most of the
-  evidence was derived from observational cohorts, limiting causal inference
-  due to residual confounding (e.g., lifestyle factors like physical
-  activity)." **Correction/addition from the direct-read pass below: this is
-  true for the disease outcomes, but whole-grain-specific RCT evidence does
-  exist for surrogate risk-factor endpoints — it just shows null results.**
-  See the full breakdown below; case-analysis prose should say "no RCT
-  evidence on hard disease outcomes, and the whole-grain-specific RCT
-  evidence that does exist (on risk factors) is null," not "no RCT evidence
-  exists."
-- *Mechanistic* [T1]: p. 179 — "fibers slow glucose absorption, reduce
-  postprandial insulin spikes, and enhance gut microbiota diversity, thereby
-  attenuating insulin resistance and systemic inflammation." The appendix
-  does not isolate whether this is whole-grain-specific versus attributable
-  to total fiber or a broader dietary pattern — stated as open in the source
-  itself, not inferred here. The RCT findings below are directly relevant to
-  this open question and lean toward "not whole-grain-specific."
+  Appendix's own Strengths and Limitations (p. 178): "Most of the evidence
+  was derived from observational cohorts, limiting causal inference due to
+  residual confounding (e.g., lifestyle factors like physical activity)."
+  **Correction from the reconciliation pass (2026-09-15), superseding the
+  "null results" framing this bullet originally had:** whole-grain-specific
+  RCT evidence does exist for surrogate risk-factor endpoints, and — per the
+  Reynolds RCT table-mislabel correction below — it is NOT uniformly null.
+  Body weight is significant (MD −0.62, 95% CI −1.19 to −0.05); total
+  cholesterol, systolic blood pressure, and HbA1c remain non-significant.
+  Case-analysis prose should say "no RCT evidence on hard disease outcomes;
+  the whole-grain-specific RCT evidence that does exist (on risk factors) is
+  mixed — significant for body weight, null for the other three," not "no
+  RCT evidence exists" or "the RCT evidence is null."
+- *Mechanistic* [T1]: **Corrected during the reconciliation pass — this was
+  misattributed to the DGA appendix in every prior pass, including the
+  WG-01 stress test's original version of this same claim.** The DGA
+  appendix (p. 178) states the mechanistic pathway itself ("fibers slow
+  glucose absorption, reduce postprandial insulin spikes, and enhance gut
+  microbiota diversity, thereby attenuating insulin resistance and systemic
+  inflammation") but does not raise the whole-grain-vs-fiber specificity
+  question anywhere in its text — confirmed by an exhaustive keyword search
+  (isolate/specific/attributable/distinguish/confound/disentangle) across
+  the full Appendix 4.4 section. The specificity question is instead raised
+  by **Reynolds 2019's own Discussion** (p. 442): "the similar protective
+  effects of higher intakes of whole grain foods and of dietary fibre
+  suggest that the beneficial effects of whole grains could be because of
+  their high dietary fibre content... This could reflect the high fibre
+  content of whole grains." Stated as open by Reynolds itself, not inferred
+  here. The RCT findings below are directly relevant to this open question,
+  though now less one-sidedly than "lean toward not whole-grain-specific"
+  suggested: the fibre-general RCT evidence (Table 1) and the whole-grain
+  RCT evidence (Table 2) both show a significant body-weight effect of
+  similar magnitude (−0.37 vs. −0.62), which is at least consistent with —
+  though does not prove — a shared, fibre-mediated mechanism.
 
 **CORRECTED during the Stage 3 stress test (2026-09-15) — the previous
 pass's "whole-grain-specific RCT" numbers were wrong.** Re-verified by
 direct `pdftotext` read of the primary PDF against its own text, not
 re-citing from the prior pass: Reynolds' paper reports RCT forest plots for
-**three separate exposures**, tabulated on adjacent pages and summarized in
-one combined figure elsewhere — total dietary fibre (**Table 1, p.436** /
-Figure 4A), whole grains (**Table 2, p.437** / Figure 4B), and glycaemic
-index (**Table 3, also p.437** / Figure 4C) — and the numbers previously
-filed here as "whole-grain-specific RCTs, Table 2" are, on direct re-check,
-actually the **glycaemic-index panel (Table 3 / Figure 4C)**, not Table 2
-at all. (Figure 4 itself, with all three panels A/B/C, is a separate forest-
-plot summary on p.441 — a distinct page from the tables it summarizes; the
-previous pass's single combined page citations conflated the two.) The
+**three separate exposures**, tabulated on two pages and summarized in one
+combined figure on a third — total dietary fibre (**Table 1, p.437** /
+Figure 4A), whole grains (**Table 2, p.438** / Figure 4B), and glycaemic
+index (**Table 3, same page as Table 2, p.438** / Figure 4C) — and the
+numbers previously filed here as "whole-grain-specific RCTs, Table 2" are,
+on direct re-check, actually the **glycaemic-index panel (Table 3 / Figure
+4C)**, not Table 2 at all. (Figure 4 itself, with all three panels A/B/C, is
+a separate forest-plot summary on p.442 — a distinct page from the tables it
+summarizes; the original pass's single combined page citations had
+conflated the two. Note for the record: an earlier correction pass in this
+project also mis-stated these page numbers as 436/437/437/441, based on an
+unreliable count of running-header markers in this 2-column-layout PDF's
+flat text extraction; the numbers here are confirmed by direct per-page PDF
+extraction, `pdftotext -f N -l N`, which is the reliable method and should
+be preferred over marker-counting going forward.) The
 paper's own text is explicit: "Mean differences in cardiometabolic risk
 factors between higher and lower whole grain consumption are shown in
 table 2 and summary forest plots in figure 4B" (p.441) — three of the four
@@ -115,7 +138,7 @@ citation itself was imprecise even before that. Filing this correction as
 the record of the error, not silently overwriting it.
 
 **Corrected data, both panels, [T1] — re-verified directly against
-Reynolds2019_CarbQuality_Lancet.pdf pp.437–441:**
+Reynolds2019_CarbQuality_Lancet.pdf pp.437–442:**
 
 - **Total dietary fibre RCTs** (Table 1 / Figure 4A — unaffected by the
   correction, already accurate): body weight (27 RCTs, 1294 intervention-
@@ -125,7 +148,7 @@ Reynolds2019_CarbQuality_Lancet.pdf pp.437–441:**
   1832/1671, MD −0.15 mmol/L, 95% CI −0.22 to −0.07, significant, flagged
   with unexplained heterogeneity >50%), HbA1c (6 RCTs, 191/189, SMD −0.35,
   95% CI −0.73 to 0.03, not significant).
-- **Whole-grain-specific RCTs — TRUE Table 2 (p.436), Figure 4B (p.441)**
+- **Whole-grain-specific RCTs — TRUE Table 2 (p.438), Figure 4B (p.442)**
   (replaces the erroneous glycaemic-index numbers): body weight (**11 RCTs,
   498 intervention-arm/421 control-arm participants, MD −0.62 kg, 95% CI
   −1.19 to −0.05 — CI excludes zero, significant**, GRADE **Moderate**),
@@ -193,8 +216,10 @@ treating the appendix's chosen (Hu) estimate as the only one that exists.
 
 **Heterogeneity and follow-up duration, resolved this pass via Reynolds'
 Lancet supplementary appendix (pp. 35–50, Appendix C: "Wholegrain intake
-data relating to the prospective observational studies," Table C:1 p. 37
-and Table C:2 GRADE table p. 48–50, supplied by Nic 2026-09-14 — previously
+data relating to the prospective observational studies," Table C:1 p. 35
+(the CRC/T2D high-vs-low and dose-response rows specifically; the table
+runs roughly pp.35-47) and Table C:2 GRADE table p. 48-50 (CRC row p.49,
+T2D row p.48 specifically), supplied by Nic 2026-09-14 — previously
 blocked on the open web, see the gap-chase pass)** [T1]:
 
 - *Colorectal cancer, whole grain, high vs low* (7 studies): RR 0.87 (0.79,
@@ -415,7 +440,9 @@ directly, per the update above:**
   Dundee institutional-repository copy (`discovery.dundee.ac.uk`, green-OA
   author manuscript), 2026-09-14; full PDF then supplied directly by Nic the
   same day, and every figure re-verified via direct page read against it
-  (Table 1 p. 436, Table 2 p. 437, Figure 2 p. 439). All WebFetch-sourced
+  (Table 1 p. 437, Table 2 p. 438, Figure 2 p. 440; corrected during the
+  reconciliation pass -- confirmed by direct per-page PDF extraction after an
+  earlier pass mis-stated these from an unreliable marker count). All WebFetch-sourced
   figures from the first pass matched exactly on direct read — no
   corrections needed, only additions (the whole-grain-specific RCT table,
   the heterogeneity flags, and Reynolds' own independent mortality/CHD
