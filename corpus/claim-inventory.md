@@ -241,20 +241,23 @@ evidence tier; WG-01's five GRADE-rated outcomes all remain [T1]):**
   source anywhere converts the "2–4 servings/day" target to a gram figure.
   Nothing further to chase; case-analysis prose should treat this as a
   genuine reporting gap in the evidence base itself.
-- *Per-study covariate/adjustment-factor detail* — checked directly this
-  pass against Reynolds' own wholegrain appendix (Appendix C, Tables C:1
-  and C:2): confirmed **absent** there. Notably, the same supplementary
-  document *does* carry a full per-study covariate table for the
-  total-dietary-fibre analysis (Table SUP10:2, a different exposure/
+- *Per-study covariate/adjustment-factor detail* — status corrected this
+  pass; the previous entry overstated how much of this was still missing.
+  **Reynolds:** checked directly against his own wholegrain appendix
+  (Appendix C, Tables C:1 and C:2): confirmed **absent** there. The same
+  supplementary document *does* carry a full per-study covariate table for
+  the total-dietary-fibre analysis (Table SUP10:2, a different exposure/
   appendix section) — so Reynolds' team clearly produces this kind of
   table when it exists, and its absence from Appendix C is a real
-  absence, not an extraction miss. Hu's Supplemental Tables 1–5 and any
-  Schlesinger supplement beyond Table 5 remain unobtained, blocked by the
-  same publisher bot-wall as before (see acquisition-attempt log below);
-  closing this fully would need Nic to pull those the same way he pulled
-  the primary PDFs and the two supplements already in hand. Status:
-  `value_status: NOT_REPORTED` for Reynolds' contribution (confirmed
-  terminal), still open/unresolved for Hu's and Schlesinger's.
+  absence, not an extraction miss. `value_status: NOT_REPORTED`, terminal.
+  **Schlesinger:** *not actually missing.* Supplemental Table 5 (the same
+  table already supplying follow-up duration) has a full "Adjustment
+  factors" column, one entry per contributing study — see the extracted
+  list below. **Hu:** remains the one genuinely open item — Supplemental
+  Tables 1–5 are referenced in-text but still blocked by the same
+  publisher bot-wall as everything else (see acquisition-attempt log
+  below); closing this would need Nic to pull them the same way he pulled
+  the other supplements already in hand.
 - *Mechanistic-pathway specificity* (fiber → glucose/insulin → microbiota:
   whole-grain-specific, or attributable to fiber/dietary pattern
   generally) — **relabeled out of "open gaps" and into an unresolved
@@ -266,18 +269,55 @@ evidence tier; WG-01's five GRADE-rated outcomes all remain [T1]):**
   mechanistic leg that the source material concedes is underspecified),
   not a corpus to-do.
 
-**Schlesinger's per-study follow-up duration, resolved this pass via her
-own Supplemental Table 5 (supplied by Nic 2026-09-14, `Schlesinger2019_
-SupplementaryData.pdf`)** [T1]: the 6 studies contributing to the
-whole-grain/adiposity estimate report follow-up of 4 y (Bautista-Castaño
-2013), 13 y (Bazzano 2005), 16 y (Boggs 2013), 5 y (De la Fuente-Arrillaga
-2014), 12 y (Liu 2003), and 12 y (Quatela 2017) — each figure read directly
-off the table, `value_status: SOURCE_REPORTED` per study. Reported here as
-the six individual values rather than a single computed average or range
-label, consistent with the Stage 3 schema's rule against the pipeline
-performing arithmetic the source itself didn't state; if a single aggregate
-figure is wanted for the case-analysis prose, that reduction should happen
-in the prose itself (Nic's to write), not be baked into the corpus record.
+**Schlesinger's per-study follow-up duration and covariate detail**
+[T1 — exact provenance: `Schlesinger2019_SupplementaryData.pdf`,
+Supplemental Table 5 ("General study characteristics of the included
+studies investigating the association between whole grain intake and risk
+of adiposity"), PDF p. 28 (document's own printed page 27), supplied by
+Nic 2026-09-14; re-verified this pass by direct table read via `pdftotext`,
+not just re-cited]: the 6 studies contributing to the whole-grain/adiposity
+estimate report follow-up of 4 y (Bautista-Castaño 2013), 13 y (Bazzano
+2005), 16 y (Boggs 2013), 5 y (De la Fuente-Arrillaga 2014), 12 y (Liu
+2003), and 12 y (Quatela 2017) — each figure read directly off the table,
+`value_status: SOURCE_REPORTED` per study. Reported here as the six
+individual values rather than a single computed average or range label,
+consistent with the Stage 3 schema's rule against the pipeline performing
+arithmetic the source itself didn't state; if a single aggregate figure is
+wanted for the case-analysis prose, that reduction should happen in the
+prose itself (Nic's to write), not be baked into the corpus record.
+
+The same table also carries each study's adjustment factors (previously
+mischaracterized above as unobtained) and its sample size / case count —
+`value_status: SOURCE_REPORTED` for all, same source and location:
+- **Bautista-Castaño 2013** (n=2,213, 540 cases): age, sex, intervention
+  group, weight at baseline, prevalence of diabetes mellitus at baseline,
+  change in energy/alcohol/protein/SFA/PUFA/MUFA intake, change in smoking
+  and physical activity.
+- **Bazzano 2005** (n=22,071, 2,713 overweight cases / 1,550 weight-gain
+  cases): age, smoking, baseline BMI, alcohol, physical activity, history
+  of hypertension, history of high cholesterol, use of multivitamins.
+- **Boggs 2013** (n=19,885, 7,183 cases): age, total energy intake,
+  baseline BMI, vigorous exercise, television watching, education,
+  geographic region, smoking status, parity, age at first birth, and all
+  other components of the 2010 AHEI/DASH diet-quality indices.
+- **De la Fuente-Arrillaga 2014** (n=9,267, 943 cases): age, sex, physical
+  activity, TV watching, total sedentary time, smoking status, baseline
+  BMI, fiber intake, total energy intake, olive oil, soft drinks, fast
+  food.
+- **Liu 2003** (n=74,091, 6,400 obesity cases / 657 weight-gain cases):
+  age, changes in exercise/smoking/hormone-replacement-therapy status,
+  changes in alcohol/caffeine/total-energy intake, changes in saturated/
+  polyunsaturated/monounsaturated/trans fat and protein intake, BMI at
+  baseline.
+- **Quatela 2017** (n>58,000, 308 cases): smoking, managing income, area
+  of residency, physical activity, hypertension, daily energy intake,
+  fiber and other breakfast-cereal consumption, other dietary and
+  non-dietary confounding factors.
+
+Not folded into the five-outcome GRADE table above (that stays at the
+pooled level per the appendix's own reporting), but now available at the
+per-study level for whenever the Stage 3 retrofit builds individual
+`EvidenceRecord`s under the pooled Schlesinger estimate.
 
 **Acquisition-attempt log, this pass (2026-09-14) — everything below was
 chased and confirmed still blocked, not left unfound; one item (Reynolds'
@@ -356,4 +396,4 @@ directly, per the update above:**
   extracted and folded in above, all [T1]. Schlesinger's Supplemental
   Table 5 remains unobtained.
 
-**Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review).
+**Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review; Schlesinger Table 5 verification).
