@@ -90,50 +90,82 @@ paper's disclosures suggest industry influence on the whole-grain estimates.
   itself, not inferred here. The RCT findings below are directly relevant to
   this open question and lean toward "not whole-grain-specific."
 
-**Resolved and substantially extended this pass — the RCT evidence picture,
-now via a direct read of Reynolds' own PDF (Table 1 p. 437, Table 2 p. 438,
-supplied by Nic 2026-09-14; upgraded from the prior WebFetch-sourced pass)**
-[T1]:
+**CORRECTED during the Stage 3 stress test (2026-09-15) — the previous
+pass's "whole-grain-specific RCT" numbers were wrong.** Re-verified by
+direct `pdftotext` read of the primary PDF against its own text, not
+re-citing from the prior pass: Reynolds' paper reports RCT forest plots for
+**three separate exposures** in one combined figure — total dietary fibre
+(Figure 4A / Table 1, p.437), whole grains (Figure 4B / **Table 2**, p.438),
+and glycaemic index (Figure 4C / Table 3, p.439) — and the numbers
+previously filed here as "whole-grain-specific RCTs, Table 2" are, on
+direct re-check, actually the **glycaemic-index panel (Figure 4C / Table
+3)**, not Table 2 at all. The paper's own text is explicit: "Mean
+differences in cardiometabolic risk factors between higher and lower whole
+grain consumption are shown in table 2 and summary forest plots in figure
+4B" (p.441) — three of the four previously-cited values (body weight MD
+−0.29, SBP MD −0.17, HbA1c SMD +0.08, all with matching CIs) match the
+glycaemic-index panel's numbers exactly, confirming the mislabel rather
+than a different dataset. `value_status`/`provenance_tier` labeled this
+[T1] on the strength of a direct PDF read — but the read pulled the wrong
+table. Filing this correction as the record of the error, not silently
+overwriting it.
 
-Reynolds ran the RCT analysis *twice* — once for total dietary fibre
-(Table 1) and once specifically for whole grains (Table 2) — and the two
-tell different stories:
+**Corrected data, both panels, [T1] — re-verified directly against
+Reynolds2019_CarbQuality_Lancet.pdf pp.437–441:**
 
-- **Total dietary fibre RCTs** (not whole-grain-specific): body weight (27
-  RCTs, MD −0.37 kg, 95% CI −0.63 to −0.11, GRADE High — CI excludes zero,
-  significant), systolic blood pressure (15 RCTs, MD −1.27 mmHg, 95% CI
-  −2.50 to −0.04, GRADE Moderate — significant), total cholesterol (36 RCTs,
-  MD −0.15 mmol/L, 95% CI −0.22 to −0.07, GRADE Moderate — significant,
-  flagged with unexplained heterogeneity >50%), HbA1c (6 RCTs, SMD −0.35,
-  95% CI −0.73 to 0.03, GRADE Low — CI crosses zero, not significant).
-- **Whole-grain-specific RCTs** (Table 2, same four endpoints): body weight
-  (8 RCTs, MD −0.29 kg, 95% CI −0.62 to 0.03, GRADE High), HbA1c (2 RCTs,
-  SMD +0.08, 95% CI −0.35 to 0.52, GRADE Very low), total cholesterol (6
-  RCTs, MD −0.02 mmol/L, 95% CI −0.17 to 0.13, GRADE Moderate), systolic
-  blood pressure (4 RCTs, MD −0.17 mmHg, 95% CI −1.03 to 0.69, GRADE High).
-  **All four confidence intervals cross zero — none reach statistical
-  significance**, despite two of the four being rated High-quality evidence.
+- **Total dietary fibre RCTs** (Table 1 / Figure 4A — unaffected by the
+  correction, already accurate): body weight (27 RCTs, 1294 intervention-
+  arm/1201 control-arm participants, MD −0.37 kg, 95% CI −0.63 to −0.11,
+  significant), systolic blood pressure (15 RCTs, 1064/988, MD −1.27 mmHg,
+  95% CI −2.50 to −0.04, significant), total cholesterol (36 RCTs,
+  1832/1671, MD −0.15 mmol/L, 95% CI −0.22 to −0.07, significant, flagged
+  with unexplained heterogeneity >50%), HbA1c (6 RCTs, 191/189, SMD −0.35,
+  95% CI −0.73 to 0.03, not significant).
+- **Whole-grain-specific RCTs — TRUE Table 2 / Figure 4B** (replaces the
+  erroneous glycaemic-index numbers): body weight (**11 RCTs, 498
+  intervention-arm/421 control-arm participants, MD −0.62 kg, 95% CI −1.19
+  to −0.05 — CI excludes zero, significant**), total cholesterol (17 RCTs,
+  772/701, MD −0.09 mmol/L, 95% CI −0.23 to 0.04, not significant),
+  systolic blood pressure (8 RCTs, 493/432, MD −1.01 mmHg, 95% CI −2.46 to
+  0.44, not significant), HbA1c (3 RCTs, 141/141, SMD −0.54, 95% CI −1.28
+  to 0.20, not significant). GRADE: the paper states bodyweight/
+  cholesterol/blood-pressure evidence in this table is "downgraded to
+  moderate because of unexplained heterogeneity" (p.441) — exact per-
+  endpoint GRADE labels for this panel are not otherwise stated in the main
+  text and are `NOT_REPORTED` here rather than guessed.
+- **Glycaemic-index RCTs (Table 3 / Figure 4C)** — the panel the previous
+  pass actually read, mislabeled as whole grain: body weight (8 RCTs,
+  464/335, MD −0.29 kg, 95% CI −0.62 to 0.03), total cholesterol (8 RCTs,
+  605/478, MD −0.02 mmol/L, 95% CI −0.17 to 0.13), systolic blood pressure
+  (4 RCTs, 519/397, MD −0.17 mmHg, 95% CI −1.03 to 0.69), HbA1c (2 RCTs,
+  44/37, SMD +0.08, 95% CI −0.35 to 0.52) — all four CIs cross zero. Not
+  relevant to WG-01 (a different exposure entirely); kept here only as the
+  record of what the earlier pass actually extracted.
 
-So: whole-grain-specific RCT evidence exists, is reasonably high-quality by
-GRADE, and shows essentially null effects on every risk-factor endpoint
-tested — while the broader total-dietary-fibre RCT evidence (which includes
-whole grains plus other fiber sources/supplements) shows small but
-significant benefits on three of the four same endpoints. This is a
-meaningful data point for the mechanistic-leg question above: it points
-toward the appendix's benefit being attributable to fiber more broadly
-rather than whole grains specifically, though it doesn't settle the question
-outright (small trial counts, esp. n=2 for whole-grain HbA1c).
+**Corrected synthesis:** whole-grain-specific RCT evidence shows a
+**significant** reduction in body weight (MD −0.62 kg, CI excludes zero) —
+the opposite of the previous pass's "essentially null effects on every
+risk-factor endpoint" conclusion, which was built from the wrong panel.
+Total cholesterol, systolic blood pressure, and HbA1c remain non-
+significant for whole grains specifically. This changes, but doesn't
+resolve, the mechanistic-leg question: the true whole-grain RCT evidence is
+*not* uniformly null the way total-dietary-fibre RCT evidence is uniformly
+positive, so the "benefit may be fiber-general rather than whole-grain-
+specific" reading needs re-examination — three of four endpoints still
+favor the fibre-general reading, but body weight now cuts the other way.
+Left for Nic's case-analysis prose to characterize; not editorialized
+further here.
 
-**Flag for the case-analysis prose — a direct "certainty vs. evidence"
-tension, exactly the kind this paper is built to catch:** Reynolds'
-Discussion text (p. 442) states: "The randomised controlled trials involving
-an increase in the intake of whole grains showed reduction in bodyweight and
-cholesterol." Table 2's own numbers (above) show negative point estimates
-for both (consistent with "reduction") but with confidence intervals that
-cross zero — i.e., not statistically significant by the paper's own
-convention. The prose characterizes a non-significant trend as a "showed
-reduction" finding. Reported here as a fact for Nic to characterize; not
-editorialized further.
+**Flag for the case-analysis prose — revised in light of the correction:**
+Reynolds' Discussion text (p.442) states: "The randomised controlled trials
+involving an increase in the intake of whole grains showed reduction in
+bodyweight and cholesterol." With the corrected Table 2 data: the
+bodyweight claim is now **accurate** — MD −0.62, CI −1.19 to −0.05, genuinely
+significant. The cholesterol claim remains an overstatement — MD −0.09, CI
+−0.23 to 0.04, not significant. So the "certainty vs. evidence" tension
+flagged in the previous pass holds for cholesterol specifically, but not
+for bodyweight, where the prose turns out to be correct. This reverses part
+of what the previous pass reported as a uniform overstatement.
 
 **Also newly available: Reynolds' own independent whole-grain dose-response
 estimates for all-cause mortality and CHD incidence** (Figure 2, p. 440 —
@@ -396,4 +428,4 @@ directly, per the update above:**
   extracted and folded in above, all [T1]. Schlesinger's Supplemental
   Table 5 remains unobtained.
 
-**Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review; Schlesinger Table 5 verification).
+**Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review; Schlesinger Table 5 verification; Reynolds RCT table mislabel correction).
