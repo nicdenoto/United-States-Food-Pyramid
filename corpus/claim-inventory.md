@@ -231,16 +231,40 @@ an unverified secondary source any longer. The front-end report and all
 three primary-study PDFs are now filed as local corpus files as well (see
 log below) — the local-archive housekeeping gap is closed.
 
-**Open gaps (all non-blocking, none affect evidence tier):** serving-to-gram
-conversion (confirmed absent across all five sources); per-study covariate
-lists (in online supplements, not in this repo — Schlesinger's own
-Supplemental Table 5 now supplies whole-grain follow-up duration, but not
-the full covariate/adjustment-factor detail for every outcome); whether the
-mechanistic pathway described in Appendix 4.4 (fiber → glucose/insulin →
-microbiota) is whole-grain-specific or attributable to fiber/dietary pattern
-generally — stated as open in the appendix itself, and not resolved by any
-of the three primary papers either (Reynolds' RCT arm, now traced above, is
-fiber-based and risk-factor-only, so it doesn't settle this either way).
+**Remaining items, reviewed and precisely labeled this pass (none affect
+evidence tier; WG-01's five GRADE-rated outcomes all remain [T1]):**
+
+- *Serving-to-gram conversion* — `value_status: NOT_REPORTED`, terminal.
+  Confirmed absent by direct read of all five sources (front-end report,
+  DGA appendix 4.4, Hu, Reynolds, Schlesinger) — this is not a search
+  failure or an acquisition gap, it is a fact about the literature: no
+  source anywhere converts the "2–4 servings/day" target to a gram figure.
+  Nothing further to chase; case-analysis prose should treat this as a
+  genuine reporting gap in the evidence base itself.
+- *Per-study covariate/adjustment-factor detail* — checked directly this
+  pass against Reynolds' own wholegrain appendix (Appendix C, Tables C:1
+  and C:2): confirmed **absent** there. Notably, the same supplementary
+  document *does* carry a full per-study covariate table for the
+  total-dietary-fibre analysis (Table SUP10:2, a different exposure/
+  appendix section) — so Reynolds' team clearly produces this kind of
+  table when it exists, and its absence from Appendix C is a real
+  absence, not an extraction miss. Hu's Supplemental Tables 1–5 and any
+  Schlesinger supplement beyond Table 5 remain unobtained, blocked by the
+  same publisher bot-wall as before (see acquisition-attempt log below);
+  closing this fully would need Nic to pull those the same way he pulled
+  the primary PDFs and the two supplements already in hand. Status:
+  `value_status: NOT_REPORTED` for Reynolds' contribution (confirmed
+  terminal), still open/unresolved for Hu's and Schlesinger's.
+- *Mechanistic-pathway specificity* (fiber → glucose/insulin → microbiota:
+  whole-grain-specific, or attributable to fiber/dietary pattern
+  generally) — **relabeled out of "open gaps" and into an unresolved
+  evidentiary question.** This isn't something further acquisition can
+  close: the DGA appendix itself states the question is open, and none of
+  the three primary papers settle it — Reynolds' RCT arm (traced above) is
+  fiber-based and risk-factor-only, so it bears on the question without
+  resolving it. This is itself a finding for the case-analysis (a
+  mechanistic leg that the source material concedes is underspecified),
+  not a corpus to-do.
 
 **Schlesinger's per-study follow-up duration, resolved this pass via her
 own Supplemental Table 5 (supplied by Nic 2026-09-14, `Schlesinger2019_
@@ -332,4 +356,4 @@ directly, per the update above:**
   extracted and folded in above, all [T1]. Schlesinger's Supplemental
   Table 5 remains unobtained.
 
-**Reviewer:** Claude — this pass, 2026-09-14.
+**Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review).
