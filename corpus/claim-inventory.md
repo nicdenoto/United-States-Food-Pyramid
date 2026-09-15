@@ -94,21 +94,25 @@ paper's disclosures suggest industry influence on the whole-grain estimates.
 pass's "whole-grain-specific RCT" numbers were wrong.** Re-verified by
 direct `pdftotext` read of the primary PDF against its own text, not
 re-citing from the prior pass: Reynolds' paper reports RCT forest plots for
-**three separate exposures** in one combined figure — total dietary fibre
-(Figure 4A / Table 1, p.437), whole grains (Figure 4B / **Table 2**, p.438),
-and glycaemic index (Figure 4C / Table 3, p.439) — and the numbers
-previously filed here as "whole-grain-specific RCTs, Table 2" are, on
-direct re-check, actually the **glycaemic-index panel (Figure 4C / Table
-3)**, not Table 2 at all. The paper's own text is explicit: "Mean
-differences in cardiometabolic risk factors between higher and lower whole
-grain consumption are shown in table 2 and summary forest plots in figure
-4B" (p.441) — three of the four previously-cited values (body weight MD
-−0.29, SBP MD −0.17, HbA1c SMD +0.08, all with matching CIs) match the
-glycaemic-index panel's numbers exactly, confirming the mislabel rather
-than a different dataset. `value_status`/`provenance_tier` labeled this
-[T1] on the strength of a direct PDF read — but the read pulled the wrong
-table. Filing this correction as the record of the error, not silently
-overwriting it.
+**three separate exposures**, tabulated on adjacent pages and summarized in
+one combined figure elsewhere — total dietary fibre (**Table 1, p.436** /
+Figure 4A), whole grains (**Table 2, p.437** / Figure 4B), and glycaemic
+index (**Table 3, also p.437** / Figure 4C) — and the numbers previously
+filed here as "whole-grain-specific RCTs, Table 2" are, on direct re-check,
+actually the **glycaemic-index panel (Table 3 / Figure 4C)**, not Table 2
+at all. (Figure 4 itself, with all three panels A/B/C, is a separate forest-
+plot summary on p.441 — a distinct page from the tables it summarizes; the
+previous pass's single combined page citations conflated the two.) The
+paper's own text is explicit: "Mean differences in cardiometabolic risk
+factors between higher and lower whole grain consumption are shown in
+table 2 and summary forest plots in figure 4B" (p.441) — three of the four
+previously-cited values (body weight MD −0.29, SBP MD −0.17, HbA1c SMD
++0.08, all with matching CIs) match the glycaemic-index panel's numbers
+exactly, confirming the mislabel rather than a different dataset.
+`value_status`/`provenance_tier` labeled this [T1] on the strength of a
+direct PDF read — but the read pulled the wrong table, and the page
+citation itself was imprecise even before that. Filing this correction as
+the record of the error, not silently overwriting it.
 
 **Corrected data, both panels, [T1] — re-verified directly against
 Reynolds2019_CarbQuality_Lancet.pdf pp.437–441:**
@@ -121,18 +125,23 @@ Reynolds2019_CarbQuality_Lancet.pdf pp.437–441:**
   1832/1671, MD −0.15 mmol/L, 95% CI −0.22 to −0.07, significant, flagged
   with unexplained heterogeneity >50%), HbA1c (6 RCTs, 191/189, SMD −0.35,
   95% CI −0.73 to 0.03, not significant).
-- **Whole-grain-specific RCTs — TRUE Table 2 / Figure 4B** (replaces the
-  erroneous glycaemic-index numbers): body weight (**11 RCTs, 498
-  intervention-arm/421 control-arm participants, MD −0.62 kg, 95% CI −1.19
-  to −0.05 — CI excludes zero, significant**), total cholesterol (17 RCTs,
-  772/701, MD −0.09 mmol/L, 95% CI −0.23 to 0.04, not significant),
-  systolic blood pressure (8 RCTs, 493/432, MD −1.01 mmHg, 95% CI −2.46 to
-  0.44, not significant), HbA1c (3 RCTs, 141/141, SMD −0.54, 95% CI −1.28
-  to 0.20, not significant). GRADE: the paper states bodyweight/
-  cholesterol/blood-pressure evidence in this table is "downgraded to
-  moderate because of unexplained heterogeneity" (p.441) — exact per-
-  endpoint GRADE labels for this panel are not otherwise stated in the main
-  text and are `NOT_REPORTED` here rather than guessed.
+- **Whole-grain-specific RCTs — TRUE Table 2 (p.436), Figure 4B (p.441)**
+  (replaces the erroneous glycaemic-index numbers): body weight (**11 RCTs,
+  498 intervention-arm/421 control-arm participants, MD −0.62 kg, 95% CI
+  −1.19 to −0.05 — CI excludes zero, significant**, GRADE **Moderate**),
+  total cholesterol (17 RCTs, 772/701, MD −0.09 mmol/L, 95% CI −0.23 to
+  0.04, not significant, GRADE **Moderate**), systolic blood pressure (8
+  RCTs, 493/432, MD −1.01 mmHg, 95% CI −2.46 to 0.44, not significant,
+  GRADE **Moderate**), HbA1c (3 RCTs, 141/141, SMD −0.54, 95% CI −1.28 to
+  0.20, not significant, GRADE **Low**). **Correction to the correction:**
+  Table 2's own "GRADE quality" column reports all four per-endpoint labels
+  directly (Moderate/Moderate/Moderate/Low) — an initial re-verification
+  pass wrongly filed these as `NOT_REPORTED` ("not otherwise stated in the
+  main text"), which was an unchecked assumption, not a checked absence.
+  The paper's separate narrative statement that bodyweight/cholesterol/
+  blood-pressure evidence is "downgraded to moderate because of unexplained
+  heterogeneity" (p.441) is consistent with, not a substitute for, the
+  table's own per-endpoint values.
 - **Glycaemic-index RCTs (Table 3 / Figure 4C)** — the panel the previous
   pass actually read, mislabeled as whole grain: body weight (8 RCTs,
   464/335, MD −0.29 kg, 95% CI −0.62 to 0.03), total cholesterol (8 RCTs,
@@ -406,7 +415,7 @@ directly, per the update above:**
   Dundee institutional-repository copy (`discovery.dundee.ac.uk`, green-OA
   author manuscript), 2026-09-14; full PDF then supplied directly by Nic the
   same day, and every figure re-verified via direct page read against it
-  (Table 1 p. 437, Table 2 p. 438, Figure 2 p. 440). All WebFetch-sourced
+  (Table 1 p. 436, Table 2 p. 437, Figure 2 p. 439). All WebFetch-sourced
   figures from the first pass matched exactly on direct read — no
   corrections needed, only additions (the whole-grain-specific RCT table,
   the heterogeneity flags, and Reynolds' own independent mortality/CHD
