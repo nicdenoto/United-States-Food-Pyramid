@@ -1,9 +1,22 @@
 # Claim inventory
 
-One entry per claim, in the template below. Remaining food groups (refined
-carbohydrates, added sugars, saturated fat, protein, processed meats —
-appendix sections 4.1, 4.2, 4.6, 4.7, 4.9, 4.10) still need entries built the
-same way.
+One entry per claim, in the template below. WG-01 (whole grains) is the
+only entry taken through the full deep pipeline (Stages 1-3, primary-source
+verified, [T1] throughout) — it is "Trial 0," the foundation claim the rest
+of the pipeline is being built and calibrated against.
+
+The five entries below (RC-01, AS-01, SF-01, PR-01, PM-01) are a first-pass
+catalog only, authorized 2026-09-17, covering appendix sections 4.1, 4.2,
+4.6/4.7, 4.9, and 4.10. They are built from the appendix text alone — no
+primary-study PDFs pulled, no front-end-report locators independently
+verified, no per-study RCT/cohort breakdown — and are tagged [T2]/[STRUCTURE]
+throughout rather than [T1]. Each carries its own "Depth flag" note. They do
+not receive the WG-01-style deep pipeline run until WG-01's own run is
+complete and its calibrated Stage 4 structure exists to apply to them.
+
+Remaining appendix sections not yet catalogued even at this first-pass level:
+4.3 (refined carbohydrates), 4.5 (low-carb diets), 4.8 (thermally stressed
+added fats), 4.11/4.12 (life-stage and vegan/vegetarian considerations).
 
 ## WG-01 — Whole-grain / fiber-rich whole-grain recommendation bundle
 
@@ -465,3 +478,101 @@ directly, per the update above:**
   Table 5 remains unobtained.
 
 **Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review; Schlesinger Table 5 verification; Reynolds RCT table mislabel correction).
+
+---
+## RC-01 — Highly processed foods (Appendix 4.1)
+
+**Depth flag:** first-pass catalog only (authorized 2026-09-17), built from the appendix text alone — not yet deepened to WG-01's standard (no primary-study PDFs pulled, no front-end-report locator confirmed, no per-study RCT/cohort breakdown). Treat every field below as [T2] pending that pass, even where a number is quoted directly from the appendix.
+
+**Claim as stated (appendix-level, NOT yet the confirmed front-end/consumer-report text — that still needs the same live-fetch verification WG-01 got against p. 21)** [T2 — Appendix 4.1 "Preliminary Recommendation Statement," p. 29]:
+> "The evidence supports a strong recommendation for reduction in the consumption of highly processed foods for broad risk reduction for all-cause mortality, cancer, cardiovascular disease, liver disease, obesity, type 2 diabetes, dementia and depression."
+
+**Back-end evidence** [T2]: umbrella review of 27 meta-analyses (all observational — no RCT arm reported anywhere in this appendix), 8 lead meta-analyses selected across 8 outcomes (Goran). High-vs-low HPF consumption:
+- Type 2 diabetes: RR 1.48 (1.36–1.61), High
+- Dementia: RR 1.44 (1.09–1.90), High
+- Depression: RR 1.28 (1.19–1.38), High
+- All-cause mortality: RR 1.15 (1.09–1.22), Moderate
+- Cancer: RR 1.12 (1.06–1.19), Moderate
+- Cardiovascular disease: RR 1.35 (1.18–1.54), Moderate
+- Obesity: RR 1.55 (1.36–1.77), Moderate
+- Liver disease: RR 1.58 (1.34–1.86), Low
+
+Dose-response: a 10-percentage-point higher share of calories from HPF associated with +14% T2D, +13% cancer, +10% all-cause mortality, +7% obesity; each additional daily serving of HPF associated with +4% CVD risk. Appendix states "no study demonstrated any protective effect of HPF consumption."
+
+**RWT legs, preliminary read** [STRUCTURE]: difference-making leg rests entirely on observational cohort/case-control evidence — the appendix's own methods describe 27 meta-analyses, all observational, with no RCT arm at all (unlike WG-01, which at least has whole-grain-specific risk-factor RCTs). Mechanistic leg not characterized in the appendix material reviewed this pass — a genuine gap to close in the deepening pass, not yet a finding.
+
+**Note for the deepening pass:** "highly processed foods" is defined broadly here ("junk food," "ultra-processed food," "industrial food") — appendix's own Research Priorities section (Appendix 2) calls for "harmonized definitions" as an open problem, which is itself worth citing as a definitional-looseness flag on this claim.
+
+---
+
+## AS-01 — Added sugars, sugar-sweetened beverages, juice (Appendix 4.2)
+
+**Depth flag:** first-pass catalog only, same caveats as RC-01 above.
+
+**Unit of analysis** [STRUCTURE]: a four-exposure bundle (added sugars, sugar-sweetened beverages [SSBs], 100% fruit juice, non-sugar-sweetened beverages [NSSBs]) crossed against 8 outcomes — must not be treated as one claim, same discipline as WG-01's bundle.
+
+**Claim as stated (appendix-level)** [T2 — Appendix 4.2 abstract, p. 53]: umbrella review synthesizing 54 meta-analyses (added sugars/SSB/100% juice) plus 19 (NSSBs); GRADE framework applied per exposure-outcome pair.
+
+**Back-end evidence, selected outcomes** [T2]:
+- Added sugars, all-cause mortality: RR 1.05 (95% CI 0.97–1.14) — **not significant**; appendix's own text: "no clear or significant association."
+- Added sugars, NAFLD: 31% higher risk, Low-quality evidence.
+- SSBs, dental caries: 57% higher risk, High.
+- SSBs, adult obesity: 20% higher, Moderate.
+- SSBs, type 2 diabetes: 39% higher, Moderate.
+- SSBs, all-cause mortality: 10% higher, Low.
+- SSBs, CVD: 20% higher, Low.
+- SSBs, depression: 25% higher, Moderate.
+- NSSBs, obesity (adults): RR 1.39 (0.96–2.01), Low, CI crosses 1.
+- NSSBs, type 2 diabetes: RR 1.08 (1.02–1.15), Low.
+- NSSBs, cognition/Alzheimer's: RR 1.42 (1.14–1.78), Moderate.
+
+**Flag for case-analysis prose:** added sugars specifically show a **null** association with all-cause mortality — worth checking directly against whatever certainty label the front-end report attaches to an "added sugars" recommendation, since a null headline-mortality finding sitting under a confident reduction directive would be a direct certainty/evidence-structure mismatch, the same pattern this paper is built to catch elsewhere.
+
+**RWT legs, preliminary read** [STRUCTURE]: difference-making leg — observational meta-analyses throughout what's been reviewed this pass; no RCT evidence surfaced yet for either added sugars or SSBs specifically. Mechanistic leg — not yet characterized; needs the deepening pass.
+
+---
+
+## SF-01 — Saturated fat (Appendices 4.6 and 4.7)
+
+**Depth flag:** first-pass catalog only, but this one surfaced something significant enough to flag now rather than wait for deepening: **the two saturated-fat appendices disagree with each other**, not just with the front-end recommendation.
+
+**Claim as stated (front-end, already known from the 2020–2025 DGA and quoted in Appendix 4.6's own introduction)** [T2 — appendix-quoted, not yet independently verified against the 2025–2030 front-end report directly]: "For those two years and older, intake of saturated fat should be limited to less than 10 percent of calories per day by replacing them with unsaturated fats, particularly polyunsaturated fats."
+
+**Back-end evidence — Appendix 4.6 (Zamora & Goran; GRADE + ROBIS, frequentist)** [T2]: of 9 systematic reviews of RCTs meeting inclusion criteria, only 3 were classified as estimating true causal substitution of SFA (all three: SFA replaced with omega-6 PUFA specifically). Pooled result: **no reduction in all-cause mortality (Moderate certainty) or CHD mortality (Moderate certainty); no consistent effect on CHD events (Very low certainty)**. Conclusion, quoted directly: "Causal evidence from RCTs does not demonstrate that reducing SFA to <10% of energy—particularly through replacement with linoleic acid rich vegetable oils—lowers CHD or all-cause mortality." Evidence for SFA replacement with monounsaturated fat, protein, or carbohydrate: "absent or insufficient."
+
+**Back-end evidence — Appendix 4.7 (Brenna; Bayesian umbrella review)** [T2]: reviewed 26 studies (9 RCT syntheses, 17 cohort syntheses), 65 discrete risk estimates. Central finding: **nearly every review in this literature conflates saturated fat with trans fat from partially hydrogenated oil (PHO)** — a confounder the appendix's own author calls "universal" and says "invalidates all purported saturated fat meta-analytic and umbrella review conclusions, as the evidence base cannot distinguish saturated fat effects from those of trans fatty acids." For the resulting SF+PHO composite exposure: High certainty of no effect on total or CHD mortality (with a beneficial effect on stroke incidence); Moderate certainty of mild benefit on stroke mortality and mild harm on CHD/CVD incidence; Low certainty, equivocal effect on CVD mortality. Conclusion, quoted directly: current guidance to limit SFA to 10% of energy "lack[s] evidentiary support," and the author states an expectation that natural saturated fat studied without PHO confounding "will likely demonstrate it to be benign or beneficial for total mortality."
+
+**Why this matters for the audit, stated plainly:** these are not two independent reviews reaching similar conclusions through different methods — 4.6 concludes the causal evidence for the current guidance is simply insufficient (an "unproven" verdict), while 4.7 goes further to argue the entire evidence base is confounded in a way that points toward the *opposite* conclusion (natural SF as likely benign-to-beneficial). Both appear in the same appendix volume, addressing the same guideline. A front-end recommendation asserting confident, unqualified certainty about the <10%-of-energy target would be in tension with either back-end review individually, and the two back-end reviews are themselves in tension with each other on interpretation, if not on the raw effect estimates. This is a stronger version of the internal-appendix tension already documented for whole grains (§WG-01) and refined carbohydrates, and should likely anchor its own case-analysis subsection rather than being folded into a shorter treatment.
+
+**RWT legs, preliminary read** [STRUCTURE]: difference-making leg — contested between two reviews using different statistical paradigms (frequentist/GRADE vs. Bayesian) on overlapping RCT literature, with 4.7 raising an explicit, appendix-documented confounding argument (PHO) that functions as a real-world quantitative-bias-analysis case study in its own right — the raw material for an E-value/QBA treatment already exists in this corpus, not manufactured for the audit. Mechanistic leg not yet characterized from either appendix in what's been reviewed this pass.
+
+---
+
+## PR-01 — High-quality, nutrient-dense protein foods (Appendix 4.9)
+
+**Depth flag:** first-pass catalog only, same caveats as RC-01/AS-01.
+
+**Claim as stated (appendix-level "Preliminary recommendation statement," p. 413)** [T2]: "The evidence supports a strong recommendation that protein intakes between 1.2–1.6 g protein/kg body weight that prioritize high quality, nutrient dense animal and plant source protein foods, including red meat, improve nutrient (protein and/or micronutrient) adequacy when included as part of a healthy dietary pattern across most life stages."
+
+**Back-end evidence** [T2]: certainty by outcome — Protein Density & Quality: High; Essential Amino Acid (EAA) Density & Quality: High; Micronutrient Adequacy: Moderate. Evidence base is mixed by design: 2 RCTs (higher vs. normal protein diets) rated Low specifically for the nutrient-adequacy question ("lack of sufficient data... beyond calcium"); the higher-rated (High/Moderate) certainty levels rest on NHANES survey/modeling studies, not RCTs, for the density-and-quality outcomes specifically.
+
+**Framing worth carrying into case-analysis prose, stated directly by the appendix itself:** this section is explicitly positioned as a corrective to prior DGA cycles — its own Relevance & Goals section states "for the past 20 years, the [DGAs] have failed to incorporate the entire range of protein and instead have modelled and recommended dietary patterns at the lower end with little to no experimental evidence to support this approach," attributing the prior plant-shift recommendation to "the majority of evidence to support this was epidemiological." This is a case where the appendix is arguing the *previous* guidance was itself a certainty/evidence-structure mismatch — a useful example of the same failure mode this paper investigates, occurring inside the DGA's own revision history rather than only between this paper and the DGA.
+
+**RWT legs, preliminary read** [STRUCTURE]: difference-making leg is a mix of a small RCT base (Low certainty for the specific 1.2–1.6 g/kg nutrient-adequacy question) and larger survey/modeling evidence (higher certainty for density/quality proxies, not the same thing as adequacy at the stated range). Mechanistic leg not yet characterized this pass — protein's amino-acid/micronutrient pathways are presumably well-established in the literature generally, but not yet cited from this corpus specifically.
+
+---
+
+## PM-01 — Processed meats (Appendix 4.10)
+
+**Depth flag:** first-pass catalog only, same caveats as above.
+
+**Claim as stated (appendix-level "Preliminary recommendation statement")** [T2]: "No experimental evidence exists that processed meats, including meat alternatives, increase health risks... Since there is a lack of experimental evidence, a specific amount should not be established at this time. However, a more appropriate recommendation is to prioritize consuming unprocessed or minimally processed red meat/poultry/seafood as part of a healthy dietary pattern across all life stages."
+
+**Back-end evidence** [T2]: certainty — all-cause mortality: Low; cardiovascular disease risk: Low. Of 74 RCT papers screened, **zero** included a processed-vs-unprocessed or higher-vs-lower processed-meat comparison — the difference-making leg here has no RCT evidence of any kind, not even the surrogate-marker RCTs whole grains has. Epidemiological evidence: RR averaging ~1.23 (range 1.15–1.42), significant only when comparing highest vs. no/occasional intake, explicitly stated as non-linear across the intake range.
+
+**Notable confounder-adjustment finding, appendix-cited:** one Netherlands cohort study, when adjusted for nitrite intake specifically, saw its total- and CVD-mortality associations with processed meat drop to null (HR 1.10 and 1.09 respectively — both essentially 1). This is a directly citable instance of a proposed mechanism (nitrite) being tested and the raw association weakening once it's controlled for — a ready-made quantitative-bias-analysis-style example already sitting in this corpus, similar in kind to the SF-01 PHO-confounding finding above.
+
+**Historical framing, appendix-documented (Table 1, p. 416):** DGA language on this food group has shifted every cycle since 1985 — "salty foods" (1985) → "processed meat, poultry, and fish" (1990) → "high-fat processed meats" (1995, 2000) → "less processed items" (2005) → "processed meats" (2010, 2015) → "red and processed meats" (2020, 2025) — worth citing as evidence that the category itself has never stabilized, independent of the certainty question.
+
+**RWT legs, preliminary read** [STRUCTURE]: difference-making leg — weakest of all five claims catalogued this pass: purely observational, non-linear, and only significant at extreme intake comparisons. Mechanistic leg — appendix states directly "no clear mechanism has been established," with several candidate mechanisms (nitrite, heme iron, PAHs, sodium) named but not adjudicated between; the nitrite-adjustment finding above is the strongest single piece of mechanistic-leg evidence available, and it cuts against the claim rather than for it.
+
