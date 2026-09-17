@@ -1,9 +1,10 @@
 # Stage 3 Schema Specification — EvidenceRecord (design case: WG-01)
 
-**Review status:** revision 7 — revision 4 was reviewed and judged ready
-for freeze, then reopened after scoping and then building
-`stage3_evidence_hierarchy.py` (the Stage 3 validator) surfaced real gaps
-in rules 10 and 7, plus a documentation gap in §1, described below.
+**Review status:** FROZEN at revision 7 (2026-09-17). Revision 4 was
+reviewed and judged ready for freeze, then reopened after scoping and
+then building `stage3_evidence_hierarchy.py` (the Stage 3 validator)
+surfaced real gaps in rules 10 and 7, plus a documentation gap in §1,
+described below.
 This is a deliberate reopening, not a freeze failure: the freeze was
 never written into this document (agreed to hold that until the
 validator landed), and finding this kind of gap by testing the schema
@@ -117,6 +118,18 @@ this right consistently: `study_classification` required for
 "present only if / absent (not null) otherwise" phrasing already used for
 `numerical_provenance`. No corpus action needed -- this only makes the
 schema doc match what every WG-01 record has always done.
+
+**Freeze declaration (2026-09-17):** with rev-7 landed, the accumulated
+work split into four commits matching this document's own revision
+history (rev-5 mechanical retrofit, Figure-2 primary-source pass,
+validator build + rule-3 fix + rev-6, rev-7), and
+`stage3_evidence_hierarchy.py` run five times against the full WG-01
+corpus with identical results every run (28 records, 0 errors, 0 notes,
+exit 0) -- Nic declared Stage 3 frozen. Freezing here means: the schema
+(§1-§13) and the WG-01 corpus it validates are both in a state the
+validator confirms clean, and further changes to either are a deliberate
+reopening (revision 8+), not a continuation of this design pass. Stage
+4 work can proceed against this as a stable foundation.
 
 **What this is:** a concrete answer to what `stage3_evidence_hierarchy.py`
 should actually produce. The existing pipeline README describes Stage 3 as
