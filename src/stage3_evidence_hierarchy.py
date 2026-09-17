@@ -3,7 +3,7 @@
 Reconstruct which evidence types a claim relies on -- clinical trial, mechanism,
 meta-analysis, expert opinion, systematic review -- and to what severity, and
 validate every EvidenceRecord against the data contract in
-`src/schema/evidence-record.md` (currently revision 5).
+`src/schema/evidence-record.md` (frozen at revision 7).
 
 The pipeline README describes Stage 3's mission ("an LLM reconstructs which
 evidence types a claim relies on... and to what severity"); the schema doc is
