@@ -1,6 +1,9 @@
 # Stage 3 Schema Specification — EvidenceRecord (design case: WG-01)
 
-**Review status:** FROZEN at revision 7 (2026-09-17). Revision 4 was
+**Review status:** specification (§1-§11) FROZEN at revision 7
+(2026-09-17); revision 8 (2026-09-17) is a post-freeze documentation-only
+correction to §12's worked examples, described near the end of this
+document -- no rule or field requirement changed. Revision 4 was
 reviewed and judged ready for freeze, then reopened after scoping and
 then building `stage3_evidence_hierarchy.py` (the Stage 3 validator)
 surfaced real gaps in rules 10 and 7, plus a documentation gap in §1,
@@ -127,9 +130,19 @@ validator build + rule-3 fix + rev-6, rev-7), and
 corpus with identical results every run (28 records, 0 errors, 0 notes,
 exit 0) -- Nic declared Stage 3 frozen. Freezing here means: the schema
 (§1-§13) and the WG-01 corpus it validates are both in a state the
-validator confirms clean, and further changes to either are a deliberate
-reopening (revision 8+), not a continuation of this design pass. Stage
-4 work can proceed against this as a stable foundation.
+validator confirms clean, and further changes to the specification
+itself are a deliberate reopening, not a continuation of this design
+pass. Stage 4 work can proceed against this as a stable foundation.
+
+**Revision 8 (2026-09-17): §12's worked examples re-synced to the frozen
+corpus.** A post-freeze check found that all five worked examples in §12
+had drifted from the real WG-01 records they name -- see §12's own note
+for the full per-example detail. This is a documentation-accuracy
+correction, not a reopening of the specification: no rule, field
+requirement, or validator behavior changed, only illustration. Filed as
+revision 8, one level below the frozen §1-§11 specification, so the
+freeze declaration above still accurately describes the specification
+itself.
 
 **What this is:** a concrete answer to what `stage3_evidence_hierarchy.py`
 should actually produce. The existing pipeline README describes Stage 3 as
@@ -856,7 +869,7 @@ different purposes.
 
 ## 12. Miniature WG-01 examples
 
-> **Synced to revision 4.** Examples A and D use `raw_counts_pooled`, unchanged from revision 3 — that object's fields didn't change. Example E (new) demonstrates `raw_counts_by_group`, using the real, now-migrated WG01-EV-018 record (see §3's migration note and `corpus/stage3_evidence_records/WG-01.md` §1.5).
+> **Re-synced to the frozen corpus (revision 8, 2026-09-17).** These are meant to be live mirrors of real WG-01 records, not independent illustrations, and drift between the two is itself a documentation defect. A check against the current corpus found five: example A's `raw_counts_pooled` and `quality_signals` were pre-correction values (the real record has verified participant/event counts and a corrected follow-up-duration note, plus a second quality signal); example B was still the pre-rev-5 shape entirely (no `study_classification`, no `raw_counts_pooled`, no `CI`, and a shorter `derivation_description`); example C still carried the `numerical_provenance: <absent...>` placeholder line the rule-3 fix deleted from the real record; example D had an extra `population` field the real record doesn't carry and was missing its `quality_signals` block, plus a stale page value (`"35-50"` vs. the real `35`); example E was missing the `(CORRECTED...)` field annotation and `quality_signals` block, and had a shorter `source_location.table_or_figure`. All five now match the current `corpus/stage3_evidence_records/WG-01.md` records they name field-for-field, except `reviewer`/`review_date` -- omitted here as in every example in this section, since they're bookkeeping metadata, not part of what each example illustrates. No rule or field requirement changed — this section is illustration, not specification; §1-§11 remain frozen at revision 7.
 
 **A — clean, `SOURCE_REPORTED`, pooled shape:**
 
@@ -872,17 +885,21 @@ study_classification: { study_design: cohort, synthesis_design: meta_analysis,
 numerical_provenance:
   estimate: 0.83
   CI: [0.78, 0.89]
-  raw_counts_pooled: { contributing_study_count: "NOT_REPORTED",
-    combined_n_participants: "NOT_REPORTED", combined_n_events: "NOT_REPORTED",
-    person_time: "NOT_REPORTED", follow_up_duration: "5.4-26 y (range across
-    contributing studies)" }
+  raw_counts_pooled: { contributing_study_count: 13,
+    combined_n_participants: 912293, combined_n_events: 106112,
+    person_time: "NOT_REPORTED", follow_up_duration: "NOT_REPORTED (5.4-26y
+    is the paper-wide range across ALL 68 studies/all outcomes, not
+    confirmed mortality-specific -- corrected this pass; do not restate as
+    mortality-specific)" }
 extraction_status: SOURCE_REPORTED
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
 quality_signals: [{ signal_type: NOS, value: "7.74/9 (mean)",
-  attributed_to: Hu 2023, provenance_tier: T1, source_location: p.151 }]
+  attributed_to: Hu 2023, provenance_tier: T1, source_location: p.151 },
+  { signal_type: NutriGrade, value: "High", attributed_to: Hu 2023,
+  provenance_tier: T1, source_location: p.155 }]
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: CITED_DIRECTLY }
-source_location: { document: Hu2023_WholeGrains_AJCN.pdf, page: 152 }
+source_location: { document: Hu2023_WholeGrains_AJCN.pdf, page: 153 }
 ```
 
 **B — `SOURCE_DERIVED`, the harmonization case:**
@@ -894,11 +911,24 @@ record_type: QUANTITATIVE
 source_id: SRC-DGA-APP-4.4
 derived_from_source_id: SRC-REYNOLDS-2019
 field: "type 2 diabetes, per-30g/day whole-grain dose-response"
-numerical_provenance: { estimate: "24% lower risk" }
+study_classification: { study_design: cohort, synthesis_design: meta_analysis,
+  exposure: "whole grain intake, per 30g/day increment (DGA's doubling of
+  Reynolds' per-15g figure, WG01-EV-010)",
+  outcome: type 2 diabetes incidence, effect_measure: RR }
+numerical_provenance:
+  estimate: "24% lower risk"
+  CI: "NOT_REPORTED"
+  raw_counts_pooled: { contributing_study_count: "NOT_REPORTED",
+    combined_n_participants: "NOT_REPORTED", combined_n_events: "NOT_REPORTED",
+    person_time: "NOT_REPORTED", follow_up_duration: "NOT_REPORTED" }
 extraction_status: SOURCE_DERIVED
-derivation_description: "DGA appendix doubled Reynolds' per-15g percent
-  reduction (1 − 0.88) × 2 = 24%, on a stated assumption of linearity — not
-  a fresh re-derivation by this pipeline."
+derivation_description: "The DGA appendix reports '24% lower risk' per
+  30g/day. The DGA discloses that this comes from doubling Reynolds' own
+  per-15g figure under a stated linearity assumption: (1 - 0.88) x 2 = 24%.
+  This pipeline verified that disclosed arithmetic against Reynolds' own
+  reported RR (WG01-EV-010) and confirmed it reproduces; the pipeline did
+  not perform or originate a calculation of its own -- the 24% figure is
+  the DGA's, not this pipeline's."
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: CITED_DIRECTLY }
@@ -918,13 +948,12 @@ qualitative_content: { category: MECHANISTIC,
   text: "fibers slow glucose absorption, reduce postprandial insulin
   spikes, and enhance gut microbiota diversity, thereby attenuating
   insulin resistance and systemic inflammation" }
-numerical_provenance: <absent — record_type is QUALITATIVE>
 extraction_status: SOURCE_REPORTED
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
 evidence_role: { role: MECHANISTIC }
 source_location: { document: "Scientific Report Appendices_FINAL_1.28.26.md",
-  page: 179 }
+  page: 178 }
 ```
 
 (Note: `evidence_role.recommendation_citation` is omitted here — rule 7
@@ -941,7 +970,7 @@ record_type: QUANTITATIVE
 source_id: SRC-REYNOLDS-2019-APPENDIX
 field: "colorectal cancer, whole grain, high vs low (Reynolds appendix)"
 study_classification: { study_design: cohort, synthesis_design: meta_analysis,
-  population: adults, exposure: high WG intake, comparator: low WG intake,
+  exposure: high WG intake, comparator: low WG intake,
   outcome: colorectal cancer incidence, effect_measure: RR }
 numerical_provenance:
   estimate: 0.87
@@ -953,9 +982,12 @@ numerical_provenance:
 extraction_status: SOURCE_REPORTED
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
+quality_signals: [{ signal_type: GRADE, value: "Moderate",
+  attributed_to: "Reynolds 2019 appendix Table C:2", provenance_tier: T1,
+  source_location: "Table C:2, p.49" }]
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: CITED_DIRECTLY }
 source_location: { document: Reynolds2019_SupplementaryAppendix.md,
-  table_or_figure: "Table C:1", page: "35-50" }
+  table_or_figure: "Table C:1", page: 35 }
 ```
 
 **E — `raw_counts_by_group` shape, a meta-analysis of RCTs reporting
@@ -966,7 +998,9 @@ evidence_id: WG01-EV-018
 claim_id: WG-01a
 record_type: QUANTITATIVE
 source_id: SRC-REYNOLDS-2019
-field: "body weight, whole-grain-specific RCTs"
+field: "body weight, whole-grain-specific RCTs (CORRECTED -- true Table 2 /
+  Figure 4B data; the record previously here was Table 3's glycaemic-index
+  panel, mislabeled)"
 study_classification: { study_design: RCT, synthesis_design: meta_analysis,
   exposure: "whole grain intake (RCT arm)", comparator: control,
   outcome: body weight, effect_measure: MD }
@@ -980,9 +1014,16 @@ numerical_provenance:
 extraction_status: SOURCE_REPORTED
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
+quality_signals: [{ signal_type: GRADE, value: "Moderate (paper states
+  bodyweight/cholesterol/blood-pressure evidence in this table is
+  \"downgraded to moderate because of unexplained heterogeneity\", p.441;
+  no more granular per-endpoint GRADE label is given in the main text)",
+  attributed_to: "Reynolds 2019, p.441", provenance_tier: T1,
+  source_location: p.441 }]
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: NOT_CITED }
 source_location: { document: Reynolds2019_CarbQuality_Lancet.pdf,
-  table_or_figure: "Table 2", page: 438 }
+  table_or_figure: "Table 2 (data table); Figure 4B is the companion forest
+  plot on a separate page, p.442", page: 438 }
 ```
 
 Note that `study_design: RCT` and `synthesis_design: meta_analysis` are
