@@ -1,8 +1,9 @@
 # Stage 3 Schema Specification — EvidenceRecord (design case: WG-01)
 
-**Review status:** revision 5 — revision 4 was reviewed and judged ready
-for freeze, then reopened after scoping `stage3_evidence_hierarchy.py`
-(the Stage 3 validator) surfaced a real gap in rule 10, described below.
+**Review status:** revision 6 — revision 4 was reviewed and judged ready
+for freeze, then reopened after scoping and then building
+`stage3_evidence_hierarchy.py` (the Stage 3 validator) surfaced real gaps
+in rules 10 and 7, described below.
 This is a deliberate reopening, not a freeze failure: the freeze was
 never written into this document (agreed to hold that until the
 validator landed), and finding this kind of gap by testing the schema
@@ -81,6 +82,26 @@ remaining six records this same scan found (WG01-EV-002/005/007/008/
 `extraction_status` is `SOURCE_REPORTED`/`SOURCE_DERIVED`, so rule 10
 does apply to them, and they are missing a raw-count object rule 10
 already required.
+
+**Revision 6 (2026-09-17): rule 7's scope clarified, for the same reason
+and in the same shape as rule 10's.** Building the Stage 3 validator (not
+just scoping it) and running it against WG-01 found two records —
+WG01-EV-027, WG01-EV-028 — with `role: DIFFERENCE_MAKING` and no
+`evidence_role.recommendation_citation`, which rule 7 as written requires
+unconditionally. Both are the confirmed-absent gram-equivalent records:
+`extraction_status: NOT_REPORTED`, no estimate at all.
+`recommendation_citation` asks whether *this record's number* is what the
+recommendation's evidence table cites — a question that presupposes a
+number exists to be cited or not. A `NOT_REPORTED` record has none, so the
+field has nothing to describe; populating it with `NOT_CITED` would
+misrepresent a confirmed absence as a surfaced-but-ignored estimate, the
+same category of error rule 10's fix was written to avoid for raw counts.
+Rule 7 now states explicitly that its requirement applies only when
+`extraction_status` is `SOURCE_REPORTED` or `SOURCE_DERIVED` — identical
+carve-out condition to rule 10's, same underlying reason. No corpus action
+needed: WG01-EV-027/028 already correctly omit `recommendation_citation`;
+this revision only changes rule 7's own text to match what the corpus
+already does. Full detail in `corpus/stage3_evidence_records/WG-01.md` §9.
 
 **What this is:** a concrete answer to what `stage3_evidence_hierarchy.py`
 should actually produce. The existing pipeline README describes Stage 3 as
@@ -745,8 +766,14 @@ different purposes.
    bundle claim with multiple independently-evidenced elements.
 7. `evidence_role.recommendation_citation` is required whenever
    `evidence_role.role` is `DIFFERENCE_MAKING` or `ALTERNATIVE_ESTIMATE` —
-   unconditionally, not only when another record happens to share the same
-   `claim_id` + outcome.
+   not only when another record happens to share the same `claim_id` +
+   outcome. This requirement applies only when the record carries an
+   actual reported or derived value — `extraction_status: SOURCE_REPORTED`
+   or `SOURCE_DERIVED`. A record whose `extraction_status: NOT_REPORTED`
+   carries no `recommendation_citation` — there is no estimate for the
+   recommendation to have cited or not cited, and populating the field
+   would misrepresent a confirmed absence as a surfaced-but-ignored
+   estimate.
 8. An `AppraisalRecord` may only reference existing `evidence_id`s; it
    never carries its own free-standing numeric extraction.
 9. A raw-count field (§3) is populated only when the immediate source
