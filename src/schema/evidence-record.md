@@ -1,8 +1,16 @@
 # Stage 3 Schema Specification — EvidenceRecord (design case: WG-01)
 
-**Review status:** revision 4, in draft, revised a second time after
-reviewing rev-3's actual field lists directly rather than discussing the
-fix in the abstract. Revision 3 was retrofitted against the WG-01 corpus
+**Review status:** revision 5 — revision 4 was reviewed and judged ready
+for freeze, then reopened after scoping `stage3_evidence_hierarchy.py`
+(the Stage 3 validator) surfaced a real gap in rule 10, described below.
+This is a deliberate reopening, not a freeze failure: the freeze was
+never written into this document (agreed to hold that until the
+validator landed), and finding this kind of gap by testing the schema
+against an implementation is exactly what the freeze discussion
+anticipated as a legitimate trigger to reopen. In draft, revised a
+second time after reviewing rev-3's actual field lists directly rather
+than discussing the fix in the abstract. Revision 3 was retrofitted
+against the WG-01 corpus
 (28 records) and survived three independent reconciliation passes with zero
 unresolved source/value/location discrepancies — but that stress test
 surfaced a real schema gap: §3's two raw-count shapes (`raw_counts_two_arm`
@@ -55,6 +63,25 @@ merely because groups beyond the two this estimate uses also appear in
 the table. Full detail in §3 and §11; corpus-wide field-rename audit
 trail in `corpus/stage3_evidence_records/WG-01.md` §6.
 
+**Revision 5 (2026-09-16): rule 10's scope clarified after implementation
+surfaced a real gap.** Scoping `stage3_evidence_hierarchy.py` against the
+actual WG-01 corpus (not just reading the schema) found 8 of 28
+`QUANTITATIVE` records with zero raw-count objects at all — a real rule
+10 violation, not a hypothetical one. Two of those eight (WG01-EV-027,
+WG01-EV-028) turned out to be correctly exempt: both have
+`extraction_status: NOT_REPORTED`, meaning the source states no value at
+all for that record — there is no estimate for a raw-count object to
+attach to, and rule 10 never said this case was different from a record
+that has a real, reported or derived number. That was a genuine
+underspecification, not a corpus error: rule 10 now states explicitly
+that its exactly-one-object requirement applies only when
+`extraction_status` is `SOURCE_REPORTED` or `SOURCE_DERIVED`. The
+remaining six records this same scan found (WG01-EV-002/005/007/008/
+010/013) are a real corpus-side gap, not a schema gap — their
+`extraction_status` is `SOURCE_REPORTED`/`SOURCE_DERIVED`, so rule 10
+does apply to them, and they are missing a raw-count object rule 10
+already required.
+
 **What this is:** a concrete answer to what `stage3_evidence_hierarchy.py`
 should actually produce. The existing pipeline README describes Stage 3 as
 "an LLM reconstructs which evidence types a claim relies on... and to what
@@ -74,7 +101,9 @@ EvidenceRecord
 ├── source_id                   the immediate reporting source (points into corpus/01_sources/)
 ├── derived_from_source_id      optional; set only when extraction_status = SOURCE_DERIVED
 ├── field                       plain-language label, e.g. "all-cause mortality, high vs low WG intake"
-├── source_wording               { text, is_verbatim_quote: bool }
+├── source_wording               optional; { text, is_verbatim_quote: bool } —
+│                                populate only when the source's exact phrasing
+│                                carries evidentiary weight (see note below)
 ├── source_location             see §6
 ├── study_classification        see §7
 ├── numerical_provenance        see §2/§3 — present only if record_type = QUANTITATIVE, absent (not null) otherwise
@@ -84,8 +113,10 @@ EvidenceRecord
 ├── pipeline_stage              see §5 — fixed at creation, never changes
 ├── quality_signals             see §8 — 0 or more, each independently tiered
 ├── evidence_role               see §7
-├── reviewer
-└── review_date
+├── reviewer                     set once at record creation, like pipeline_stage —
+│                                who did the Stage 3 extraction, never updated afterward
+└── review_date                  set once at record creation — when, not a running
+                                verification log (see note below)
 ```
 
 **On `claim_id` and bundles:** WG-01 is a four-part bundle (prioritize whole
@@ -98,6 +129,25 @@ number with a unit and a CI — the fiber→glucose/insulin→microbiota
 mechanistic-pathway text, Reynolds' plain-language heterogeneity caveats.
 `record_type` makes that fork explicit at the top of the record instead of
 forcing everything through a numeric block.
+
+**On `source_wording` and `reviewer`/`review_date` — clarified this
+revision, not redesigned:** scoping the Stage 3 validator against WG-01
+found zero of the 28 records populate any of these three fields, despite
+all three being listed above without a "present only if..." qualifier.
+Rather than retrofitting 28 records with fields nothing has needed in
+three independent reconciliation passes, `source_wording` is now
+explicitly optional — the verbatim-vs-paraphrase distinction it was meant
+to capture has been handled the whole time by the italic prose notes that
+already follow most records, and that pattern is the accepted mechanism
+going forward, not a workaround. `reviewer`/`review_date` are kept, but
+their semantics are now explicit: they record who/when a record was
+*originally extracted*, set once at creation exactly like `pipeline_stage`
+(§5) — not a running "last independently verified" log. A record that is
+later re-touched (a field rename, a reclassification, an independent
+re-verification against the primary source) gets that fact recorded in
+the corpus file's own dated audit-trail section, the same way every prior
+pass in this document already has — `reviewer`/`review_date` are not a
+substitute for that, and are never updated to reflect a later pass.
 
 ---
 
@@ -720,7 +770,14 @@ different purposes.
     same estimate, `raw_counts_by_group` is the canonical
     representation — deterministically, not by extractor judgment —
     with the also-reported total recorded only as a note on the record,
-    never as a field on either object — see §3.
+    never as a field on either object — see §3. This exactly-one-object
+    requirement applies only when the record carries an actual reported
+    or derived value — `extraction_status: SOURCE_REPORTED` or
+    `SOURCE_DERIVED`. A record whose `extraction_status: NOT_REPORTED`
+    (the source states no value at all, so `estimate` itself is
+    `"NOT_REPORTED"`) carries no raw-count object of any kind — there is
+    no estimate for a count to attach to, and populating one would
+    misrepresent a confirmed absence as a partially-measured value.
 11. `raw_counts_other`'s fields (§3) are `structure_note` (required),
     `reported_values`, `contributing_study_count` (present only when
     `synthesis_design != none`, same rule as rule 10), `person_time`, and
