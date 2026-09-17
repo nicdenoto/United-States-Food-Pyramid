@@ -1,9 +1,9 @@
 # Stage 3 Schema Specification — EvidenceRecord (design case: WG-01)
 
-**Review status:** revision 6 — revision 4 was reviewed and judged ready
+**Review status:** revision 7 — revision 4 was reviewed and judged ready
 for freeze, then reopened after scoping and then building
 `stage3_evidence_hierarchy.py` (the Stage 3 validator) surfaced real gaps
-in rules 10 and 7, described below.
+in rules 10 and 7, plus a documentation gap in §1, described below.
 This is a deliberate reopening, not a freeze failure: the freeze was
 never written into this document (agreed to hold that until the
 validator landed), and finding this kind of gap by testing the schema
@@ -103,6 +103,21 @@ needed: WG01-EV-027/028 already correctly omit `recommendation_citation`;
 this revision only changes rule 7's own text to match what the corpus
 already does. Full detail in `corpus/stage3_evidence_records/WG-01.md` §9.
 
+**Revision 7 (2026-09-17): §1's field tree now says explicitly what the
+corpus already does for `study_classification`.** Building the Stage 3
+validator found that `study_classification` was listed in §1's field tree
+with no "present only if..." qualifier -- unlike `numerical_provenance` and
+`qualitative_content`, which both have one -- even though all 4 WG-01
+`QUALITATIVE` records (and the schema's own §12 example C) have always
+omitted it entirely, across three independent reconciliation passes. This
+was a real documentation gap, not a corpus defect: the corpus already got
+this right consistently: `study_classification` required for
+`QUANTITATIVE`, absent for `QUALITATIVE`, never populated with nulls on a
+`QUALITATIVE` record. §1's tree now says so explicitly, in the same
+"present only if / absent (not null) otherwise" phrasing already used for
+`numerical_provenance`. No corpus action needed -- this only makes the
+schema doc match what every WG-01 record has always done.
+
 **What this is:** a concrete answer to what `stage3_evidence_hierarchy.py`
 should actually produce. The existing pipeline README describes Stage 3 as
 "an LLM reconstructs which evidence types a claim relies on... and to what
@@ -126,7 +141,7 @@ EvidenceRecord
 │                                populate only when the source's exact phrasing
 │                                carries evidentiary weight (see note below)
 ├── source_location             see §6
-├── study_classification        see §7
+├── study_classification        see §7 — present only if record_type = QUANTITATIVE, absent (not null) otherwise
 ├── numerical_provenance        see §2/§3 — present only if record_type = QUANTITATIVE, absent (not null) otherwise
 ├── qualitative_content         present only if record_type = QUALITATIVE — free-text claim + a category tag (MECHANISTIC | LIMITATION | QUALITY_CAVEAT | OTHER)
 ├── extraction_status           see §2 — set ONCE per record, applies uniformly to QUANTITATIVE and QUALITATIVE records

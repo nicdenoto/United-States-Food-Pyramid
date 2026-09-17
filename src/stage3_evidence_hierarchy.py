@@ -64,18 +64,18 @@ Two real ambiguities this scoping pass surfaced in the schema doc itself (both
 documented inline below, at the checks they affect, rather than silently
 resolved or silently ignored):
 
-  1. Section 1's field tree lists `study_classification` with no "present only
-     if..." qualifier (unlike `numerical_provenance` and `qualitative_content`,
-     which both have one). In practice, all 4 QUALITATIVE records in WG-01 (and
-     the schema's own worked example C, WG01-EV-009) omit it entirely, across
-     three independent reconciliation passes. This validator enforces actual
-     established practice -- required for QUANTITATIVE, absent for QUALITATIVE
-     -- and flags the rare case that disagrees, but the schema doc's own S1
-     tree could still use the same kind of "present only if" annotation it
-     already gives the other two conditional fields. Worth a documentation-only
-     fix, same category as the source_wording/reviewer/review_date
-     clarifications already made in rev-5 -- not made here, since this module
-     validates, it doesn't edit the schema doc.
+  1. RESOLVED (rev-7, 2026-09-17): section 1's field tree listed
+     `study_classification` with no "present only if..." qualifier (unlike
+     `numerical_provenance` and `qualitative_content`, which both had one),
+     even though all 4 QUALITATIVE records in WG-01 (and the schema's own
+     worked example C, WG01-EV-009) have always omitted it entirely, across
+     three independent reconciliation passes. This validator already enforced
+     actual established practice -- required for QUANTITATIVE, absent for
+     QUALITATIVE -- so no check below changes; the schema doc (rev-7) now
+     states this explicitly in S1's tree, in the same "present only if /
+     absent (not null) otherwise" phrasing already used for
+     `numerical_provenance`. Full detail in `src/schema/evidence-record.md`'s
+     revision-7 note.
 
   2. RESOLVED (rev-6, 2026-09-17): rule 7 originally required
      `recommendation_citation` unconditionally whenever role was
@@ -220,9 +220,9 @@ def validate_record(record: dict, known_source_ids: Optional[set] = None) -> lis
         flag("shape", f"record_type '{record_type}' not one of {sorted(VALID_RECORD_TYPES)}")
 
     # study_classification: required for QUANTITATIVE, absent for QUALITATIVE.
-    # See module docstring, ambiguity (1): S1's tree doesn't mark this
-    # conditional, but this is established practice across all 28 WG-01
-    # records and the schema's own worked example C.
+    # See module docstring, ambiguity (1) -- RESOLVED (rev-7): S1's tree now
+    # marks this conditional explicitly, matching established practice across
+    # all 28 WG-01 records and the schema's own worked example C.
     has_study_classification = "study_classification" in record
     if record_type == "QUANTITATIVE" and not has_study_classification:
         flag("shape", "QUANTITATIVE record missing study_classification")
@@ -231,8 +231,8 @@ def validate_record(record: dict, known_source_ids: Optional[set] = None) -> lis
             "shape",
             "QUALITATIVE record carries study_classification -- established "
             "practice (all 4 WG-01 QUALITATIVE records, schema section 12 example C) "
-            "omits this entirely for QUALITATIVE records, though section 1's own "
-            "field tree doesn't mark it conditional the way it does "
+            "omits this entirely for QUALITATIVE records; section 1's field tree "
+            "(rev-7) now marks it conditional the same way it does "
             "numerical_provenance/qualitative_content",
             severity="note",
         )
