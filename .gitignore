@@ -10,6 +10,7 @@ secrets.*
 # --- Copyrighted reference library (published papers; keep local, do not track) ---
 # Remove this line only if the repo is PRIVATE and you want the PDFs tracked.
 corpus/reference-library/*.pdf
+corpus/reference-library/*.md
 
 # --- Copyrighted primary-study PDFs (same policy as the reference library) ---
 corpus/primary_studies/*.pdf
