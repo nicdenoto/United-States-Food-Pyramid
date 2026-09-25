@@ -3,8 +3,8 @@
 Collect the references supporting each claim and their sub-references, storing
 them as Markdown in an organized corpus.
 
-OPEN QUESTION: whether collection is code-only, LLM-assisted, or both is
-undetermined. Resolve before treating this stage as settled.
+Collection runs on a custom script and LLM assistance in combination
+(resolved 2026-09-17).
 
 TODO: drop in the working implementation from the local environment.
 """

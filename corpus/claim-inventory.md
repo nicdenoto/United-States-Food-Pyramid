@@ -9,7 +9,7 @@ The five entries below (RC-01, AS-01, SF-01, PR-01, PM-01) are a first-pass
 catalog only, authorized 2026-09-17, covering appendix sections 4.1, 4.2,
 4.6/4.7, 4.9, and 4.10. They are built from the appendix text alone — no
 primary-study PDFs pulled, no front-end-report locators independently
-verified, no per-study RCT/cohort breakdown — and are tagged [T2]/[STRUCTURE]
+verified (except SF-01's, added 2026-09-25 repo sweep), no per-study RCT/cohort breakdown — and are tagged [T2]/[STRUCTURE]
 throughout rather than [T1]. Each carries its own "Depth flag" note. They do
 not receive the WG-01-style deep pipeline run until WG-01's own run is
 complete and its calibrated Stage 4 structure exists to apply to them.
@@ -24,8 +24,9 @@ added fats), 4.11/4.12 (life-stage and vegan/vegetarian considerations).
 front-end report directly from its official government host,
 `cdn.realfood.gov/Scientific%20Report_508.pdf` ("The Scientific Foundation
 for the Dietary Guidelines for Americans, 2025–2030"). Every phrase below
-matched verbatim. Note: verified by live fetch, not yet archived as a local
-file in this repo — see the acquisition log at the bottom of this entry.]
+matched verbatim. Now archived locally as
+`corpus/dga/DGA2025-2030_FrontEndReport_Scientific-Report_508.pdf` (corrected 2026-09-25 repo sweep:
+this previously said "not yet archived"; see the acquisition log below).]
 > "Prioritize fiber-rich whole grains." / "Significantly reduce the
 > consumption of highly processed, refined carbohydrates, such as white
 > bread, ready-to-eat or packaged breakfast options, flour tortillas, and
@@ -36,6 +37,14 @@ file in this repo — see the acquisition log at the bottom of this entry.]
 Locator confirmed: front-end report, p. 21, Chapter 4 "Carbohydrates" —
 "Recommendations: Whole Grains and Refined Carbohydrates."
 
+**Sub-claim IDs** (definitions from `src/schema/evidence-record.md`, "On
+`claim_id` and bundles"; added 2026-09-25 repo sweep to match the `claim_id`
+values used in `corpus/stage3_evidence_records/WG-01.md`):
+- WG-01a — prioritize (fiber-rich) whole grains
+- WG-01b — reduce refined carbohydrates
+- WG-01c — 2–4 servings/day target
+- WG-01d — chronic-disease (lower-carbohydrate) carve-out
+
 **GRADE certainty** [T1 — verified directly against `corpus/dga/appendices.md`,
 Appendix 4.4, Table 2 (SoF Table), p. 183, and now independently cross-checked
 against all three primary sources]. No single GRADE label attaches to the
@@ -45,6 +54,23 @@ recommendation itself — these are outcome-specific:
 - Colorectal cancer: Moderate (RR 0.87, 95% CI 0.79–0.96) — Reynolds et al., 2019 [T1 — cross-verified directly against Reynolds' own published text, matches exactly]
 - Obesity: Low (RR 0.85, 95% CI 0.79–0.91) — Schlesinger et al., 2019 [T1 — matches Schlesinger's own "high vs low" summary exactly; Schlesinger's own NutriGrade rating is "Low." Precision note: Schlesinger's actual outcome is "overweight/obesity" as a combined BMI-based endpoint (≥25, including the ≥30 obesity threshold), not obesity alone — the appendix's "Obesity" label is a simplification of that combined endpoint, not a wrong number.]
 - Type 2 diabetes: Low (RR 0.67, 95% CI 0.58–0.78) — Reynolds et al., 2019 [T1 — cross-verified directly against Reynolds' own published text, matches exactly]
+
+**FLAG — front-end/appendix discrepancy, all-cause mortality (added 2026-09-25
+repo sweep)** [T1 — read directly from the local front-end PDF, printed p. 20
+(PDF p. 39), Chapter 4 "Carbohydrates"]: the front-end states "Higher
+whole-grain intake was associated with lower risk of all-cause mortality (7%,
+High certainty evidence)", but Appendix 4.4 Table 2 (p. 183), the appendix's
+own Summary of Evidence (p. 178: "a 17% lower risk of all-cause mortality"),
+and Hu et al. 2023 all give RR 0.83, i.e. 17% lower risk. The same front-end
+sentence's other four whole-grain figures (CVD 15%, CRC 13%, obesity 15%, T2D
+33%) match the appendix, so this may be a transcription error, but as printed
+the front-end understates its own appendix's headline mortality estimate by 10
+percentage points. Record as an audit finding; do not silently harmonize.
+
+**Appendix-internal CI discrepancy (added 2026-09-25 repo sweep):** the
+Appendix 4.4 abstract (p. 167) prints the CVD CI as "0.79-0.96" and the CRC CI
+as "0.76-0.96"; Table 2 (p. 183) and the primary sources agree on 0.80–0.91
+(CVD) and 0.79–0.96 (CRC), the values used above.
 
 **Back-end evidence it rests on** [T1]: Appendix 4.4, "Whole Grains, Refined
 Carbohydrates, Fiber, Glycemic Index & Disease" — an umbrella review of 19
@@ -108,12 +134,15 @@ paper's disclosures suggest industry influence on the whole-grain estimates.
   question anywhere in its text — confirmed by an exhaustive keyword search
   (isolate/specific/attributable/distinguish/confound/disentangle) across
   the full Appendix 4.4 section. The specificity question is instead raised
-  by **Reynolds 2019's own Discussion** (p. 442): "the similar protective
+  by **Reynolds 2019's own Discussion** (p. 442): "The similar protective
   effects of higher intakes of whole grain foods and of dietary fibre
   suggest that the beneficial effects of whole grains could be because of
-  their high dietary fibre content... This could reflect the high fibre
-  content of whole grains." Stated as open by Reynolds itself, not inferred
-  here. The RCT findings below are directly relevant to this open question,
+  their high dietary fibre content. The GRADE criteria categorise the
+  evidence linking most clinical outcomes with dietary fibre as moderate,
+  and with whole grains as low quality. This could reflect the high fibre
+  content of whole grains." (corrected 2026-09-25 repo sweep: an earlier "..." splice dropped
+  the middle sentence, which is what "This" refers to.) Stated as open by
+  Reynolds itself, not inferred here. The RCT findings below are directly relevant to this open question,
   though now less one-sidedly than "lean toward not whole-grain-specific"
   suggested: the fibre-general RCT evidence (Table 1) and the whole-grain
   RCT evidence (Table 2) both show a significant body-weight effect of
@@ -230,9 +259,10 @@ treating the appendix's chosen (Hu) estimate as the only one that exists.
 **Heterogeneity and follow-up duration, resolved this pass via Reynolds'
 Lancet supplementary appendix (pp. 35–50, Appendix C: "Wholegrain intake
 data relating to the prospective observational studies," Table C:1 p. 35
-(the CRC/T2D high-vs-low and dose-response rows specifically; the table
-runs roughly pp.35-47) and Table C:2 GRADE table p. 48-50 (CRC row p.49,
-T2D row p.48 specifically), supplied by Nic 2026-09-14 — previously
+(the CRC/T2D high-vs-low and dose-response rows specifically; pp. 36–46
+are Figures C:1–C:22) and Table C:2 GRADE tables pp. 47–50 (CRC row p.49,
+T2D row p.48 specifically; corrected 2026-09-25 repo sweep: previously "the table runs roughly
+pp.35-47" and "Table C:2 … p. 48-50"), supplied by Nic 2026-09-14 — previously
 blocked on the open web, see the gap-chase pass)** [T1]:
 
 - *Colorectal cancer, whole grain, high vs low* (7 studies): RR 0.87 (0.79,
@@ -260,18 +290,20 @@ blocked on the open web, see the gap-chase pass)** [T1]:
 
 This closes the "Reynolds' and Schlesinger's aggregate follow-up duration"
 gap for Reynolds specifically: CRC's pooled evidence base averages 9.5
-years of follow-up, T2D's averages 10.8 years. Schlesinger's aggregate
-follow-up duration (for the obesity outcome) remains open — it lives in
-Schlesinger's own Supplemental Table 5, not yet obtained.
+years of follow-up, T2D's averages 10.8 years. Schlesinger's follow-up
+duration (for the obesity outcome) is now extracted per study from
+Supplemental Table 5 — see the Schlesinger section below (corrected 2026-09-25 repo sweep:
+this previously said Table 5 was "not yet obtained").
 
 **Deepened evidence-hierarchy detail (stage 3/4 pass, 2026-09-14)** [T1,
 page-cited; full verbatim quotes for independent cross-check are in the
 companion doc `WG-01 Stage 3-4 Deepening — Verbatim Quotes for Cross-Check`]:
 - *Heterogeneity (I²):* the Hu-sourced dose-response estimates carry
   substantial between-study heterogeneity by Hu's own thresholds (>75% =
-  high) — mortality I²=89.8%, CVD I²=82.9% (both p. 154). The Hu-sourced
+  high) — mortality I²=89.8%, CVD I²=82.9% (both p. 153). The Hu-sourced
   categorical ("high vs low") estimates are lower but still moderate-to-high:
-  mortality I²=83.0%, CVD I²=51.9% (p. 152). By contrast, the
+  mortality I²=83.0% (p. 153), CVD I²=51.9% (p. 152) (corrected 2026-09-25 repo sweep by
+  per-page PDF extraction: previously "p. 154" and "p. 152" for both). By contrast, the
   Schlesinger-sourced obesity estimate shows *no* heterogeneity at all —
   I²=0% for both the categorical and dose-response pooled RRs (p. 208) —
   markedly more consistent across its 5–6 contributing studies than either
@@ -289,7 +321,7 @@ companion doc `WG-01 Stage 3-4 Deepening — Verbatim Quotes for Cross-Check`]:
   stratified by region, and sensitivity analyses (leave-one-study-out) were
   "stable" for both CVD and mortality (p. 153). Publication-bias testing
   (Egger's) found none for the CVD or mortality dose-response relationships
-  (P=0.144, P=0.409 respectively; p. 155) — CHD did show publication bias,
+  (P=0.144, P=0.409 respectively; pp. 154–155, corrected 2026-09-25 repo sweep from "p. 155") — CHD did show publication bias,
   but CHD isn't one of WG-01's five tracked outcomes. Schlesinger —
   excluding the one study that didn't adjust for energy intake "confirmed
   all findings of the primary analysis" for obesity (p. 212).
@@ -341,8 +373,10 @@ evidence tier; WG-01's five GRADE-rated outcomes all remain [T1]):**
   whole-grain-specific, or attributable to fiber/dietary pattern
   generally) — **relabeled out of "open gaps" and into an unresolved
   evidentiary question.** This isn't something further acquisition can
-  close: the DGA appendix itself states the question is open, and none of
-  the three primary papers settle it — Reynolds' RCT arm (traced above) is
+  close: Reynolds 2019's own Discussion (p. 442) states the question is
+  open — the DGA appendix does not raise it (see the Mechanistic bullet
+  above; corrected 2026-09-25 repo sweep: previously attributed to the DGA appendix) — and
+  none of the three primary papers settle it — Reynolds' RCT arm (traced above) is
   fiber-based and risk-factor-only, so it bears on the question without
   resolving it. This is itself a finding for the case-analysis (a
   mechanistic leg that the source material concedes is underspecified),
@@ -403,8 +437,10 @@ chased and confirmed still blocked, not left unfound; one item (Reynolds'
 appendix) was subsequently closed the same day when Nic supplied it
 directly, per the update above:**
 - *Reynolds supplementary appendix* (pp. 35–50, cited in Reynolds' own
-  Table 2 footnotes as the source of the exact I² values for the
-  colorectal-cancer and T2D whole-grain rows): the Lancet's own hosting
+  Table 2 footnote as the source of the GRADE justifications, which carry
+  the exact I² values for the colorectal-cancer and T2D whole-grain rows;
+  corrected 2026-09-25 repo sweep: the footnote cites the appendix for GRADE justification,
+  not I² values as such): the Lancet's own hosting
   (`thelancet.com`, both `/fulltext` and `/journals/.../fulltext` paths)
   returned HTTP 403 to direct fetch; the University of Dundee green-OA
   manuscript copy (already on file, `discovery.dundee.ac.uk`) does not
@@ -437,8 +473,9 @@ directly, per the update above:**
   already logged for Hu's and Schlesinger's primary PDFs in the entry below
   — journal/PMC hosts refuse automated fetches uniformly, including for
   supplementary files, not just the main article. Consistent with that
-  precedent, closing these three items most likely requires Nic pulling
-  them the same way he pulled the primary PDFs (institutional access or a
+  precedent, closing the one item still open (Hu's supplemental tables;
+  the other two were resolved the same day, corrected 2026-09-25 repo sweep) most likely
+  requires Nic pulling it the same way he pulled the primary PDFs (institutional access or a
   logged-in browser session), not a different search strategy.
 - *Front-end report, local archival copy*: **resolved.** Filed as
   `corpus/dga/DGA2025-2030_FrontEndReport_Scientific-Report_508.pdf` (90
@@ -474,8 +511,9 @@ directly, per the update above:**
   Appendix C (whole-grain data, Table C:1 and Table C:2 GRADE tables, pp.
   35–50) read directly; exact I² values, aggregate follow-up duration, and
   sensitivity-analysis detail for the CRC and T2D whole-grain rows
-  extracted and folded in above, all [T1]. Schlesinger's Supplemental
-  Table 5 remains unobtained.
+  extracted and folded in above, all [T1]. (corrected 2026-09-25 repo sweep: a stale
+  "Schlesinger's Supplemental Table 5 remains unobtained" sentence stood
+  here; Table 5 was supplied 2026-09-14, see above.)
 
 **Reviewer:** Claude — 2026-09-15 pass (remaining-gaps review; Schlesinger Table 5 verification; Reynolds RCT table mislabel correction).
 
@@ -484,7 +522,7 @@ directly, per the update above:**
 
 **Depth flag:** first-pass catalog only (authorized 2026-09-17), built from the appendix text alone — not yet deepened to WG-01's standard (no primary-study PDFs pulled, no front-end-report locator confirmed, no per-study RCT/cohort breakdown). Treat every field below as [T2] pending that pass, even where a number is quoted directly from the appendix.
 
-**Claim as stated (appendix-level, NOT yet the confirmed front-end/consumer-report text — that still needs the same live-fetch verification WG-01 got against p. 21)** [T2 — Appendix 4.1 "Preliminary Recommendation Statement," p. 29]:
+**Claim as stated (appendix-level, NOT yet the confirmed front-end/consumer-report text — that still needs the same live-fetch verification WG-01 got against p. 21)** [T2 — Appendix 4.1 "Preliminary Recommendation Statement," p. 28; corrected 2026-09-25 repo sweep from "p. 29"]:
 > "The evidence supports a strong recommendation for reduction in the consumption of highly processed foods for broad risk reduction for all-cause mortality, cancer, cardiovascular disease, liver disease, obesity, type 2 diabetes, dementia and depression."
 
 **Back-end evidence** [T2]: umbrella review of 27 meta-analyses (all observational — no RCT arm reported anywhere in this appendix), 8 lead meta-analyses selected across 8 outcomes (Goran). High-vs-low HPF consumption:
@@ -536,13 +574,13 @@ Dose-response: a 10-percentage-point higher share of calories from HPF associate
 
 **Depth flag:** first-pass catalog only, but this one surfaced something significant enough to flag now rather than wait for deepening: **the two saturated-fat appendices disagree with each other**, not just with the front-end recommendation.
 
-**Claim as stated (front-end, already known from the 2020–2025 DGA and quoted in Appendix 4.6's own introduction)** [T2 — appendix-quoted, not yet independently verified against the 2025–2030 front-end report directly]: "For those two years and older, intake of saturated fat should be limited to less than 10 percent of calories per day by replacing them with unsaturated fats, particularly polyunsaturated fats."
+**Claim as stated (front-end, 2025–2030 report, printed p. 36 (PDF p. 55), Chapter 5 "Fats and Oils," "Recommendations: Healthy Fats")** [T1 — read directly from the local front-end PDF]: "In general, saturated fat consumption should not exceed 10% of total daily calories. Significantly limiting highly processed foods will help meet this goal. More high-quality research is needed to determine which types of dietary fats best support long-term health." (corrected 2026-09-25 repo sweep: this field previously presented the 2020–2025 DGA wording as the front-end claim.) Appendix 4.6's introduction (p. 211) quotes that older 2020–2025 wording instead: "For those two years and older, intake of saturated fat should be limited to less than 10 percent of calories per day by replacing them with unsaturated fats, particularly polyunsaturated fats." Two differences matter for the case analysis: the 2025–2030 text drops the replace-with-PUFA instruction, and its own closing hedge ("More high-quality research is needed…") is a front-end admission of uncertainty about fat types that should be weighed against the firm 10% ceiling it keeps.
 
 **Back-end evidence — Appendix 4.6 (Zamora & Goran; GRADE + ROBIS, frequentist)** [T2]: of 9 systematic reviews of RCTs meeting inclusion criteria, only 3 were classified as estimating true causal substitution of SFA (all three: SFA replaced with omega-6 PUFA specifically). Pooled result: **no reduction in all-cause mortality (Moderate certainty) or CHD mortality (Moderate certainty); no consistent effect on CHD events (Very low certainty)**. Conclusion, quoted directly: "Causal evidence from RCTs does not demonstrate that reducing SFA to <10% of energy—particularly through replacement with linoleic acid rich vegetable oils—lowers CHD or all-cause mortality." Evidence for SFA replacement with monounsaturated fat, protein, or carbohydrate: "absent or insufficient."
 
 **Back-end evidence — Appendix 4.7 (Brenna; Bayesian umbrella review)** [T2]: reviewed 26 studies (9 RCT syntheses, 17 cohort syntheses), 65 discrete risk estimates. Central finding: **nearly every review in this literature conflates saturated fat with trans fat from partially hydrogenated oil (PHO)** — a confounder the appendix's own author calls "universal" and says "invalidates all purported saturated fat meta-analytic and umbrella review conclusions, as the evidence base cannot distinguish saturated fat effects from those of trans fatty acids." For the resulting SF+PHO composite exposure: High certainty of no effect on total or CHD mortality (with a beneficial effect on stroke incidence); Moderate certainty of mild benefit on stroke mortality and mild harm on CHD/CVD incidence; Low certainty, equivocal effect on CVD mortality. Conclusion, quoted directly: current guidance to limit SFA to 10% of energy "lack[s] evidentiary support," and the author states an expectation that natural saturated fat studied without PHO confounding "will likely demonstrate it to be benign or beneficial for total mortality."
 
-**Why this matters for the audit, stated plainly:** these are not two independent reviews reaching similar conclusions through different methods — 4.6 concludes the causal evidence for the current guidance is simply insufficient (an "unproven" verdict), while 4.7 goes further to argue the entire evidence base is confounded in a way that points toward the *opposite* conclusion (natural SF as likely benign-to-beneficial). Both appear in the same appendix volume, addressing the same guideline. A front-end recommendation asserting confident, unqualified certainty about the <10%-of-energy target would be in tension with either back-end review individually, and the two back-end reviews are themselves in tension with each other on interpretation, if not on the raw effect estimates. This is a stronger version of the internal-appendix tension already documented for whole grains (§WG-01) and refined carbohydrates, and should likely anchor its own case-analysis subsection rather than being folded into a shorter treatment.
+**Why this matters for the audit, stated plainly:** these are not two independent reviews reaching similar conclusions through different methods — 4.6 concludes the causal evidence for the current guidance is simply insufficient (an "unproven" verdict), while 4.7 goes further to argue the entire evidence base is confounded in a way that points toward the *opposite* conclusion (natural SF as likely benign-to-beneficial). Both appear in the same appendix volume, addressing the same guideline. A front-end recommendation setting a firm <10%-of-energy ceiling (as the 2025–2030 report does, albeit alongside its own "more high-quality research is needed" hedge on fat types) would be in tension with either back-end review individually, and the two back-end reviews are themselves in tension with each other on interpretation, if not on the raw effect estimates. This is a stronger, inter-appendix version of the certainty/evidence tension this audit tracks, and should likely anchor its own case-analysis subsection rather than being folded into a shorter treatment. (corrected 2026-09-25 repo sweep: premise softened from "confident, unqualified certainty," and a cross-reference to tension "already documented for whole grains (§WG-01) and refined carbohydrates" removed, since neither is documented in this file.)
 
 **RWT legs, preliminary read** [STRUCTURE]: difference-making leg — contested between two reviews using different statistical paradigms (frequentist/GRADE vs. Bayesian) on overlapping RCT literature, with 4.7 raising an explicit, appendix-documented confounding argument (PHO) that functions as a real-world quantitative-bias-analysis case study in its own right — the raw material for an E-value/QBA treatment already exists in this corpus, not manufactured for the audit. Mechanistic leg not yet characterized from either appendix in what's been reviewed this pass.
 
@@ -554,9 +592,9 @@ Dose-response: a 10-percentage-point higher share of calories from HPF associate
 
 **Claim as stated (appendix-level "Preliminary recommendation statement," p. 413)** [T2]: "The evidence supports a strong recommendation that protein intakes between 1.2–1.6 g protein/kg body weight that prioritize high quality, nutrient dense animal and plant source protein foods, including red meat, improve nutrient (protein and/or micronutrient) adequacy when included as part of a healthy dietary pattern across most life stages."
 
-**Back-end evidence** [T2]: certainty by outcome — Protein Density & Quality: High; Essential Amino Acid (EAA) Density & Quality: High; Micronutrient Adequacy: Moderate. Evidence base is mixed by design: 2 RCTs (higher vs. normal protein diets) rated Low specifically for the nutrient-adequacy question ("lack of sufficient data... beyond calcium"); the higher-rated (High/Moderate) certainty levels rest on NHANES survey/modeling studies, not RCTs, for the density-and-quality outcomes specifically.
+**Back-end evidence** [T2]: certainty by outcome — Protein Density & Quality: High; Essential Amino Acid (EAA) Density & Quality: High in the evidence-to-decision box (p. 412) but **Moderate** in the Appendix G SoF table (p. 411), an internal DGA inconsistency; Micronutrient Adequacy: Moderate. Evidence base is mixed by design: 2 RCTs (higher vs. normal protein diets) rated Low specifically for the nutrient-adequacy question ("lack of sufficient data... beyond calcium"); the density-and-quality ratings rest on NHANES modeling survey studies that the SoF table annotates as "Supported by RCTs in KQ1a". (corrected 2026-09-25 repo sweep: previously gave EAA as High without the p. 411 conflict and said these ratings rested on survey/modeling studies "not RCTs.")
 
-**Framing worth carrying into case-analysis prose, stated directly by the appendix itself:** this section is explicitly positioned as a corrective to prior DGA cycles — its own Relevance & Goals section states "for the past 20 years, the [DGAs] have failed to incorporate the entire range of protein and instead have modelled and recommended dietary patterns at the lower end with little to no experimental evidence to support this approach," attributing the prior plant-shift recommendation to "the majority of evidence to support this was epidemiological." This is a case where the appendix is arguing the *previous* guidance was itself a certainty/evidence-structure mismatch — a useful example of the same failure mode this paper investigates, occurring inside the DGA's own revision history rather than only between this paper and the DGA.
+**Framing worth carrying into case-analysis prose, stated directly by the appendix itself:** this section is explicitly positioned as a corrective to prior DGA cycles — its own Relevance & Goals section (p. 348) states "for the past 20 years, the [DGAs] have failed to incorporate the entire range of protein and instead have modelled and recommended dietary patterns at the lower end with little to no experimental evidence to support this approach," and its evidence-to-decision table ("Problem & importance," p. 412) says of the prior plant-shift recommendation that "the majority of evidence to support this was epidemiological" (corrected 2026-09-25 repo sweep: this second quote was previously attributed to Relevance & Goals). This is a case where the appendix is arguing the *previous* guidance was itself a certainty/evidence-structure mismatch — a useful example of the same failure mode this paper investigates, occurring inside the DGA's own revision history rather than only between this paper and the DGA.
 
 **RWT legs, preliminary read** [STRUCTURE]: difference-making leg is a mix of a small RCT base (Low certainty for the specific 1.2–1.6 g/kg nutrient-adequacy question) and larger survey/modeling evidence (higher certainty for density/quality proxies, not the same thing as adequacy at the stated range). Mechanistic leg not yet characterized this pass — protein's amino-acid/micronutrient pathways are presumably well-established in the literature generally, but not yet cited from this corpus specifically.
 
@@ -566,13 +604,13 @@ Dose-response: a 10-percentage-point higher share of calories from HPF associate
 
 **Depth flag:** first-pass catalog only, same caveats as above.
 
-**Claim as stated (appendix-level "Preliminary recommendation statement")** [T2]: "No experimental evidence exists that processed meats, including meat alternatives, increase health risks... Since there is a lack of experimental evidence, a specific amount should not be established at this time. However, a more appropriate recommendation is to prioritize consuming unprocessed or minimally processed red meat/poultry/seafood as part of a healthy dietary pattern across all life stages."
+**Claim as stated (appendix-level, Abstract "Conclusions," p. 415)** [T2]: "No experimental evidence exists that processed meats, including meat alternatives, increase health risks. Since there is a lack of experimental evidence, a specific amount should not be established at this time. However, a more appropriate recommendation is to prioritize consuming unprocessed or minimally processed red meat/poultry/seafood as part of a healthy dietary pattern across all life stages." (corrected 2026-09-25 repo sweep: previously labeled the "Preliminary recommendation statement" with a "..." splice; that box, p. 422, adds after "health risks": "whereas the epidemiological evidence supports only a weak recommendation but is only evident among individuals with the highest usage.")
 
 **Back-end evidence** [T2]: certainty — all-cause mortality: Low; cardiovascular disease risk: Low. Of 74 RCT papers screened, **zero** included a processed-vs-unprocessed or higher-vs-lower processed-meat comparison — the difference-making leg here has no RCT evidence of any kind, not even the surrogate-marker RCTs whole grains has. Epidemiological evidence: RR averaging ~1.23 (range 1.15–1.42), significant only when comparing highest vs. no/occasional intake, explicitly stated as non-linear across the intake range.
 
 **Notable confounder-adjustment finding, appendix-cited:** one Netherlands cohort study, when adjusted for nitrite intake specifically, saw its total- and CVD-mortality associations with processed meat drop to null (HR 1.10 and 1.09 respectively — both essentially 1). This is a directly citable instance of a proposed mechanism (nitrite) being tested and the raw association weakening once it's controlled for — a ready-made quantitative-bias-analysis-style example already sitting in this corpus, similar in kind to the SF-01 PHO-confounding finding above.
 
-**Historical framing, appendix-documented (Table 1, p. 416):** DGA language on this food group has shifted every cycle since 1985 — "salty foods" (1985) → "processed meat, poultry, and fish" (1990) → "high-fat processed meats" (1995, 2000) → "less processed items" (2005) → "processed meats" (2010, 2015) → "red and processed meats" (2020, 2025) — worth citing as evidence that the category itself has never stabilized, independent of the certainty question.
+**Historical framing, appendix-documented (Table 1, p. 416):** DGA language on this food group has shifted every cycle since 1985 — "salty foods" (1985) → "processed meat, poultry, and fish" (1990) → "high-fat processed meats" (1995, 2000) → "less processed items" (2005) → "processed meats" (2010) → "processed meats and poultry" (2015; corrected 2026-09-25 repo sweep, previously grouped with 2010) → "red and processed meats" (2020, 2025) — worth citing as evidence that the category itself has never stabilized, independent of the certainty question.
 
 **RWT legs, preliminary read** [STRUCTURE]: difference-making leg — weakest of all five claims catalogued this pass: purely observational, non-linear, and only significant at extreme intake comparisons. Mechanistic leg — appendix states directly "no clear mechanism has been established," with several candidate mechanisms (nitrite, heme iron, PAHs, sodium) named but not adjudicated between; the nitrite-adjustment finding above is the strongest single piece of mechanistic-leg evidence available, and it cuts against the claim rather than for it.
 

@@ -268,9 +268,12 @@ NOT_REPORTED      the source was checked and does not state this value or
 Worked split, using material already in the record: Hu's mortality RR is
 `SOURCE_REPORTED`. The DGA appendix's 24% per-30g T2D figure is
 `SOURCE_DERIVED` (from Reynolds' per-15g RR). The serving-to-gram
-conversion is `NOT_REPORTED` (confirmed absent across five sources, not
-merely unfound). The mechanistic-pathway quote (p.179 of the DGA appendix)
-is `SOURCE_REPORTED` — it's a qualitative statement, but it's directly and
+conversion is `NOT_REPORTED` (the DGA's own 2–4 servings target has no gram
+conversion in either DGA document; corrected 2026-09-25 repo sweep: previously "confirmed
+absent across five sources", but Hu, Reynolds and Schlesinger each use
+1 serving = 30 g as their own convention). The mechanistic-pathway quote
+(p.178 of the DGA appendix; corrected 2026-09-25 repo sweep: previously p.179, the corpus
+record's pre-reconciliation page) is `SOURCE_REPORTED` — it's a qualitative statement, but it's directly and
 verbatim present in the source, which `extraction_status` can now say
 cleanly.
 
@@ -492,10 +495,14 @@ meta_analysis`, but the source reports one pooled figure, not a group
 split:
 
 ```
-raw_counts_pooled: { contributing_study_count: 7, combined_n_participants: "NOT_REPORTED",
-  combined_n_events: "NOT_REPORTED", person_time: "6.8 million person-years",
+raw_counts_pooled: { contributing_study_count: 7, combined_n_participants: 710363,
+  combined_n_events: 8803, person_time: "6.8 million person-years",
   follow_up_duration: "9.5 years (average)" }
 ```
+
+(Corrected 2026-09-25 repo sweep: participants/events were shown as `"NOT_REPORTED"`;
+Reynolds appendix Table C:2 p.49 reports "8803/710363", matching
+WG01-EV-011.)
 
 Both are `synthesis_design: meta_analysis`; one uses `raw_counts_by_group`,
 the other `raw_counts_pooled` — shape is a fact about the source table,
@@ -635,10 +642,12 @@ evidence_role
 
 Worked reclassification: Hu's and Reynolds' whole-grain pooled estimates
 are both `study_design: cohort`, `synthesis_design: meta_analysis`. A
-single un-pooled cohort study (none exists yet in WG-01, but the shape
-should hold up when one appears) would be `study_design: cohort`,
-`synthesis_design: none` — and would then use the two-arm raw-count shape
-(§3), correctly, since there's nothing pooled about it.
+single un-pooled cohort study (WG01-EV-025/026) is `study_design: cohort`,
+`synthesis_design: none`, and its raw-count object is chosen by how the
+source reports its counts (§3) — `raw_counts_pooled` for those two, since
+each reports one combined total (corrected 2026-09-25 repo sweep: previously said none
+existed yet and that such a study would use the two-arm shape, both
+superseded by rev-4).
 
 **`recommendation_citation` — upgraded from a boolean this revision.**
 Revision 2's `cited_by_recommendation_source` was a boolean, validated only
@@ -871,6 +880,8 @@ different purposes.
 
 > **Re-synced to the frozen corpus (revision 8, 2026-09-17).** These are meant to be live mirrors of real WG-01 records, not independent illustrations, and drift between the two is itself a documentation defect. A check against the current corpus found five: example A's `raw_counts_pooled` and `quality_signals` were pre-correction values (the real record has verified participant/event counts and a corrected follow-up-duration note, plus a second quality signal); example B was still the pre-rev-5 shape entirely (no `study_classification`, no `raw_counts_pooled`, no `CI`, and a shorter `derivation_description`); example C still carried the `numerical_provenance: <absent...>` placeholder line the rule-3 fix deleted from the real record; example D had an extra `population` field the real record doesn't carry and was missing its `quality_signals` block, plus a stale page value (`"35-50"` vs. the real `35`); example E was missing the `(CORRECTED...)` field annotation and `quality_signals` block, and had a shorter `source_location.table_or_figure`. All five now match the current `corpus/stage3_evidence_records/WG-01.md` records they name field-for-field, except `reviewer`/`review_date` -- omitted here as in every example in this section, since they're bookkeeping metadata, not part of what each example illustrates. No rule or field requirement changed — this section is illustration, not specification; §1-§11 remain frozen at revision 7.
 
+> **Re-synced again (2026-09-25 repo sweep).** Examples A, B, D and E now mirror source-verified corrections to WG01-EV-001 (study count 12; 13-study participant/event totals no longer attributed to this estimate), WG01-EV-005 ("24% reduction"; derivation wording), WG01-EV-011 (events/N from Table C:2) and WG01-EV-018 (GRADE from Table 2's own column); see the dated notes on those records in `corpus/stage3_evidence_records/WG-01.md`. No rule changed.
+
 **A — clean, `SOURCE_REPORTED`, pooled shape:**
 
 ```
@@ -885,8 +896,12 @@ study_classification: { study_design: cohort, synthesis_design: meta_analysis,
 numerical_provenance:
   estimate: 0.83
   CI: [0.78, 0.89]
-  raw_counts_pooled: { contributing_study_count: 13,
-    combined_n_participants: 912293, combined_n_events: 106112,
+  raw_counts_pooled: { contributing_study_count: 12,
+    combined_n_participants: "NOT_REPORTED (912,293 is stated for the
+    13-study set that includes Wang [41], which Hu p.153 excludes from this
+    estimate)",
+    combined_n_events: "NOT_REPORTED (106,112 is stated for the same
+    13-study set, not this 12-study estimate)",
     person_time: "NOT_REPORTED", follow_up_duration: "NOT_REPORTED (5.4-26y
     is the paper-wide range across ALL 68 studies/all outcomes, not
     confirmed mortality-specific -- corrected this pass; do not restate as
@@ -912,23 +927,24 @@ source_id: SRC-DGA-APP-4.4
 derived_from_source_id: SRC-REYNOLDS-2019
 field: "type 2 diabetes, per-30g/day whole-grain dose-response"
 study_classification: { study_design: cohort, synthesis_design: meta_analysis,
-  exposure: "whole grain intake, per 30g/day increment (DGA's doubling of
-  Reynolds' per-15g figure, WG01-EV-010)",
+  exposure: "whole grain intake, per 30g/day increment (DGA's per-30g
+  re-expression of Reynolds' per-15g figure, WG01-EV-010)",
   outcome: type 2 diabetes incidence, effect_measure: RR }
 numerical_provenance:
-  estimate: "24% lower risk"
+  estimate: "24% reduction"
   CI: "NOT_REPORTED"
   raw_counts_pooled: { contributing_study_count: "NOT_REPORTED",
     combined_n_participants: "NOT_REPORTED", combined_n_events: "NOT_REPORTED",
     person_time: "NOT_REPORTED", follow_up_duration: "NOT_REPORTED" }
 extraction_status: SOURCE_DERIVED
-derivation_description: "The DGA appendix reports '24% lower risk' per
-  30g/day. The DGA discloses that this comes from doubling Reynolds' own
-  per-15g figure under a stated linearity assumption: (1 - 0.88) x 2 = 24%.
-  This pipeline verified that disclosed arithmetic against Reynolds' own
-  reported RR (WG01-EV-010) and confirmed it reproduces; the pipeline did
-  not perform or originate a calculation of its own -- the 24% figure is
-  the DGA's, not this pipeline's."
+derivation_description: "The DGA appendix (p.173) reports a '24% reduction
+  in type 2 diabetes' per 30g/day and says only that Reynolds' per-15g result
+  (WG01-EV-010) was re-expressed per 30g because the association was
+  linear; it does not show its arithmetic. The 24% matches doubling the
+  percent reduction ((1 - 0.88) x 2 = 24%); rescaling Reynolds' RR instead
+  (0.88^2 = 0.774) gives ~23% (22.6%), so the DGA's 24% slightly overstates
+  the per-30g effect. The 24% figure is the DGA's, not this pipeline's;
+  the arithmetic here is a consistency check, not an extracted value."
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: CITED_DIRECTLY }
@@ -976,7 +992,7 @@ numerical_provenance:
   estimate: 0.87
   CI: [0.79, 0.96]
   raw_counts_pooled: { contributing_study_count: 7,
-    combined_n_participants: "NOT_REPORTED", combined_n_events: "NOT_REPORTED",
+    combined_n_participants: 710363, combined_n_events: 8803,
     person_time: "6.8 million person-years",
     follow_up_duration: "9.5 years (average)" }
 extraction_status: SOURCE_REPORTED
@@ -987,7 +1003,8 @@ quality_signals: [{ signal_type: GRADE, value: "Moderate",
   source_location: "Table C:2, p.49" }]
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: CITED_DIRECTLY }
 source_location: { document: Reynolds2019_SupplementaryAppendix.md,
-  table_or_figure: "Table C:1", page: 35 }
+  table_or_figure: "Table C:1 p.35 (RR, CI, study count); Table C:2 p.49
+  (person-years, follow-up, events/N '8803/710363')", page: 35 }
 ```
 
 **E — `raw_counts_by_group` shape, a meta-analysis of RCTs reporting
@@ -1014,12 +1031,12 @@ numerical_provenance:
 extraction_status: SOURCE_REPORTED
 provenance_tier: T1
 pipeline_stage: STAGE3_EXTRACTED
-quality_signals: [{ signal_type: GRADE, value: "Moderate (paper states
-  bodyweight/cholesterol/blood-pressure evidence in this table is
-  \"downgraded to moderate because of unexplained heterogeneity\", p.441;
-  no more granular per-endpoint GRADE label is given in the main text)",
-  attributed_to: "Reynolds 2019, p.441", provenance_tier: T1,
-  source_location: p.441 }]
+quality_signals: [{ signal_type: GRADE, value: "Moderate (Table 2's own
+  GRADE column, bodyweight row; the text at p.441 adds that
+  bodyweight/cholesterol/blood-pressure evidence is \"downgraded to moderate because
+  of unexplained heterogeneity\")",
+  attributed_to: "Reynolds 2019 Table 2 GRADE column", provenance_tier: T1,
+  source_location: "Table 2, p.438" }]
 evidence_role: { role: DIFFERENCE_MAKING, recommendation_citation: NOT_CITED }
 source_location: { document: Reynolds2019_CarbQuality_Lancet.pdf,
   table_or_figure: "Table 2 (data table); Figure 4B is the companion forest

@@ -32,7 +32,7 @@ RWT sits alongside a supporting appraisal apparatus — GRADE, the Bradford Hill
 criteria, the Cochrane risk-of-bias tools (RoB 2, ROBINS-I), STROBE, the E-value,
 and quantitative bias analysis (QBA), with ROBIS / AMSTAR-2 / CONSORT used where
 design-specific evaluation is warranted. See `paper/02-methodology.md` and
-`docs/agent-context-pack.md` §2–3 for the full treatment.
+`src/README.md` for the full treatment.
 
 ## Provenance-tier discipline (non-negotiable)
 
@@ -66,7 +66,7 @@ independently:
 ```
 .
 ├── README.md                     ← you are here
-├── STATUS.md                     ← current state + open decisions (mirrors the task ledger)
+├── STATUS.md                     ← current state + open decisions (local only — gitignored)
 ├── paper/                        ← the manuscript
 │   ├── 01-introduction-and-background.md
 │   ├── 02-methodology.md         (RWT-as-operationalizing-lens; LLM calibration)
@@ -74,11 +74,11 @@ independently:
 │   ├── outline-and-timeline.md       (gitignored — internal planning doc)
 │   └── sources/
 │       └── methodology-proposal-gpt-archive.md   (recovered supervisor proposal)
-├── docs/                         ← project briefing / onboarding
+├── docs/                         ← project briefing / onboarding (local only — gitignored)
 │   ├── agent-context-pack.md     (full standalone briefing — read first)
 │   ├── handoff-current-state.md
 │   └── task-ledger-snapshot.md   (static export of the live ledger)
-├── src/                          ← the six-stage pipeline (code stubs — see src/README.md)
+├── src/                          ← the six-stage pipeline (stubs, except the Stage 3 validator — see src/README.md)
 │   ├── README.md
 │   ├── stage1_organization_and_claim_selection.py
 │   ├── stage2_reference_acquirer.py
@@ -87,10 +87,12 @@ independently:
 │   ├── stage5_statistical_evaluation.py   (form undetermined — open)
 │   ├── stage6_gap_identification.py
 │   ├── prompts/                  (calibration + live-analysis prompt templates)
+│   ├── schema/evidence-record.md (Stage 3 EvidenceRecord schema; §1–§11 frozen at revision 7)
 │   └── requirements.txt
 ├── corpus/
 │   ├── dga/appendices.md         (DGA appendices — US federal work, public domain)
-│   ├── claim-inventory.md        (WG-01 entry complete; remaining food groups open)
+│   ├── claim-inventory.md        (WG-01 deep entry [T1]; first-pass [T2]/[STRUCTURE] entries for 5 more food groups — 4.1, 4.2, 4.6/4.7, 4.9, 4.10)
+│   ├── stage3_evidence_records/WG-01.md   (28 validated EvidenceRecords)
 │   ├── reference-library/        (methodology PDFs — gitignored; see its README)
 │   └── primary_studies/          (primary-study PDFs backing claim effect estimates — gitignored; see its README)
 └── notes/                        ← raw working notes the drafts were built from
@@ -99,11 +101,11 @@ independently:
 ## A note on the code
 
 The pipeline scripts under `src/` are **structured stubs**, not the working
-implementation. The live code lives in the local development environment; drop it
+implementation — except `stage3_evidence_hierarchy.py`, which is a working
+validator for the Stage 3 EvidenceRecord schema (`src/schema/evidence-record.md`). The live code lives in the local development environment; drop it
 into the matching stage files, keeping the six-stage boundaries and the provenance
 control intact. `src/README.md` describes what each stage is responsible for and
-which stages are still methodologically open (stage 2 collection mode; stage 5
-statistical evaluation).
+which stage is still methodologically open (stage 5, statistical evaluation).
 
 ## A note on the corpus
 
@@ -117,6 +119,5 @@ private and want the PDFs tracked, remove the matching line from `.gitignore`.
 
 ## Where to start
 
-New here? Read `docs/agent-context-pack.md` first — it is the complete standalone
-briefing (scope, framework, pipeline, findings so far, open questions). Then
-`STATUS.md` for what is and isn't done.
+New here? Read `paper/02-methodology.md` for the framework and pipeline, then
+`src/README.md` for what each stage does and which parts are still open.

@@ -1,13 +1,14 @@
 # Pipeline
 
-The audit runs as six stages. The files here are **structured stubs**: each marks
+The audit runs as six stages. Stages 1, 2, 4, 5 and 6 are **structured stubs**; Stage 3
+is a working validator for the EvidenceRecord schema (`schema/evidence-record.md`,
+§1–§11 frozen at revision 7). Each stub marks
 the boundary and responsibility of a stage so the working code can be dropped in
 without losing the stage separation or the provenance control that runs across all
-of them. Two stages are still methodologically open (noted below) and should not
-be treated as settled.
+of them. One stage (stage 5) is still methodologically open (noted below) and
+should not be treated as settled.
 
-For the authoritative description, see `docs/agent-context-pack.md` §3 and
-`paper/02-methodology.md`.
+For the authoritative description, see `paper/02-methodology.md`.
 
 ## Stages
 
@@ -22,12 +23,15 @@ For the authoritative description, see `docs/agent-context-pack.md` §3 and
 2. **`stage2_reference_acquirer.py` — Reference and sub-reference collection.**
    Collects the references supporting each claim, and their references
    ("sub-references"), storing them as Markdown in an organized corpus.
-   **Open:** whether collection is code-only, LLM-assisted, or both is undetermined.
+   Collection runs on a custom script and LLM assistance in combination
+   (resolved 2026-09-17).
 
 3. **`stage3_evidence_hierarchy.py` — Evidence hierarchy / chain of authority.**
-   An LLM (custom prompt) reconstructs which evidence types a claim relies on
+   The stage's mission is to reconstruct which evidence types a claim relies on
    (clinical trial, mechanism, meta-analysis, expert opinion, systematic review)
-   and to what severity.
+   and to what severity. The module itself is not an LLM call: it parses the
+   EvidenceRecords in `corpus/stage3_evidence_records/`, validates each against
+   `schema/evidence-record.md`, and groups them by claim.
 
 4. **`stage4_framework_appraisal.py` — Framework appraisal.** Sub-references are
    evaluated for their contribution to the primary references using GRADE,

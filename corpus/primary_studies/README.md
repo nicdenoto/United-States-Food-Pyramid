@@ -4,7 +4,9 @@ Full-text copies of the primary meta-analyses/systematic reviews that
 back-end appendix sections cite for specific outcome estimates. Like
 `corpus/reference-library/`, these are copyrighted published papers: present
 locally for extraction and verification, but **gitignored** and not
-committed (see `corpus/primary_studies/*.pdf` in the root `.gitignore`).
+committed (see `corpus/primary_studies/*.pdf` and the explicit
+`corpus/primary_studies/Reynolds2019_SupplementaryAppendix.md` line in the root
+`.gitignore`; corrected 2026-09-25 repo sweep, previously named only the `*.pdf` line).
 
 This directory exists separately from `corpus/reference-library/` on
 purpose: the reference library is the methodology/framework toolkit (RWT,

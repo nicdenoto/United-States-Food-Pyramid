@@ -198,7 +198,7 @@ def _present(record: dict, key: str) -> bool:
 
 
 def validate_record(record: dict, known_source_ids: Optional[set] = None) -> list:
-    """Validate a single parsed EvidenceRecord against schema rev-5. Returns a
+    """Validate a single parsed EvidenceRecord against schema rev-7. Returns a
     list of Findings; an empty list means no issues at any severity."""
     eid = record.get("evidence_id", "<missing evidence_id>")
     findings: list = []
@@ -311,7 +311,7 @@ def validate_record(record: dict, known_source_ids: Optional[set] = None) -> lis
         flag("shape", f"role={role} carries recommendation_citation, not required "
                        f"or expected for this role", severity="note")
 
-    # --- rules 9 (partial), 10, 11: raw-count shape ---
+    # --- rules 10, 11: raw-count shape (rule 9 is not checked -- see docstring) ---
     numerical_provenance = record.get("numerical_provenance")
     if record_type == "QUANTITATIVE" and isinstance(numerical_provenance, dict):
         present_shapes = [s for s in RAW_COUNT_SHAPES if s in numerical_provenance]
@@ -348,11 +348,15 @@ def validate_record(record: dict, known_source_ids: Optional[set] = None) -> lis
         # Rule 9 (no reconstructed raw counts) needs the primary source to check
         # against and is not evaluated here -- see module docstring.
 
-    elif record_type == "QUANTITATIVE" and status == "NOT_REPORTED":
-        estimate = (numerical_provenance or {}).get("estimate") if isinstance(numerical_provenance, dict) else None
-        if estimate != "NOT_REPORTED":
-            flag("shape", f"NOT_REPORTED record's numerical_provenance.estimate is "
-                           f"'{estimate}', expected the literal string 'NOT_REPORTED'")
+        # NOT_REPORTED QUANTITATIVE records state no value, so estimate must be
+        # the literal "NOT_REPORTED" (S11 rule 10). A missing numerical_provenance
+        # is already reported by the S1 shape check above, so only check here
+        # when the block exists.
+        if status == "NOT_REPORTED":
+            estimate = numerical_provenance.get("estimate")
+            if estimate != "NOT_REPORTED":
+                flag("shape", f"NOT_REPORTED record's numerical_provenance.estimate is "
+                               f"'{estimate}', expected the literal string 'NOT_REPORTED'")
 
     # --- rule 12: no analytical-instruction keys in numerical_provenance ---
     if isinstance(numerical_provenance, dict):
@@ -375,7 +379,7 @@ def validate_record(record: dict, known_source_ids: Optional[set] = None) -> lis
 
 def build_evidence_hierarchy(*paths: str) -> EvidenceHierarchy:
     """Parse one or more corpus markdown files of EvidenceRecords, validate every
-    record against the Stage 3 schema (src/schema/evidence-record.md, rev-5),
+    record against the Stage 3 schema (src/schema/evidence-record.md, rev-7),
     and group the result by claim_id -- the claim-level view the schema doc
     itself motivates in section 7:
 

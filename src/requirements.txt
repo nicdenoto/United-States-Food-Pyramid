@@ -4,3 +4,4 @@
 # beautifulsoup4
 # anthropic
 # pandas
+pyyaml>=6.0   # required by stage3_evidence_hierarchy.py

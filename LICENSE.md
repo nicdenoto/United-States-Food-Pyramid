@@ -5,8 +5,8 @@ no reuse rights are granted.
 
 Note that the contents have mixed provenance:
 - `corpus/dga/` — U.S. federal government work, public domain.
-- `corpus/reference-library/` — third-party copyrighted papers (gitignored, not
-  redistributed).
+- `corpus/reference-library/` and `corpus/primary_studies/` — third-party
+  copyrighted papers (gitignored, not redistributed).
 - Everything else — the project's own work.
 
 Pick a license (or keep it private/all-rights-reserved) before publishing.
