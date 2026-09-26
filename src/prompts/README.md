@@ -32,7 +32,8 @@ per chat.
 | File | Framework | Status | Used in | Approved | Notes |
 |---|---|---|---|---|---|
 | `evalue_calibration_v1.md` | E-value | Superseded | `EvalueApplication1` (2026-09-25/26) | 2026-09-24 | Did not pass Gate 1: 5 / 1 / 2 Partials across Chats A–C, 0 Mismatches, 0 numeric errors. |
-| `evalue_calibration_v2.md` | E-value | Current | `EvalueApplication2` (in progress) | 2026-09-26 | Changes from v1: compute point and CI E-values for every estimate and shift; reproduce any derivation the source shows; final consistency check; state the conservatism point precisely; label claims not drawn from the source. |
+| `evalue_calibration_v2.md` | E-value | Superseded | `EvalueApplication2` (2026-09-26) | 2026-09-26 | Changes from v1: compute point and CI E-values for every estimate and shift; reproduce any derivation the source shows; final consistency check; state the conservatism point precisely; label claims not drawn from the source. Did not pass Gate 1: 2 / 1 / 1 Partials across Chats A–C, 0 Mismatches, 0 numeric errors. |
+| `evalue_calibration_v3.md` | E-value | Current | `EvalueApplication3` (next) | 2026-09-26 | No rules removed. The closing consistency check becomes a four-item checklist: point and CI E-values for every estimate and shift, including CI = 1; tables match the body; every quotation checked word for word, as one passage, on the cited page; no "the source says" before the model's own judgment. Also adds a page-citation rule, and says to write the filled-in Step 4 template without quotation marks. |
 
 E-value is the prototype. The GRADE, Bradford Hill and QBA prompts are written only
 after the E-value calibration has been run all the way through.
