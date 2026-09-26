@@ -5,6 +5,12 @@ only entry taken through the full deep pipeline (Stages 1-3, primary-source
 verified, [T1] throughout) — it is "Trial 0," the foundation claim the rest
 of the pipeline is being built and calibrated against.
 
+**Authority (2026-09-26):** for WG-01, the authoritative record is the set of
+28 validated EvidenceRecords in `corpus/stage3_evidence_records/WG-01.md`.
+Where this file and that one disagree on a WG-01 value, that file wins. The
+WG-01 entry below remains as the narrative account, including how each
+correction was found.
+
 The five entries below (RC-01, AS-01, SF-01, PR-01, PM-01) are a first-pass
 catalog only, authorized 2026-09-17, covering appendix sections 4.1, 4.2,
 4.6/4.7, 4.9, and 4.10. They are built from the appendix text alone — no
@@ -90,14 +96,19 @@ linearity. Reynolds' own text (independently confirmed [T1]) reports, per
 cancer and RR 0.88 (95% CI 0.81–0.95) for T2D. The harmonization method is
 precisely reconstructable: the appendix doubled the *percent reduction*, not
 the RR itself — (1 − 0.97) × 2 = 6% for CRC, (1 − 0.88) × 2 = 24% for T2D —
-both match the appendix's reported 30 g/day figures exactly. This is a
-disclosed harmonization, not an independent re-derivation, and case-analysis
-prose should describe it this way rather than as a doubled RR.
+both match the appendix's reported 30 g/day figures exactly. The appendix
+states only the linearity assumption, not this arithmetic, so the doubling is
+our reconstruction rather than a disclosed formula. Rescaling the RR instead
+(0.88² = 0.774) would give ~23%, so the DGA's 24% slightly overstates the T2D
+figure (corrected 2026-09-26 staleness sweep). Case-analysis prose should
+describe it this way rather than as a doubled RR.
 
-No serving-to-gram conversion for the "2–4 servings/day" target exists
-anywhere in the appendix, the front-end report, or any of the three primary
-sources — confirmed absent this pass across all five documents, not merely
-unfound.
+No gram conversion of the DGA's own "2–4 servings/day" target exists in
+either DGA document (the front-end report or Appendix 4.4). The three primary
+sources each use 1 serving = 30 g as their own convention (Hu p.150,
+Reynolds p.436, Schlesinger Suppl. Table 4 p.27), but none of them converts
+the DGA's target (corrected 2026-09-26 staleness sweep; the earlier "absent
+in all five documents" wording was wrong).
 
 **Provenance signal (funding/COI), primary-source level** [T1]: Hu et al.
 2023 report no conflict of interest and public funding only (National Natural
@@ -346,12 +357,12 @@ log below) — the local-archive housekeeping gap is closed.
 evidence tier; WG-01's five GRADE-rated outcomes all remain [T1]):**
 
 - *Serving-to-gram conversion* — `value_status: NOT_REPORTED`, terminal.
-  Confirmed absent by direct read of all five sources (front-end report,
-  DGA appendix 4.4, Hu, Reynolds, Schlesinger) — this is not a search
-  failure or an acquisition gap, it is a fact about the literature: no
-  source anywhere converts the "2–4 servings/day" target to a gram figure.
-  Nothing further to chase; case-analysis prose should treat this as a
-  genuine reporting gap in the evidence base itself.
+  Confirmed absent in both DGA documents (front-end report, Appendix 4.4).
+  The three primary studies (Hu, Reynolds, Schlesinger) each state
+  1 serving = 30 g as their own convention, but none converts the DGA's
+  target. Nothing further to chase; case-analysis prose should treat this as
+  a reporting gap in the guidance itself, not in the literature (corrected
+  2026-09-26 staleness sweep).
 - *Per-study covariate/adjustment-factor detail* — status corrected this
   pass; the previous entry overstated how much of this was still missing.
   **Reynolds:** checked directly against his own wholegrain appendix
@@ -429,8 +440,9 @@ mischaracterized above as unobtained) and its sample size / case count —
 
 Not folded into the five-outcome GRADE table above (that stays at the
 pooled level per the appendix's own reporting), but now available at the
-per-study level for whenever the Stage 3 retrofit builds individual
-`EvidenceRecord`s under the pooled Schlesinger estimate.
+per-study level. (Update 2026-09-26: the Stage 3 retrofit filed two of these
+as WG01-EV-025/026; the other four were intentionally not written out, see
+`corpus/stage3_evidence_records/WG-01.md` §1.7.)
 
 **Acquisition-attempt log, this pass (2026-09-14) — everything below was
 chased and confirmed still blocked, not left unfound; one item (Reynolds'

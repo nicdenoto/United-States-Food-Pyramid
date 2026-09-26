@@ -34,6 +34,13 @@ and quantitative bias analysis (QBA), with ROBIS / AMSTAR-2 / CONSORT used where
 design-specific evaluation is warranted. See `paper/02-methodology.md` and
 `src/README.md` for the full treatment.
 
+Four of these frameworks — GRADE, the Bradford Hill criteria, the E-value and
+QBA — are applied by an LLM that is first calibrated against published
+gold-standard examples (see "LLM calibration" in `paper/02-methodology.md`).
+Calibration runs one framework at a time. The E-value is the prototype and is in
+progress; the other three follow once it has been run all the way through. The
+prompts under test are versioned in `src/prompts/`.
+
 ## Provenance-tier discipline (non-negotiable)
 
 Every factual claim in this project is tagged by how it is known. The tiers are
@@ -86,13 +93,13 @@ independently:
 │   ├── stage4_framework_appraisal.py
 │   ├── stage5_statistical_evaluation.py   (form undetermined — open)
 │   ├── stage6_gap_identification.py
-│   ├── prompts/                  (calibration + live-analysis prompt templates)
+│   ├── prompts/                  (versioned calibration + live-analysis prompts; E-value v1, v2 — see its README)
 │   ├── schema/evidence-record.md (Stage 3 EvidenceRecord schema; §1–§11 frozen at revision 7)
 │   └── requirements.txt
 ├── corpus/
 │   ├── dga/appendices.md         (DGA appendices — US federal work, public domain)
-│   ├── claim-inventory.md        (WG-01 deep entry [T1]; first-pass [T2]/[STRUCTURE] entries for 5 more food groups — 4.1, 4.2, 4.6/4.7, 4.9, 4.10)
-│   ├── stage3_evidence_records/WG-01.md   (28 validated EvidenceRecords)
+│   ├── claim-inventory.md        (WG-01 narrative entry [T1]; first-pass [T2]/[STRUCTURE] entries for 5 more food groups — 4.1, 4.2, 4.6/4.7, 4.9, 4.10)
+│   ├── stage3_evidence_records/WG-01.md   (28 validated EvidenceRecords — the authoritative WG-01 record)
 │   ├── reference-library/        (methodology PDFs — gitignored; see its README)
 │   └── primary_studies/          (primary-study PDFs backing claim effect estimates — gitignored; see its README)
 └── notes/                        ← raw working notes the drafts were built from

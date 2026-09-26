@@ -34,10 +34,14 @@ For the authoritative description, see `paper/02-methodology.md`.
    `schema/evidence-record.md`, and groups them by claim.
 
 4. **`stage4_framework_appraisal.py` — Framework appraisal.** Sub-references are
-   evaluated for their contribution to the primary references using GRADE,
-   Cochrane, STROBE, Bradford Hill, E-value, and QBA. The LLM is anchored on
-   gold-standard worked examples of each framework before its judgments on the live
-   corpus are trusted (see "LLM calibration" in the Methodology).
+   evaluated for their contribution to the primary references. The LLM applies four
+   calibrated frameworks — GRADE, the Bradford Hill criteria, the E-value and QBA —
+   and is anchored on gold-standard worked examples of each before its judgments on
+   the live corpus are trusted (see "LLM calibration" in the Methodology). The
+   design-specific instruments (the Cochrane risk-of-bias tools, STROBE, ROBIS,
+   AMSTAR-2, CONSORT) are supporting apparatus and are not calibrated this way.
+   Calibration status: the E-value is the prototype and is in progress; the other
+   three follow once it is complete.
 
 5. **`stage5_statistical_evaluation.py` — Statistical evaluation.** A statistical
    system applied across the stored references/sub-references. **Fully open:** its
@@ -60,6 +64,7 @@ disclosed financial ties that co-vary with a recommendation's direction.
 
 ## Prompts
 
-Calibration and live-analysis prompt templates belong in `prompts/`. They are part
-of what must be versioned for replicability (alongside the calibration set and the
-model identifier/version).
+Calibration and live-analysis prompts live in `prompts/`, one file per version,
+with a version log in `prompts/README.md` (currently E-value v1 and v2). They are
+part of what must be versioned for replicability (alongside the calibration set and
+the model identifier/version).

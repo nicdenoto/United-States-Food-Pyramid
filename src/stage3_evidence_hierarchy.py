@@ -49,7 +49,7 @@ NOT machine-checkable from corpus markdown alone, and deliberately not
 implemented as a check (asserting a pass here would be a false rigor):
   - Rule 8  (AppraisalRecord referencing only real evidence_ids) -- applies to a
              different record type that doesn't exist in this corpus yet
-             (Stage 4 hasn't run). Nothing to validate until analysis/ has
+             (Stage 4 has not yet appraised the corpus; framework calibration is in progress). Nothing to validate until analysis/ has
              AppraisalRecords.
   - Rule 9  (a raw count is never reconstructed from other reported values) --
              requires comparing against the primary PDF/table, which is exactly
