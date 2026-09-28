@@ -2,7 +2,8 @@
 Usage: python3 verify_quotes.py OUTPUT.md SOURCE.pdf [--first-page N]
 1. Extracts every quoted string of 4+ words from the model's output.
 2. Matches each against the source text, page by page (whitespace, hyphenation,
-   typography and case normalised), and reports the page where it was found.
+   typography and case normalised), and reports the page where it was found; a quote
+   that runs across a page break is matched against the two pages joined (reported as N-N+1).
 3. For non-exact matches, shows the closest source passage and similarity.
 4. Flags attribution phrases for the scorer's human review (EP-b).
 Page numbers are PDF page index + first-page offset (use the journal's first printed page)."""
@@ -24,8 +25,13 @@ ATTR = r"the (source|paper|authors?)( itself)? (says|notes|emphasi[sz]es|treats|
 def main(out_path, pdf, first=1):
     text = open(out_path).read()
     P = [norm(p) for p in pages_of(pdf)]
+    # Each page joined to the next, with the trailing printed page number removed,
+    # so a quote that runs across a page break can still be found.
+    J = [re.sub(r"\d+$", "", P[i]) + P[i + 1] for i in range(len(P) - 1)]
     prose = re.sub(r"```.*?```", "", text, flags=re.S)
-    quotes = re.findall(r'“([^”\n]{15,}?)”|"([^"\n]{15,}?)"', prose)
+    # Match every quoted string first, then filter by length: a length floor inside the
+    # regex lets a short quote throw the open/close pairing out of step.
+    quotes = re.findall(r'“([^”\n]+?)”|"([^"\n]+?)"', prose)
     quotes = [a or b for a, b in quotes]
     quotes = [q for q in quotes if len(q.split()) >= 4]
     print(f"{len(quotes)} quoted strings of 4+ words\n")
@@ -34,9 +40,12 @@ def main(out_path, pdf, first=1):
         found = []
         for part in parts:
             n = norm(part.strip(" .,;[]"))
-            found.append([i + first for i, p in enumerate(P) if n in p])
+            hit = [i + first for i, p in enumerate(P) if n in p]
+            if not hit:
+                hit = [f"{i + first}-{i + first + 1}" for i, p in enumerate(J) if n in p]
+            found.append(hit)
         if all(found):
-            print(f"OK   p.{sorted(set(sum(found, [])))}  {q[:80]}")
+            print(f"OK   p.{sorted(set(map(str, sum(found, []))))}  {q[:80]}")
             continue
         n = norm(q)
         best = (0, 0, 0)

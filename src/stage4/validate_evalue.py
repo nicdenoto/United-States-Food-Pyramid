@@ -39,6 +39,13 @@ def matches(r, k):
 def main(out_path, key_path):
     text = open(out_path).read()
     entries, key = parse_table(text), json.load(open(key_path))
+    for e in entries:
+        # v5 tables: an RD entry whose "target" is explicitly anything other than the null
+        # (including null/None, used by some runs for an RD-scale target) is a non-null shift,
+        # as the v5 calculator treated it.
+        if e.get("measure") == "RD" and "rd_targets" not in e and "target" in e \
+                and e["target"] not in (1, 1.0):
+            e["rd_targets"] = [e["target"] if e["target"] is not None else "unspecified"]
     table = [ln for e in entries for ln in expand(e)]
     print(f"Entries in model table: {len(entries)}; lines after expanding targets: "
           f"{len(table)}; rows in key: {len(key)}\n")
@@ -73,12 +80,23 @@ def main(out_path, key_path):
             continue
         r = hit[0]
         issues = []
+        # The source sometimes shifts the estimate and a CI limit in separate steps. If the
+        # estimate line has no limits but a limit-only line with the same target supplies one
+        # of the key's limits, the CI E-value has been computed: accept it and say so.
+        lim_rows = [x for x in table if x.get("est") is None and x.get("measure") == k["measure"]
+                    and close(x.get("target", 1.0), k["target"])]
+        via_limit = (r.get("lo") is None and r.get("hi") is None and
+                     any(close(x.get("lo"), k.get("lo")) or close(x.get("hi"), k.get("hi"))
+                         for x in lim_rows))
         for f in ("lo", "hi", "se"):
             if f in k and k[f] is not None and not close(r.get(f), k[f]):
+                if via_limit and f in ("lo", "hi"):
+                    continue
                 issues.append(f"{f}={r.get(f)} (key {k[f]})")
         if "common" in k and r.get("common") is not None and bool(r["common"]) != k["common"]:
             issues.append(f'path: common={r["common"]} (key {k["common"]})')
-        print(f'{"OK   " if not issues else "CHECK"} {k["id"]} -> line "{r.get("line_id")}" {"; ".join(issues)}')
+        tag = " (CI via limit-only line)" if via_limit else ""
+        print(f'{"OK   " if not issues else "CHECK"} {k["id"]} -> line "{r.get("line_id")}"{tag} {"; ".join(issues)}')
     print("\n== Numbers in text that look like E-values but aren't computed ==")
     vals = [v for o in computed for v in (o.get("E_point"), o.get("E_ci")) if isinstance(v, float)]
     body = re.sub(r"```.*?```", "", text, flags=re.S)
