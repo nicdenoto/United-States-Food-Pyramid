@@ -65,6 +65,7 @@ disclosed financial ties that co-vary with a recommendation's direction.
 ## Prompts
 
 Calibration and live-analysis prompts live in `prompts/`, one file per version,
-with a version log in `prompts/README.md`. The Stage 4 verification layer (calculator, validator, quote verifier) is in `stage4/`; see its README. They are
+with a version log in `prompts/README.md`. They are
 part of what must be versioned for replicability (alongside the calibration set and
-the model identifier/version).
+the model identifier/version). The Stage 4 verification layer (calculator, validator,
+quote verifier) is in `stage4/`; see its README.
