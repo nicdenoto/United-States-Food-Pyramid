@@ -69,5 +69,12 @@ dup = duplicates([dict(id="a", measure="RR", est=0.8, lo=0.71, hi=0.91, targets=
 ok = dup == [("a", "b")]
 fails += not ok
 print(("PASS" if ok else "FAIL"), "duplicate estimate flagged", dup)
-n = len(cases) + len(expansions) + 1
+# v7: two different studies with the same point estimate but different CIs
+# (VanderWeele, Ding & Mathur 2019, Section 3) must not be flagged.
+dup2 = duplicates([dict(id="Study 1", measure="RR", est=1.18, lo=1.04, hi=1.33, targets=[1]),
+                   dict(id="Study 2", measure="RR", est=1.18, lo=1.12, hi=1.24, targets=[1])])
+ok = dup2 == []
+fails += not ok
+print(("PASS" if ok else "FAIL"), "same estimate, different CIs not flagged", dup2)
+n = len(cases) + len(expansions) + 2
 print(f"{n-fails}/{n} passed")

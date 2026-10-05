@@ -82,16 +82,21 @@ def expand(entry):
             for t in tl]
 
 def duplicates(table):
-    """Estimates entered more than once (a shift belongs in the targets list)."""
-    seen, dup = {}, []
-    for e in table:
-        if e.get("est") is None:
+    """Estimates entered more than once (a shift belongs in the targets list).
+    Two entries count as the same estimate if they share the measure and point
+    estimate and either report the same limits or one of them has no limits.
+    Different studies that happen to share a point estimate but report
+    different intervals are not flagged."""
+    dup = []
+    for i, a in enumerate(table):
+        if a.get("est") is None:
             continue
-        k = (e.get("measure"), e.get("est"), e.get("p1"), e.get("p0"))
-        if k in seen:
-            dup.append((seen[k], e.get("id")))
-        else:
-            seen[k] = e.get("id")
+        for b in table[i + 1:]:
+            if any(a.get(k) != b.get(k) for k in ("measure", "est", "p1", "p0")):
+                continue
+            la, lb = (a.get("lo"), a.get("hi")), (b.get("lo"), b.get("hi"))
+            if la == lb or la == (None, None) or lb == (None, None):
+                dup.append((a.get("id"), b.get("id")))
     return dup
 
 def run_table(table):

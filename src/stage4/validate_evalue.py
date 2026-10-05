@@ -39,6 +39,15 @@ def matches(r, k):
 def main(out_path, key_path):
     text = open(out_path).read()
     entries, key = parse_table(text), json.load(open(key_path))
+    # Some runs write a numeric input as plain arithmetic (e.g. "397/(397+78557)").
+    # Evaluate those so the row can be checked, and list them for the scorer.
+    arith = re.compile(r"^[0-9.\s+\-*/()eE]+$")
+    for e in entries:
+        for f in ("est", "lo", "hi", "se", "p1", "p0", "target"):
+            v = e.get(f)
+            if isinstance(v, str) and arith.match(v):
+                e[f] = eval(v, {"__builtins__": {}})
+                print(f'NOTE: "{e.get("id")}" field {f} given as arithmetic "{v}" -> {e[f]:.7g}')
     for e in entries:
         # v5 tables: an RD entry whose "target" is explicitly anything other than the null
         # (including null/None, used by some runs for an RD-scale target) is a non-null shift,
@@ -78,7 +87,11 @@ def main(out_path, key_path):
         if not hit:
             print(f'MISSING ROW: {k["id"]}  (measure {k["measure"]}, target {k["target"]})')
             continue
-        r = hit[0]
+        # Several lines can share a measure, estimate and target (e.g. two studies with
+        # RR 1.18): use the one whose limits match the key best.
+        def fit(x):
+            return sum(close(x.get(f), k[f]) for f in ("lo", "hi", "se") if k.get(f) is not None)
+        r = max(hit, key=fit)
         issues = []
         # The source sometimes shifts the estimate and a CI limit in separate steps. If the
         # estimate line has no limits but a limit-only line with the same target supplies one

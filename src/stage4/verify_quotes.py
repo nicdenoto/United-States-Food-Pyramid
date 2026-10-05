@@ -1,7 +1,7 @@
 """Operator-side quote verifier.
 Usage: python3 verify_quotes.py OUTPUT.md SOURCE.pdf [--first-page N]
 1. Extracts every quoted string of 4+ words from the model's output.
-2. Matches each against the source text, page by page (whitespace, hyphenation,
+2. Matches each against the source text, page by page (whitespace, line-end hyphenation,
    typography and case normalised), and reports the page where it was found; a quote
    that runs across a page break is matched against the two pages joined (reported as N-N+1).
 3. For non-exact matches, shows the closest source passage and similarity.
@@ -9,11 +9,11 @@ Usage: python3 verify_quotes.py OUTPUT.md SOURCE.pdf [--first-page N]
 Page numbers are PDF page index + first-page offset (use the journal's first printed page)."""
 import re, sys, subprocess, difflib
 
-def norm(s):
+def norm(s, dehyph=False):
     for a, b in [("–", "-"), ("—", "-"), ("−", "-"), ("’", "'"), ("‘", "'"),
                  ("“", '"'), ("”", '"'), ("ﬁ", "fi"), ("ﬂ", "fl"), ("×", "x")]:
         s = s.replace(a, b)
-    s = re.sub(r"-\s*\n\s*", "-", s)
+    s = re.sub(r"-\s*\n\s*", "" if dehyph else "-", s)
     return re.sub(r"[\s_]+", "", s).lower()
 
 def pages_of(pdf):
@@ -24,7 +24,11 @@ ATTR = r"the (source|paper|authors?)( itself)? (says|notes|emphasi[sz]es|treats|
 
 def main(out_path, pdf, first=1):
     text = open(out_path).read()
-    P = [norm(p) for p in pages_of(pdf)]
+    raw = pages_of(pdf)
+    P = [norm(p) for p in raw]
+    # Second copy with line-end hyphens removed, for words the typesetter split
+    # ("mea-sured"); the first copy keeps real hyphens that fall at a line end.
+    H = [norm(p, dehyph=True) for p in raw]
     # Each page joined to the next, with the trailing printed page number removed,
     # so a quote that runs across a page break can still be found.
     J = [re.sub(r"\d+$", "", P[i]) + P[i + 1] for i in range(len(P) - 1)]
@@ -40,7 +44,7 @@ def main(out_path, pdf, first=1):
         found = []
         for part in parts:
             n = norm(part.strip(" .,;[]"))
-            hit = [i + first for i, p in enumerate(P) if n in p]
+            hit = [i + first for i, p in enumerate(P) if n in p or n in H[i]]
             if not hit:
                 hit = [f"{i + first}-{i + first + 1}" for i, p in enumerate(J) if n in p]
             found.append(hit)
