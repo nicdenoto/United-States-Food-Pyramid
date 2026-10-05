@@ -39,5 +39,7 @@ per chat.
 | `evalue_calibration_v6.md` | E-value | Superseded before use | — (never run) | 2026-09-28 | Structural fix for the one defect that repeated in all five Chat A runs. Each estimate is entered once, with its confidence limits, and every shift goes in that entry's `targets` list (`rd_targets` for a risk difference), so a shift can no longer be entered without its interval. The prompt and the calculator's printout both state that a CI E-value of 1 is a result, not an artifact. The Step 3 wording, Part A field list and checklist item (a) change to match; no other rules change. Superseded before any run by v7: its duplicate-estimate warning would have told the model to merge two different studies that share a point estimate (VanderWeele, Ding & Mathur 2019, Section 3: RR 1.18 with different CIs), found while scoring Application5 Chat C run 1. |
 | `evalue_calibration_v7.md` | E-value | Next | `EvalueApplication6` | 2026-10-05 | v6 with one change to the embedded calculator: the duplicate-estimate warning now fires only when two entries share the measure and point estimate and either report the same limits or one has no limits, so different studies with the same point estimate are not flagged. The prompt text is otherwise identical to v6. |
 
+Unified diffs between consecutive versions are in `diffs/` (see `diffs/README.md`).
+
 E-value is the prototype. The GRADE, Bradford Hill and QBA prompts are written only
 after the E-value calibration has been run all the way through.
