@@ -18,7 +18,13 @@ def parse_table(text):
     m = re.search(r"```\s*evalue-table\s*\n(.*?)```", text, re.S)
     if not m:
         sys.exit("No evalue-table block found.")
-    return json.loads(m.group(1))
+    body = m.group(1).strip()
+    # Some runs paste the Python assignment ("TABLE = [...]") instead of bare JSON.
+    if re.match(r"^[A-Za-z_]\w*\s*=", body):
+        print("NOTE: table block written as a Python assignment; parsing the JSON after '='")
+        body = body.split("=", 1)[1].strip()
+    # Read the first JSON value only (a trailing "results = run_table(TABLE)" line is ignored).
+    return json.JSONDecoder().raw_decode(body)[0]
 
 def close(a, b, t=TOL_IN):
     return a is not None and b is not None and abs(float(a) - float(b)) <= t
@@ -96,8 +102,9 @@ def main(out_path, key_path):
         # The source sometimes shifts the estimate and a CI limit in separate steps. If the
         # estimate line has no limits but a limit-only line with the same target supplies one
         # of the key's limits, the CI E-value has been computed: accept it and say so.
-        lim_rows = [x for x in table if x.get("est") is None and x.get("measure") == k["measure"]
-                    and close(x.get("target", 1.0), k["target"])]
+        lim_rows = [] if k["measure"] == "RD" or isinstance(k["target"], str) else [
+            x for x in table if x.get("est") is None and x.get("measure") == k["measure"]
+            and close(x.get("target", 1.0), k["target"])]
         via_limit = (r.get("lo") is None and r.get("hi") is None and
                      any(close(x.get("lo"), k.get("lo")) or close(x.get("hi"), k.get("hi"))
                          for x in lim_rows))

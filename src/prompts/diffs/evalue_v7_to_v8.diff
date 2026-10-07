@@ -1,0 +1,35 @@
+--- src/prompts/evalue_calibration_v7.md	2026-10-05 02:15:02.170038815 +0000
++++ src/prompts/evalue_calibration_v8.md	2026-10-07 12:25:01.212069092 +0000
+@@ -18,11 +18,11 @@
+ 6. Where relevant, check: whether the source describes a single dominant confounder or a vector of several acting together (the E-value applies to the joint effect of a set of unmeasured confounders, and a set can more plausibly reach a given strength than any single variable), and whether there is any stated reason that the standard E-value calculation would be unusually conservative for this specific case. The standard E-value lets the confounder take whatever prevalence is most damaging, so it is conservative when a plausible confounder is known to be rare. A covariate the study failed to adjust for is a candidate unmeasured confounder; it does not make the E-value "conservative" or "anti-conservative."
+ 7. Where relevant, do not conflate the E-value with a Rosenbaum-style design sensitivity (Γ) figure if one appears in the source or the task — they are defined on different scales (odds ratio vs. risk ratio) and answer different questions; converting between them without addressing that scale difference is an error worth flagging explicitly, not silently working around.
+ 
+-Cite specific numbers, direct quotes, and page/table references from the supplied source throughout. A conclusion without a traceable evidence path — one that could be checked step by step against the source's own text — is insufficient even if the final number is correct. Put only verbatim source text inside quotation marks; do not splice separate passages into one quotation. Paraphrases and your own inferences must be unquoted and must not be attributed to the source unless the source actually says them. If you state a quantitative fact that does not come from the attached source, label it as coming from outside the source, or leave it out. Cite section numbers. Add a page number only if you can see that number printed on the page that contains the quoted text; never infer or estimate it.
++Cite specific numbers, direct quotes, and page/table references from the supplied source throughout. A conclusion without a traceable evidence path — one that could be checked step by step against the source's own text — is insufficient even if the final number is correct. Put only verbatim source text inside quotation marks; do not splice separate passages into one quotation. Paraphrases and your own inferences must be unquoted and must not be attributed to the source unless the source actually says them. If you state a quantitative fact that does not come from the attached source, label it as coming from outside the source, or leave it out. Locations. Before writing Part B, build a section map from the source itself: list each numbered section, appendix, table and figure you will cite, with the printed page it starts on if you can see that page number, and show this map at the start of Part B. Take every section, table or figure number you cite from this map; never work out a section number from a page number, or a page number from a section number. Give a location only for text you quote word for word, or for a paraphrase followed by a short word-for-word quotation from that same place; never give a location for a paraphrase alone. A page number belongs to the quotation it is attached to: do not put a page in a heading or a table field that covers material from other pages. Add a page number only if you can see that number printed on the page that contains the quoted text; never infer or estimate it. Do not say that a section, table or appendix shows, proves or confirms something unless you can quote where it does.
+ 
+ Part A format. Put the table in a code block labelled evalue-table, as a JSON array with one object per estimate, and then show the calculator's printed output (one line per target). Use these fields, and null where a field doesn't apply:
+ - "id": a short label for the estimate, e.g. "Example 1"
+-- "location": section number, plus a page only if you can see it printed
++- "location": the section number from your section map, plus a page only if you can see it printed on the page that reports this estimate
+ - "measure": "RR", "OR", "HR", "SMD" or "RD"
+ - "est", "lo", "hi": the point estimate and the 95% CI limits exactly as reported. Enter the limits whenever the source reports them for this estimate. For a CI-limit-only illustration, leave "est" null and enter only that limit.
+ - "se": the standard error, for an SMD
+@@ -36,15 +36,17 @@
+ - "candidate_confounders": any unmeasured confounders the source names
+ - "source_E_values": any E-values the source itself prints for this estimate, as text naming the target each belongs to, e.g. "null: 1.8 / 1.4; 0.90: 1.5 (no CI value printed)"
+ 
+-Run it with:
++The evalue-table block contains only the JSON array, starting with [ and ending with ]. To run it, in your code tool assign that array to TABLE and call run_table(TABLE):
+ TABLE = [ ... your entries ... ]
+ results = run_table(TABLE)
++Do not copy these two lines into the evalue-table block.
+ 
+ Before finishing, run this checklist on your whole answer and fix anything that fails:
+ (a) Every estimate the source presents has exactly one entry, with the confidence limits the source reports for it; every shift the source presents or mentions is in that entry's targets list; every E-value in Part B, including every E-value of 1 for a confidence interval, comes from the calculator's output and is reported.
+ (b) Every number in Part B matches Part A, any ranking is correctly ordered, and no unresolved self-corrections remain.
+ (c) Re-read every pair of quotation marks. Each quoted string must appear word for word, as one continuous passage, on the page you cite; an ellipsis may mark an omission only within that single passage. Remove the quotation marks from anything you wrote yourself, including filled-in templates and single words.
+ (d) Remove any phrase such as "the source says," "the source notes," "the source itself draws out," "the source emphasizes," "the source treats," or "the source is careful to" unless you can quote the sentence where the source does so. When you quote a short phrase, keep it attached to the same subject the source attaches it to.
++(e) Check every location you give against your section map and against the page of the quotation it supports. Remove any location attached to a paraphrase with no quotation, any page given for material on other pages, and any claim that a section, table or appendix shows, proves or confirms something you cannot quote from it.
+ 
+ Calculator (run exactly as given):
+ ```python
