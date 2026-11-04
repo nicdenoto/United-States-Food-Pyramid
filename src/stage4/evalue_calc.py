@@ -1,7 +1,8 @@
 """E-value calculator (VanderWeele & Ding 2017; Linden, Mathur & VanderWeele 2020).
 Encodes only the framework's general rules. Standard library only.
 Each entry is a dict for ONE estimate, with every target it is shifted to in its
-"targets" list. Call run_table(TABLE) to compute and print one line per target."""
+"targets" list. Call run_table(TABLE) to compute and print one line per target,
+then one interpretation sentence for each E-value it computed."""
 from math import sqrt, exp
 
 def ev(x, target=1.0):
@@ -99,8 +100,59 @@ def duplicates(table):
                 dup.append((a.get("id"), b.get("id")))
     return dup
 
+NAMES = {"RR": "risk ratio", "OR": "odds ratio", "HR": "hazard ratio",
+         "SMD": "standardized mean difference"}
+
+def sentences(r, o):
+    """The interpretation sentence(s) for one line: (label, sentence) pairs, each with
+    all three load-bearing elements (both / risk ratio / above and beyond)."""
+    f = lambda v: f"{v:g}"
+    exp_, out_ = r.get("exposure") or "the exposure", r.get("outcome") or "the outcome"
+    m, t = r.get("measure"), r.get("target", 1.0)
+    null = (r.get("rd_target") in (None, 0, 0.0)) if m == "RD" else t == 1
+    where = "the null" if null else f(t)
+    def core(e, action):
+        return (f"an unmeasured confounder that was associated with both {exp_} and {out_} "
+                f"by a risk ratio of {e:.2f}-fold each, above and beyond the measured "
+                f"confounders, could {action}, but weaker confounding could not.")
+    res = []
+    if isinstance(o["E_point"], float):
+        if m == "RD":
+            obs = f"observed risks of {f(r['p1'])} and {f(r['p0'])} (risk ratio {o['rr']:.3g})"
+        elif m in ("OR", "HR", "SMD") and abs(o["rr"] - r["est"]) > 1e-9:
+            obs = f"an observed {NAMES[m]} of {f(r['est'])} (risk-ratio scale {o['rr']:.3g})"
+        else:
+            obs = f"an observed {NAMES[m]} of {f(r['est'])}"
+        if o["E_point"] == 1.0:
+            s = f"With {obs}, the estimate already equals {where}: no unmeasured confounding is needed."
+        else:
+            act = "explain away the estimate" if null else f"move the estimate to {where}"
+            s = f"With {obs}, " + core(o["E_point"], act)
+        res.append(("estimate", s))
+    if o["E_ci"] == 1.0 and o["limit_used"] == "target inside CI":
+        s = (f"With a 95% confidence interval of ({f(r['lo'])}, {f(r['hi'])}), which already "
+             f"includes {where}, the E-value for the confidence interval is 1: no unmeasured "
+             f"confounding is needed to move the interval to include {where}.")
+        res.append(("confidence interval", s))
+    elif isinstance(o["E_ci"], float):
+        side = o["limit_used"]
+        lim, rr_lim = r.get("lo" if side == "lower" else "hi"), o["rr_lo" if side == "lower" else "rr_hi"]
+        if m == "SMD" or lim is None:
+            lim_s = f"of {rr_lim:.3g} on the risk-ratio scale"
+        elif abs(rr_lim - lim) > 1e-9:
+            lim_s = f"of {f(lim)} (risk-ratio scale {rr_lim:.3g})"
+        else:
+            lim_s = f"of {f(lim)}"
+        act = (f"move that limit to {where}" if r.get("est") is None
+               else f"move the confidence interval to include {where}")
+        s = (f"For the E-value for the confidence interval: with {'a lower' if side == 'lower' else 'an upper'} "
+             f"confidence limit {lim_s}, " + core(o["E_ci"], act))
+        res.append(("confidence interval", s))
+    return res
+
 def run_table(table):
-    """Compute every target of every entry and print a results table."""
+    """Compute every target of every entry, print a results table, then print the
+    interpretation sentence for every E-value computed."""
     for a, b in duplicates(table):
         print(f'WARNING: "{a}" and "{b}" are the same estimate. Merge them into one '
               f'entry and list every target in its "targets" list.')
@@ -115,4 +167,8 @@ def run_table(table):
             print(f'{r["line_id"]} | {f(o["rr"])} | ({f(o["rr_lo"])}, {f(o["rr_hi"])}) | '
                   f'{t} | {f(o["E_point"])} | {f(o["E_ci"])} | '
                   f'{o["limit_used"] or "-"} | {o["note"]}')
+    print("\nInterpretation sentences (copy each into Part B word for word, without quotation marks):")
+    for x in results:
+        for label, s in sentences(x, x):
+            print(f'[{x["line_id"]}, {label}] {s}')
     return results

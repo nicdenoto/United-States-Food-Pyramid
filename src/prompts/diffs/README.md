@@ -6,8 +6,10 @@ themselves are the record, and these only make each revision's changes easy to r
 Regenerate with:
 
 ```
-for i in 1 2 3 4 5 6 7 8 9; do j=$((i+1)); diff -u src/prompts/evalue_calibration_v$i.md src/prompts/evalue_calibration_v$j.md > src/prompts/diffs/evalue_v${i}_to_v${j}.diff; done
+for i in 1 2 3 4 5 6 7 8 9 10; do j=$((i+1)); diff -u src/prompts/evalue_calibration_v$i.md src/prompts/evalue_calibration_v$j.md > src/prompts/diffs/evalue_v${i}_to_v${j}.diff; done
 ```
+
+`evalue_v9_to_v11.diff` is made separately: `diff -u src/prompts/evalue_calibration_v9.md src/prompts/evalue_calibration_v11.md > src/prompts/diffs/evalue_v9_to_v11.diff`.
 
 | Diff | Revision | Reason (full record in the version log, `src/prompts/README.md`) |
 |---|---|---|
@@ -20,3 +22,5 @@ for i in 1 2 3 4 5 6 7 8 9; do j=$((i+1)); diff -u src/prompts/evalue_calibratio
 | `evalue_v7_to_v8.diff` | v7 → v8 | Application6 failures: section map, locations only for quotations, page scope, no unquoted "confirms"; checklist (e); evalue-table block holds only the JSON array. |
 | `evalue_v8_to_v9.diff` | v8 → v9 | Application7 failure (Chat C, repeated from Application6): no section or page for a list item without its own quotation; checklist (e) covers list items. |
 | `evalue_v9_to_v10.diff` | v9 → v10 | Application8 failure (Chat C, repeated from Applications 6–7): one location per quotation — printed page if visible, otherwise a section checked against the heading above the quoted text. |
+| `evalue_v10_to_v11.diff` | v10 → v11 | Application9 regression: v10's location rule reverted to v9's; calculator prints the interpretive sentences (`exposure`, `outcome` fields); joint-strength sentence in Step 4. |
+| `evalue_v9_to_v11.diff` | v9 → v11 | The same revision measured from its base: v11 is v9 plus the two changes above (not consecutive; added because v11 was built from v9). |

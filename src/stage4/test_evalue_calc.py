@@ -1,7 +1,7 @@
 """Reproduces every Phase 1 answer-key value (tolerance 0.05), plus Gate 2, Gate 3 and the transfer check.
 From v6: also checks that one entry with a targets list expands to one line per target,
 each using the entry's own CI, and that a duplicated estimate is flagged."""
-from evalue_calc import row, ev, expand, duplicates
+from evalue_calc import row, ev, expand, duplicates, sentences
 T = 0.05
 cases = [
  ("Victora RR 3.9", dict(measure="RR", est=3.9, lo=1.8, hi=8.7), 7.263, 3.000),
@@ -76,5 +76,27 @@ dup2 = duplicates([dict(id="Study 1", measure="RR", est=1.18, lo=1.04, hi=1.33, 
 ok = dup2 == []
 fails += not ok
 print(("PASS" if ok else "FAIL"), "same estimate, different CIs not flagged", dup2)
-n = len(cases) + len(expansions) + 2
+# v11: the calculator prints an interpretation sentence for every E-value it computes,
+# each with all three load-bearing elements; a CI containing the target gets the "is 1"
+# sentence; a limit-only entry gets a limit sentence; an RD CI gets none.
+ELEMENTS = ("both", "by a risk ratio of", "above and beyond the measured confounders")
+sent_cases = [
+ ("Huybrechts null, CI contains null", dict(measure="RR", est=1.06, lo=0.93, hi=1.22, target=1.0,
+   exposure="antidepressant use", outcome="cardiac defects"), ["estimate", "confidence interval"], "1.31-fold", True),
+ ("limit 1.12 only", dict(measure="RR", lo=1.12, target=1.0), ["confidence interval"], "1.49-fold", False),
+ ("Oddy OR common", dict(measure="OR", est=1.47, lo=1.12, hi=1.93, common=True, target=1.0),
+   ["estimate", "confidence interval"], "1.72-fold", False),
+ ("Reinisch SMD", dict(measure="SMD", est=-0.42, se=0.14, target=1.0), ["estimate", "confidence interval"], "2.29-fold", False),
+ ("Linden RD", dict(measure="RD", p1=397/78954, p0=51/108829, target=1.0), ["estimate"], "20.95-fold", False),
+]
+for name, args, labels, num, ci_is_1 in sent_cases:
+    s = sentences(args, row(**args))
+    ok = [l for l, _ in s] == labels and num in s[0][1] and all(e in s[0][1] for e in ELEMENTS)
+    if ci_is_1:
+        ok &= "the E-value for the confidence interval is 1" in s[1][1]
+    elif len(s) > 1:
+        ok &= all(e in s[1][1] for e in ELEMENTS)
+    fails += not ok
+    print(("PASS" if ok else "FAIL"), "sentence:", name)
+n = len(cases) + len(expansions) + 2 + len(sent_cases)
 print(f"{n-fails}/{n} passed")

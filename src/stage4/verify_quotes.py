@@ -5,7 +5,11 @@ Usage: python3 verify_quotes.py OUTPUT.md SOURCE.pdf [--first-page N]
    typography and case normalised), and reports the page where it was found; a quote
    that runs across a page break is matched against the two pages joined (reported as N-N+1).
 3. For non-exact matches, shows the closest source passage and similarity.
-4. Flags attribution phrases for the scorer's human review (EP-b).
+4. Compares the page where each quote was found with the page cited for it: a parenthesis
+   after the quote, in the same sentence, containing "p. N", "pp. N-M" or "p. N to M". A quote
+   followed directly by another quote in the same sentence shares that quote's citation,
+   so one citation covering two quotes from different pages is caught (flagged PAGE).
+5. Flags attribution phrases for the scorer's human review (EP-b).
 Page numbers are PDF page index + first-page offset (use the journal's first printed page)."""
 import re, sys, subprocess, difflib
 
@@ -35,11 +39,23 @@ def main(out_path, pdf, first=1):
     prose = re.sub(r"```.*?```", "", text, flags=re.S)
     # Match every quoted string first, then filter by length: a length floor inside the
     # regex lets a short quote throw the open/close pairing out of step.
-    quotes = re.findall(r'“([^”\n]+?)”|"([^"\n]+?)"', prose)
-    quotes = [a or b for a, b in quotes]
-    quotes = [q for q in quotes if len(q.split()) >= 4]
+    ms = list(re.finditer(r'“([^”\n]+?)”|"([^"\n]+?)"', prose))
+    # The citation for a quote is a parenthesis that follows it within the same sentence
+    # (no full stop or line break in between) and contains "p. N", "pp. N-M" or "p. N to M".
+    AFTER = re.compile(r'^[^.\n"“”]{0,40}?\(([^()\n]{0,40}?\bpp?\.\s*(\d+)(?:\s*(?:[–-]|to)\s*(\d+))?[^()\n]*)\)')
+    cites = []
+    for k, m in enumerate(ms):
+        c = AFTER.search(prose[m.end():m.end() + 120])
+        cites.append((set(range(int(c.group(2)), int(c.group(3) or c.group(2)) + 1)), False) if c else None)
+    for k in range(len(ms) - 2, -1, -1):  # a quote with no citation of its own, followed in the same
+        gap = prose[ms[k].end():ms[k + 1].start()]  # sentence by another quote, shares that citation
+        if cites[k] is None and cites[k + 1] and len(gap) < 120 and not re.search(r"[.;:]\s|\n", gap):
+            cites[k] = (cites[k + 1][0], True)
+    quotes = [((m.group(1) or m.group(2)), c) for m, c in zip(ms, cites)]
+    quotes = [(q, c) for q, c in quotes if len(q.split()) >= 4]
     print(f"{len(quotes)} quoted strings of 4+ words\n")
-    for q in quotes:
+    page_flags = []
+    for q, c in quotes:
         parts = [p for p in re.split(r"\.\.\.|…", q) if len(p.strip()) > 8]
         found = []
         for part in parts:
@@ -50,6 +66,11 @@ def main(out_path, pdf, first=1):
             found.append(hit)
         if all(found):
             print(f"OK   p.{sorted(set(map(str, sum(found, []))))}  {q[:80]}")
+            if c:
+                pages = {int(x) for h in found for p in h for x in str(p).split("-")}
+                if not pages & c[0]:
+                    page_flags.append(f"PAGE cited {sorted(c[0])}{' (shared citation)' if c[1] else ''}, "
+                                      f"found {sorted(pages)}: {q[:70]}")
             continue
         n = norm(q)
         best = (0, 0, 0)
@@ -62,6 +83,11 @@ def main(out_path, pdf, first=1):
         r, pi, i = best
         ratio = difflib.SequenceMatcher(None, n, P[pi][i:i + len(n)]).ratio()
         print(f"MISS {ratio:.2f} best p.{pi + first}: {q[:80]}\n     source: {P[pi][i:i + len(n) + 20][:160]}")
+    print("\n== Cited page vs page found ==")
+    for x in page_flags:
+        print(x)
+    if not page_flags:
+        print("OK   every cited page matches the page where its quote was found")
     print("\n== Attribution phrases for human review (EP-b) ==")
     for m in re.finditer(ATTR, prose, re.I):
         print("  ..." + prose[max(0, m.start() - 80):m.end() + 120].replace("\n", " ") + "...")

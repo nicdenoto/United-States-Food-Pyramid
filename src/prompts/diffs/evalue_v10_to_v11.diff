@@ -1,0 +1,125 @@
+--- src/prompts/evalue_calibration_v10.md	2026-11-03 12:56:44.000000000 +0000
++++ src/prompts/evalue_calibration_v11.md	2026-11-04 01:30:10.905818217 +0000
+@@ -12,17 +12,17 @@
+    - Standardized mean difference (e.g., Cohen's d): apply RR ≈ exp(0.91 × d).
+    - Risk difference: for the point estimate, replace the RR with the ratio of the adjusted risks, p1/p0, and apply the formula. For the confidence interval, no closed-form hand formula exists. It requires a grid search over the bias-factor space (or, if both risks lie roughly between 0.2 and 0.8, the standardized-mean-difference approximation). Do not hand-apply the ratio-scale formula to the risk-difference confidence limits. If you cannot run the grid search, say so and report the source's own value with its citation.
+    - If the exposure itself is continuous, state explicitly which two exposure levels are being contrasted, since the E-value that results is specific to that comparison, not a fixed property of "the exposure" in the abstract.
+-3. Build the input table and compute every E-value with the calculator. Enter each estimate once, as one entry, with its point estimate and the confidence limits the source reports for it. Put every target that estimate is assessed against (the null, 1, and every non-null value the source shifts it to) in that entry's "targets" list. A shift is never an entry of its own, and never an entry without the estimate's confidence limits: the calculator applies each target to the estimate's own interval. A confidence-interval limit the source shifts on its own gets its own entry, with that limit and an empty "est". Include every target the source presents or mentions, even if the source reports only one of the E-values for it, or none. A source not reporting or not computing a value is never a reason to leave a target out or to leave the confidence limits empty. Then run the calculator on the whole table with your code tool, and take every E-value you report from its output. Do not compute E-values by hand, and do not edit the calculator. The calculator applies E = RR + √(RR × (RR − 1)) after inverting RR < 1. For a shift, it uses the ratio to the target. It sets the E-value for the confidence interval to 1 when the null or target lies inside the interval, and otherwise uses the confidence limit closest to it. An E-value of 1 for the confidence interval is a result, not an artifact: it means no unmeasured confounding is needed to move the interval to include that target. Report it in Part B like any other E-value. For a risk-difference confidence interval, or any non-null risk-difference shift, it says a grid search is needed: report the source's own value with its citation. If the source shows how the E-value formula is derived, reproduce that derivation step by step in Part B.
+-4. State the result using the standard interpretive template, preserving all three of its load-bearing elements: "With an observed [effect measure] of [value], an unmeasured confounder that was associated with both the [exposure] and the [outcome] by a risk ratio of [E-value]-fold each, above and beyond the measured confounders, could explain away the estimate, but weaker confounding could not." Use the phrase "E-value for the confidence interval" — not "confidence interval for the E-value," which is a different and generally non-recommended quantity; if the source discusses the difference between the two, explain it. A non-null E-value states how much confounding would be needed to move the estimate to the target value; do not describe it as a measure of the association's overall robustness. Write your filled-in version of the template as your own sentence, without quotation marks; use quotation marks only when you reproduce the source's own interpretive sentence word for word.
++3. Build the input table and compute every E-value with the calculator. Enter each estimate once, as one entry, with its point estimate and the confidence limits the source reports for it. Put every target that estimate is assessed against (the null, 1, and every non-null value the source shifts it to) in that entry's "targets" list. A shift is never an entry of its own, and never an entry without the estimate's confidence limits: the calculator applies each target to the estimate's own interval. A confidence-interval limit the source shifts on its own gets its own entry, with that limit and an empty "est". Include every target the source presents or mentions, even if the source reports only one of the E-values for it, or none. A source not reporting or not computing a value is never a reason to leave a target out or to leave the confidence limits empty. Then run the calculator on the whole table with your code tool, and take every E-value you report from its output. Do not compute E-values by hand, and do not edit the calculator. It sets the E-value for the confidence interval to 1 when the null or target lies inside the interval, and otherwise uses the confidence limit closest to it. An E-value of 1 for the confidence interval is a result, not an artifact: it means no unmeasured confounding is needed to move the interval to include that target. Report it in Part B like any other E-value. For a risk-difference confidence interval, or any non-null risk-difference shift, it says a grid search is needed: report the source's own value with its citation. If the source shows how the E-value formula is derived, reproduce that derivation step by step in Part B.
++4. State each result in the standard interpretive template. The calculator prints it, filled in, for every E-value it computes. Copy each printed sentence into Part B under its worked example, word for word and without quotation marks; never shorten, merge or reword one. If one names the exposure or outcome wrongly, correct the table and rerun. Use the phrase "E-value for the confidence interval" — not "confidence interval for the E-value," which is a different and generally non-recommended quantity; if the source discusses the difference between the two, explain it. A non-null E-value states how much confounding would be needed to move the estimate to the target value; do not describe it as a measure of the association's overall robustness. The E-value is the strength both associations would need together, not a threshold each must pass alone; a weaker one can be offset by a stronger other.
+ 5. Reach a qualitative robustness judgment without applying any fixed numeric threshold. Do not state or imply that any specific E-value cutoff (e.g., "above 2") makes an association robust or not robust in general. Instead, reason about what confounding strength is plausible for this specific exposure-outcome pair, considering how common risk factors of that strength are for this particular outcome in the existing literature. If the source discusses how the same E-value should be read differently depending on the outcome or context, report that reasoning. An E-value is relative to the adjustment set: the thinner the adjustment, the more confounding remains unaccounted for, so the same E-value is less reassuring; with richer adjustment, an unmeasured confounder would have to act through pathways independent of more measured covariates.
+ 6. Where relevant, check: whether the source describes a single dominant confounder or a vector of several acting together (the E-value applies to the joint effect of a set of unmeasured confounders, and a set can more plausibly reach a given strength than any single variable), and whether there is any stated reason that the standard E-value calculation would be unusually conservative for this specific case. The standard E-value lets the confounder take whatever prevalence is most damaging, so it is conservative when a plausible confounder is known to be rare. A covariate the study failed to adjust for is a candidate unmeasured confounder; it does not make the E-value "conservative" or "anti-conservative."
+ 7. Where relevant, do not conflate the E-value with a Rosenbaum-style design sensitivity (Γ) figure if one appears in the source or the task — they are defined on different scales (odds ratio vs. risk ratio) and answer different questions; converting between them without addressing that scale difference is an error worth flagging explicitly, not silently working around.
+ 
+-Cite specific numbers, direct quotes, and page/table references from the supplied source throughout. A conclusion without a traceable evidence path — one that could be checked step by step against the source's own text — is insufficient even if the final number is correct. Put only verbatim source text inside quotation marks; do not splice separate passages into one quotation. Paraphrases and your own inferences must be unquoted and must not be attributed to the source unless the source actually says them. If you state a quantitative fact that does not come from the attached source, label it as coming from outside the source, or leave it out. Locations. Before writing Part B, build a section map from the source itself: list each numbered section, appendix, table and figure you will cite, with the printed page it starts on if you can see that page number, and show this map at the start of Part B. Take every section, table or figure number you cite from this map; never work out a section number from a page number, or a page number from a section number. Give each quotation one kind of location, not both: its printed page if you can see that number printed on the page that contains it, and otherwise the section whose heading the quoted text sits under. Before naming a section, check that its heading comes before the quoted text with no other section heading in between; a page can hold the end of one section and the start of the next, and the first page often holds the abstract and several sections. Give a location only for text you quote word for word, or for a paraphrase followed by a short word-for-word quotation from that same place; never give a location for a paraphrase alone. This applies to lists too: when you list the worked examples you found, or numbers you will not enter in the table, give no section or page for an item unless it carries its own quotation; give its location later, where you quote it. A page number belongs to the quotation it is attached to: do not put a page in a heading or a table field that covers material from other pages. Add a page number only if you can see that number printed on the page that contains the quoted text; never infer or estimate it. Do not say that a section, table or appendix shows, proves or confirms something unless you can quote where it does.
++Cite specific numbers, direct quotes, and page/table references from the supplied source throughout. A conclusion without a traceable evidence path — one that could be checked step by step against the source's own text — is insufficient even if the final number is correct. Put only verbatim source text inside quotation marks; do not splice separate passages into one quotation. Paraphrases and your own inferences must be unquoted and must not be attributed to the source unless the source actually says them. If you state a quantitative fact that does not come from the attached source, label it as coming from outside the source, or leave it out. Locations. Before writing Part B, build a section map from the source itself: list each numbered section, appendix, table and figure you will cite, with the printed page it starts on if you can see that page number, and show this map at the start of Part B. Take every section, table or figure number you cite from this map; never work out a section number from a page number, or a page number from a section number. Give a location only for text you quote word for word, or for a paraphrase followed by a short word-for-word quotation from that same place; never give a location for a paraphrase alone. This applies to lists too: when you list the worked examples you found, or numbers you will not enter in the table, give no section or page for an item unless it carries its own quotation; give its location later, where you quote it. A page number belongs to the quotation it is attached to: do not put a page in a heading or a table field that covers material from other pages. Add a page number only if you can see that number printed on the page that contains the quoted text; never infer or estimate it. Do not say that a section, table or appendix shows, proves or confirms something unless you can quote where it does.
+ 
+ Part A format. Put the table in a code block labelled evalue-table, as a JSON array with one object per estimate, and then show the calculator's printed output (one line per target). Use these fields, and null where a field doesn't apply:
+ - "id": a short label for the estimate, e.g. "Example 1"
+-- "location": the printed page that reports this estimate, if you can see that number printed on it; otherwise the section number from your section map
++- "location": the section number from your section map, plus a page only if you can see it printed on the page that reports this estimate
+ - "measure": "RR", "OR", "HR", "SMD" or "RD"
+ - "est", "lo", "hi": the point estimate and the 95% CI limits exactly as reported. Enter the limits whenever the source reports them for this estimate. For a CI-limit-only illustration, leave "est" null and enter only that limit.
+ - "se": the standard error, for an SMD
+@@ -31,6 +31,7 @@
+ - "rd_targets": for RD entries only, a list of every target on the risk-difference scale, starting with 0 (the null), e.g. [0, 0.001]
+ - "common": true if the outcome is common (15–85%), false if rare; for prevalence above 85%, reverse the coding and enter the reversed estimate with false
+ - "rarity_basis": "stated in source", "my inference", or "not applicable"
++- "exposure", "outcome": the exposure and outcome as the source names them, in a few words; null if it names none
+ - "contrast": the two exposure levels compared, if the exposure is continuous
+ - "adjustment_set": the covariates as listed in the source, or "not stated"
+ - "candidate_confounders": any unmeasured confounders the source names
+@@ -43,17 +44,18 @@
+ 
+ Before finishing, run this checklist on your whole answer and fix anything that fails:
+ (a) Every estimate the source presents has exactly one entry, with the confidence limits the source reports for it; every shift the source presents or mentions is in that entry's targets list; every E-value in Part B, including every E-value of 1 for a confidence interval, comes from the calculator's output and is reported.
+-(b) Every number in Part B matches Part A, any ranking is correctly ordered, and no unresolved self-corrections remain.
++(b) Every number in Part B matches Part A, any ranking is correctly ordered, and no unresolved self-corrections remain. Every printed interpretation sentence appears in Part B exactly as printed.
+ (c) Re-read every pair of quotation marks. Each quoted string must appear word for word, as one continuous passage, on the page you cite; an ellipsis may mark an omission only within that single passage. Remove the quotation marks from anything you wrote yourself, including filled-in templates and single words.
+ (d) Remove any phrase such as "the source says," "the source notes," "the source itself draws out," "the source emphasizes," "the source treats," or "the source is careful to" unless you can quote the sentence where the source does so. When you quote a short phrase, keep it attached to the same subject the source attaches it to.
+-(e) Check every location you give against your section map and against the page of the quotation it supports. Where you give a page, remove any section number given for the same quotation; where you give a section, confirm that its heading is the last one before the quoted text. Remove any location attached to a paraphrase with no quotation, including items in lists, any page given for material on other pages, and any claim that a section, table or appendix shows, proves or confirms something you cannot quote from it.
++(e) Check every location you give against your section map and against the page of the quotation it supports. Remove any location attached to a paraphrase with no quotation, including items in lists, any page given for material on other pages, and any claim that a section, table or appendix shows, proves or confirms something you cannot quote from it.
+ 
+ Calculator (run exactly as given):
+ ```python
+ """E-value calculator (VanderWeele & Ding 2017; Linden, Mathur & VanderWeele 2020).
+ Encodes only the framework's general rules. Standard library only.
+ Each entry is a dict for ONE estimate, with every target it is shifted to in its
+-"targets" list. Call run_table(TABLE) to compute and print one line per target."""
++"targets" list. Call run_table(TABLE) to compute and print one line per target,
++then one interpretation sentence for each E-value it computed."""
+ from math import sqrt, exp
+ 
+ def ev(x, target=1.0):
+@@ -151,8 +153,59 @@
+                 dup.append((a.get("id"), b.get("id")))
+     return dup
+ 
++NAMES = {"RR": "risk ratio", "OR": "odds ratio", "HR": "hazard ratio",
++         "SMD": "standardized mean difference"}
++
++def sentences(r, o):
++    """The interpretation sentence(s) for one line: (label, sentence) pairs, each with
++    all three load-bearing elements (both / risk ratio / above and beyond)."""
++    f = lambda v: f"{v:g}"
++    exp_, out_ = r.get("exposure") or "the exposure", r.get("outcome") or "the outcome"
++    m, t = r.get("measure"), r.get("target", 1.0)
++    null = (r.get("rd_target") in (None, 0, 0.0)) if m == "RD" else t == 1
++    where = "the null" if null else f(t)
++    def core(e, action):
++        return (f"an unmeasured confounder that was associated with both {exp_} and {out_} "
++                f"by a risk ratio of {e:.2f}-fold each, above and beyond the measured "
++                f"confounders, could {action}, but weaker confounding could not.")
++    res = []
++    if isinstance(o["E_point"], float):
++        if m == "RD":
++            obs = f"observed risks of {f(r['p1'])} and {f(r['p0'])} (risk ratio {o['rr']:.3g})"
++        elif m in ("OR", "HR", "SMD") and abs(o["rr"] - r["est"]) > 1e-9:
++            obs = f"an observed {NAMES[m]} of {f(r['est'])} (risk-ratio scale {o['rr']:.3g})"
++        else:
++            obs = f"an observed {NAMES[m]} of {f(r['est'])}"
++        if o["E_point"] == 1.0:
++            s = f"With {obs}, the estimate already equals {where}: no unmeasured confounding is needed."
++        else:
++            act = "explain away the estimate" if null else f"move the estimate to {where}"
++            s = f"With {obs}, " + core(o["E_point"], act)
++        res.append(("estimate", s))
++    if o["E_ci"] == 1.0 and o["limit_used"] == "target inside CI":
++        s = (f"With a 95% confidence interval of ({f(r['lo'])}, {f(r['hi'])}), which already "
++             f"includes {where}, the E-value for the confidence interval is 1: no unmeasured "
++             f"confounding is needed to move the interval to include {where}.")
++        res.append(("confidence interval", s))
++    elif isinstance(o["E_ci"], float):
++        side = o["limit_used"]
++        lim, rr_lim = r.get("lo" if side == "lower" else "hi"), o["rr_lo" if side == "lower" else "rr_hi"]
++        if m == "SMD" or lim is None:
++            lim_s = f"of {rr_lim:.3g} on the risk-ratio scale"
++        elif abs(rr_lim - lim) > 1e-9:
++            lim_s = f"of {f(lim)} (risk-ratio scale {rr_lim:.3g})"
++        else:
++            lim_s = f"of {f(lim)}"
++        act = (f"move that limit to {where}" if r.get("est") is None
++               else f"move the confidence interval to include {where}")
++        s = (f"For the E-value for the confidence interval: with {'a lower' if side == 'lower' else 'an upper'} "
++             f"confidence limit {lim_s}, " + core(o["E_ci"], act))
++        res.append(("confidence interval", s))
++    return res
++
+ def run_table(table):
+-    """Compute every target of every entry and print a results table."""
++    """Compute every target of every entry, print a results table, then print the
++    interpretation sentence for every E-value computed."""
+     for a, b in duplicates(table):
+         print(f'WARNING: "{a}" and "{b}" are the same estimate. Merge them into one '
+               f'entry and list every target in its "targets" list.')
+@@ -167,5 +220,9 @@
+             print(f'{r["line_id"]} | {f(o["rr"])} | ({f(o["rr_lo"])}, {f(o["rr_hi"])}) | '
+                   f'{t} | {f(o["E_point"])} | {f(o["E_ci"])} | '
+                   f'{o["limit_used"] or "-"} | {o["note"]}')
++    print("\nInterpretation sentences (copy each into Part B word for word, without quotation marks):")
++    for x in results:
++        for label, s in sentences(x, x):
++            print(f'[{x["line_id"]}, {label}] {s}')
+     return results
+ ```

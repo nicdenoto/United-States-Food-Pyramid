@@ -7,7 +7,12 @@ Usage: python3 validate_evalue.py OUTPUT.md KEY.json
    operator's own copy of the calculator. Older one-target tables (v5) still work.
 4. Matches rows to the answer key: missing key rows (completeness/targets, D3/D6),
    wrong inputs (D1) and wrong conversion path (D2).
-5. Lists every number in the text that looks like an E-value and isn't a computed value (±0.01)."""
+5. Lists every number in the text that looks like an E-value and isn't a computed value (±0.01).
+6. D4 check: for each entry (worked example), looks for at least one sentence that gives one
+   of its computed E-values as "X-fold" (1-3 decimals) and has all three load-bearing elements
+   ("both", "risk ratio", "above and beyond"; markdown stripped). A heuristic: a CHECK line is
+   for the scorer to read, not a score. Works on outputs from any
+   prompt version; from v11 the calculator prints these sentences for the model to copy."""
 import json, re, sys
 from evalue_calc import row, expand, duplicates
 
@@ -125,6 +130,29 @@ def main(out_path, key_path):
         if not any(abs(x - v) <= 0.01 or abs(round(v, 1) - x) < 1e-9 or abs(round(v, 2) - x) < 1e-9 for v in vals):
             print(f"  {x}  ...{body[max(0,m.start()-60):m.end()+20].strip()}...")
     print("(Source-printed values and rounding appear here too; the scorer reviews each.)")
+    print("\n== D4: a full interpretation sentence for every entry ==")
+    plain = re.sub(r"[*_`]", "", body)
+    sents = [s for s in re.split(r"(?<=[.!?])\s+|\n\s*\n|\n\s*[-•]\s", plain) if "-fold" in s]
+    ELEM = ("both", "risk ratio", "above and beyond")
+    for e in entries:
+        vals_e = [v for r, o in zip(table, computed) if r.get("id") == e.get("id")
+                  for v in (o.get("E_point"), o.get("E_ci")) if isinstance(v, float) and v > 1]
+        if not vals_e:
+            print(f'N/A  {e.get("id")}: no E-value above 1 computed')
+            continue
+        tags = {f"{v:.{d}f}-fold" for v in vals_e for d in (1, 2, 3)}
+        mine = [s for s in sents if any(x in s for x in tags)]
+        full = [s for s in mine if all(x in s.lower() for x in ELEM)]
+        lim = " (limit-only entry: the scorer decides whether it is a worked example of its own)" \
+            if e.get("est") is None and e.get("measure") != "RD" else ""
+        if full:
+            print(f'OK   {e.get("id")}: {len(full)} full sentence(s)')
+        else:
+            miss = sorted({x for s in mine for x in ELEM if x not in s.lower()})
+            print(f'CHECK {e.get("id")}: no sentence with all three elements '
+                  f'({len(mine)} sentence(s) give its E-values; missing {miss or "all"}){lim}')
+            for s in mine[:3]:
+                print(f"       {s.strip()[:160]}")
 
 if __name__ == "__main__":
     main(sys.argv[1], sys.argv[2])
